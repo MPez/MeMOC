@@ -1,6 +1,8 @@
 /**
- * @file giornali.cpp
- * @brief 
+ * @author 	Marco Pezzutti - 1084411
+ * @file 	eserc.lab.01.cpp
+ * @brief 	Esercitazione di laboratorio 1
+ * @date 	novembre 2014
  */
 
 #include <cstdio>
@@ -10,41 +12,48 @@
 
 using namespace std;
 
-// error status and messagge buffer
+/** 
+* error status and messagge buffer
+*/
 int status;
 char errmsg[BUF_SIZE];
 
-// data
-const int I = 4;
-const int K = 4;
-const char nameI[I] = { 'A', 'B', 'C', 'D' };
-const char nameK[K] = { 'R', 'M', 'S', 'G' };
+/**
+* problem data
+*/
+const int N;	/**< numero di nodi (posizioni dei fori) */
+const int A;	/**< numero degli archi (tragitti tra i fori) */
 
-const double R[I] = { 0.0, 15.0, 15.0, 60.0 };
-const double D[I*K] = {	
-  60.0, 2.0, 30.0, 5.0,
-  25.0, 3.0, 75.0, 10.0,
-  10.0, 5.0, 15.0, 30.0,
-  1.0, 1.0, 1.0, 90.0 };
-const int S[I*K] = { 
-  0, 2, 1, 3,
-  2, 1, 0, 3,
-  1, 2, 0, 3,
-  3, 0, 2, 1 };
-const double M = 600.0;
+const char nameN[N] = NULL;		/**< nomi dei nodi */
+const char nameA[A] = NULL; 	/**< nomi degli archi */
+
+const double C[N*A];			/**< costi di cammino (spostamento tra fori) */
 			
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
 	
-void setupLP(CEnv env, Prob lp, int & numVars )
+/**
+* setup problema
+*/
+void setupLP(CEnv env, Prob lp, int & numVars)
 {
-	const int h_init = 0;
-	// add h vars
-	for (int i = 0; i < I; i++)
+	/**
+	* add y vars
+	* unità di flusso trasportate dal nodo i al nodo j
+	*/
+	const int y_init = 0;
+
+	std::vector<char> ytype(A, 'B');
+	double lb = 0.0;
+	double up = CPX_INFBOUND;
+
+	CHECKED_CPX_CALL(CPXnewcols, env, lp, N, &C[0], &lb, &up, &ytype[0], NULL);
+
+	for (int i = 0; i < N; i++)
 	{
-		for (int k = 0; k < K; k++)
+		for (int j = 0; j < A; j++)
 		{
-			char htype = 'C';
+			char ytype = 'B';
 			double obj = 0.0;
 			double lb = 0.0;
 			double ub = CPX_INFBOUND;
@@ -53,35 +62,9 @@ void setupLP(CEnv env, Prob lp, int & numVars )
 			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, &htype, &hname );
 		}
 	}
-	// add x vars
-	const int x_init = CPXgetnumcols(env, lp);
-	for (int k = 0; k < K; k++)
-	{
-		for (int i = 0; i < I; i++)
-		{
-			for (int j = i + 1; j < I; j++)
-			{
-				char xtype = 'B';
-				double obj = 0.0;
-				double lb = 0.0;
-				double ub = 1.0;
-				snprintf(name, NAME_SIZE, "x_%c_%c_%c", nameI[i], nameI[j], nameK[k]);
-				char* xname = (char*)(&name[0]);
-				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, &xtype, &xname );	
-			}
-		}
-	}
-	// add y var
-	const int yIdx = CPXgetnumcols(env, lp);
-	{
-		char ytype = 'C';
-		double lb = 0.0;
-		double ub = CPX_INFBOUND;
-		double obj = 1.0;
-		snprintf(name, NAME_SIZE, "y");
-		char* yname = (char*)(&name[0]);
-		CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, &ytype, &yname );
-	}
+
+	
+	
 	numVars = CPXgetnumcols(env, lp);
 	// add finish-time constraints ( y >= h_{i S[i,|K|]} + D_{i S[i,|K|]} )
 	for (int i = 0; i < I; i++)
