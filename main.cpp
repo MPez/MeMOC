@@ -46,16 +46,19 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 
 	for (int i = 0; i < N; i++)
 	{
-		for (int j = i + 1; j < N; j++)
+		for (int j = 0; j < N; j++)
 		{
-			char xtype = 'I';
-			double obj = 0.0;
-			double lb = 0.0;
-			double ub = CPX_INFBOUND;
-			snprintf(name, NAME_SIZE, "x_%c_%c", nameN[i], nameN[j]);
-			char* xname = (char*)(&name[0]);
-			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, 
-				&xtype, &xname );
+			if (i != j)
+			{
+				char xtype = 'I';
+				double obj = 0.0;
+				double lb = 0.0;
+				double ub = CPX_INFBOUND;
+				snprintf(name, NAME_SIZE, "x_%c_%c", nameN[i], nameN[j]);
+				char* xname = (char*)(&name[0]);
+				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, 
+					&xtype, &xname );
+			}
 		}
 	}
 
@@ -68,15 +71,18 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 
 	for (int i = 0; i < N; i++)
 	{
-		for (int j = i + 1; j < N; j++)
-		{	
-			char ytype = 'B';
-			double lb = 0.0;
-			double ub = 1.0;
-			snprintf(name, NAME_SIZE, "y_%c_%c", nameA[i], nameA[j]);
-			char* yname = (char*)(&name[0]);
-			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &C[i*N+j], &lb, &ub, 
-				&ytype, &yname );
+		for (int j = 0; j < N; j++)
+		{
+			if (i != j)
+			{
+				char ytype = 'B';
+				double lb = 0.0;
+				double ub = 1.0;
+				snprintf(name, NAME_SIZE, "y_%c_%c", nameN[i], nameN[j]);
+				char* yname = (char*)(&name[0]);
+				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &C[i*N+j], &lb, &ub, 
+					&ytype, &yname );
+			}
 		}
 	}
 
@@ -90,7 +96,7 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 		int rmatbeg = 0;
 		std::vector<int> rmatind;
 		std::vector<double> rmatval;
-		for (int j = 0; j < N; j++)
+		for (int j = 0; j < N - 1; j++)
 		{
 			rmatind.push_back(j);
 			rmatval.push_back(1.0);
@@ -101,7 +107,7 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 	}
 
 	/**
-	* vincolo di flusso su tutti i nodi escluso quello di partenza
+	* vincolo di bilanciamento del flusso su tutti i nodi escluso quello di partenza
 	*/
 	for (int k = 1; k < N; ++k)
 	{
@@ -111,10 +117,13 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 		std::vector<double> rmatval;
 
 		// flusso entrante nel nodo k
-		for (int i = 0; i < k; ++i)
+		for (int i = 0; i < N; ++i)
 		{
-			rmatind.push_back(i);
-			rmatval.push_back(1.0);
+			if(i != k)
+			{
+				rmatind.push_back(i*(N - 1) + k);
+				rmatval.push_back(1.0);
+			}
 		}
 
 		// flusso uscente dal nodo k
