@@ -1,7 +1,7 @@
 # modulo generazione istanze
-import sys
+import argparse
 from random import randrange
-from math import fabs, ceil
+from math import fabs, floor
 
 
 class Grid():
@@ -78,9 +78,21 @@ class Node():
     """
 
     def __init__(self, x_pos, y_pos, num):
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.num = num
+        self._x_pos = x_pos
+        self._y_pos = y_pos
+        self._num = num
+
+    @property
+    def x_pos(self):
+        return self._x_pos
+
+    @property
+    def y_pos(self):
+        return self._y_pos
+
+    @property
+    def num(self):
+        return self._num
 
 
 class Generator():
@@ -92,10 +104,11 @@ class Generator():
     la distribuzione sulla griglia: casuale, circolare, cluster
     """
 
-    def __init__(self, griglia, distr, num_nodi=0):
+    def __init__(self, griglia, distr, num_nodi=0, cluster=1):
         self.griglia = griglia
         self.num_nodi = num_nodi
         self.distr = distr
+        self.cluster = cluster
 
     def crea_nodi(self):
         if self.distr == "casuale":
@@ -106,45 +119,142 @@ class Generator():
                 if self.griglia.grid[x][y] is None:
                     self.griglia.insert_node(Node(x, y, i))
                     i += 1
-
         elif self.distr == "circolare":
-            cx = ceil(self.griglia.x_dim / 2) - 1
-            cy = ceil(self.griglia.y_dim / 2) - 1
-            r = min(cx + 1, cy + 1) - 1
+            cx = floor(self.griglia.x_dim / 2)
+            cy = floor(self.griglia.y_dim / 2)
+            r = min(cx, cy)
             num_nodi = r * 4
-            print("cx = %d, cy = %d, r = %d, numero nodi = %d" %
-                  (cx, cy, r, num_nodi))
             cx -= r
-            nodo = Node(cx, cy, 0)
-            self.griglia.insert_node(nodo)
+            self.griglia.insert_node(Node(cx, cy, 0))
             for i in range(1, num_nodi):
                 if i / r <= 1:
                     cx += 1
                     cy += 1
-                    nodo = Node(cx, cy, i)
-                elif 1 < i / r <= 2:
+                elif i / r <= 2:
                     cx += 1
                     cy -= 1
-                    nodo = Node(cx, cy, i)
-                elif 2 < i / r <= 3:
+                elif i / r <= 3:
                     cx -= 1
                     cy -= 1
-                    nodo = Node(cx, cy, i)
-                elif 3 < i / r <= 4:
+                elif i / r <= 4:
                     cx -= 1
                     cy += 1
-                    nodo = Node(cx, cy, i)
-                self.griglia.insert_node(nodo)
+                self.griglia.insert_node(Node(cx, cy, i))
         elif self.distr == "cluster":
-            pass
+            dx = floor(self.griglia.x_dim / 2)
+            dy = floor(self.griglia.y_dim / 2)
+            if self.cluster == 1:
+                i = 0
+                while i < self.num_nodi:
+                    x = randrange(dx)
+                    y = randrange(dy)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+            elif self.cluster == 2:
+                i = 0
+                while i < self.num_nodi / 2:
+                    x = randrange(dx)
+                    y = randrange(dy)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+                while i < self.num_nodi:
+                    x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
+                    y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+            elif self.cluster == 3:
+                i = 0
+                while i < self.num_nodi / 3:
+                    x = randrange(dx)
+                    y = randrange(dy)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+                while i < (self.num_nodi / 3) * 2:
+                    x = randrange(dx)
+                    y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+                while i < self.num_nodi:
+                    x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
+                    y = randrange(dy)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+            else:
+                i = 0
+                while i < self.num_nodi / 4:
+                    x = randrange(dx)
+                    y = randrange(dy)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+                while i < (self.num_nodi / 4) * 2:
+                    x = randrange(dx)
+                    y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+                while i < (self.num_nodi / 4) * 3:
+                    x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
+                    y = randrange(dy)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+                while i < self.num_nodi:
+                    x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
+                    y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
+                    if self.griglia.grid[x][y] is None:
+                        self.griglia.insert_node(Node(x, y, i))
+                        i += 1
+
+
+def main(x_dim, y_dim, distr, num_nodi, verbose, cluster):
+    griglia = Grid(x_dim, y_dim)
+    gen = Generator(griglia, distr, num_nodi, cluster)
+    gen.crea_nodi()
+    if verbose >= 1:
+        griglia.print_grid()
+    griglia.manhattan_distance()
+    if verbose >= 2:
+        griglia.print_weigths()
 
 
 if __name__ == '__main__':
-    x_dim = int(sys.argv[1])
-    y_dim = int(sys.argv[2])
-    g = Grid(x_dim, y_dim)
-    gen = Generator(g, "casuale", 20)
-    gen.crea_nodi()
-    g.print_grid()
-    g.manhattan_distance()
-    g.print_weigths()
+    parser = argparse.ArgumentParser(
+        description="Generatore di istanze pannelli forati")
+    parser.add_argument("-d", "--dim",
+                        type=int,
+                        nargs=2,
+                        required=True,
+                        dest="dim",
+                        metavar=("x_dim", "y_dim"),
+                        help="Dimensioni x e y del pannello")
+    parser.add_argument("-t", "--type",
+                        choices=["casuale", "circolare", "cluster"],
+                        required=True,
+                        dest="distr",
+                        help="Tipo di distribuzione dei fori nel pannello")
+    parser.add_argument("-n", "--num",
+                        type=int,
+                        default=0,
+                        dest="num_nodi",
+                        help="Numero di fori da posizionare nel pannello")
+    parser.add_argument("-c", "--cluster",
+                        type=int,
+                        dest="cluster",
+                        choices=[1, 2, 3, 4],
+                        help="Numero di cluster dove posizionare i fori")
+    parser.add_argument("-v", "--verbose",
+                        dest="verbose",
+                        action="count",
+                        default=0,
+                        help="Visualizza griglia di posizionamento " +
+                        "e matrice delle distanze dei nodi")
+    opt = parser.parse_args()
+    main(opt.dim[0], opt.dim[1], opt.distr,
+         opt.num_nodi, opt.verbose, opt.cluster)
