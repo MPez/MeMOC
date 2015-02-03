@@ -99,7 +99,14 @@ class Generator():
 
     def crea_nodi(self):
         if self.distr == "casuale":
-            pass
+            i = 0
+            while i < self.num_nodi:
+                x = randrange(self.griglia.x_dim)
+                y = randrange(self.griglia.y_dim)
+                if self.griglia.grid[x][y] is None:
+                    self.griglia.insert_node(Node(x, y, i))
+                    i += 1
+
         elif self.distr == "circolare":
             cx = ceil(self.griglia.x_dim / 2) - 1
             cy = ceil(self.griglia.y_dim / 2) - 1
@@ -115,22 +122,18 @@ class Generator():
                     cx += 1
                     cy += 1
                     nodo = Node(cx, cy, i)
-                    print("i = %d, cx = %d, cy = %d" % (i, cx, cy))
                 elif 1 < i / r <= 2:
                     cx += 1
                     cy -= 1
                     nodo = Node(cx, cy, i)
-                    print("i = %d, cx = %d, cy = %d" % (i, cx, cy))
                 elif 2 < i / r <= 3:
                     cx -= 1
                     cy -= 1
                     nodo = Node(cx, cy, i)
-                    print("i = %d, cx = %d, cy = %d" % (i, cx, cy))
                 elif 3 < i / r <= 4:
                     cx -= 1
                     cy += 1
                     nodo = Node(cx, cy, i)
-                    print("i = %d, cx = %d, cy = %d" % (i, cx, cy))
                 self.griglia.insert_node(nodo)
         elif self.distr == "cluster":
             pass
@@ -140,7 +143,7 @@ if __name__ == '__main__':
     x_dim = int(sys.argv[1])
     y_dim = int(sys.argv[2])
     g = Grid(x_dim, y_dim)
-    gen = Generator(g, "circolare")
+    gen = Generator(g, "casuale", 20)
     gen.crea_nodi()
     g.print_grid()
     g.manhattan_distance()
