@@ -7,10 +7,12 @@
 
 #include <fstream>
 #include <string>
+#include "pannello.h"
+#include "cpxmacro.h"
 
 Pannello::Pannello() {}
 
-std::string Pannello::getC()
+std::vector<double> Pannello::getC()
 {
     return C;
 }
@@ -48,7 +50,7 @@ void Pannello::readFile(const char* fileName)
             {
                 costo = CPX_INFBOUND;
             }
-            C.push_back(costo):
+            C.push_back(costo);
        }
    }
    in.close();

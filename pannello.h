@@ -9,25 +9,22 @@
 #define PANNELLO_H
 
 #include <vector>
-#include <string>
 
 class Pannello
 {
 public:
     Pannello();
-    ~Pannello();
 
     int getN();
     std::vector<double> getC();
-    std::std::vector<int> getNameN();
+    std::vector<int> getNameN();
 
     void readFile(const char* fileName);
 
 private:
     int N; /**< numero di nodi */
     std::vector<int> nameN; /**< nome dei nodi*/
-    std::vector<double> C; /**< costi di cammino */
-    
+    std::vector<double> C; /**< costi di cammino */ 
 };
 
 #endif /* PANNELLO_H */
