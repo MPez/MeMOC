@@ -1,4 +1,7 @@
+# Marco Pezzutti - 1084411
+# Esercitazione di laboratorio 1
 # modulo generazione istanze
+
 import argparse
 from random import randrange
 from math import fabs, floor
@@ -12,9 +15,10 @@ class Grid():
     relative a righe e colonne.
     """
 
-    def __init__(self, x_dim, y_dim):
+    def __init__(self, x_dim, y_dim, instance):
         self.x_dim = x_dim
         self.y_dim = y_dim
+        self.instance = instance
         self.grid = [[None for col in range(y_dim)] for row in range(x_dim)]
         self._nodes = []
         self._weigths = [[]]
@@ -80,7 +84,7 @@ class Grid():
     def print_file(self):
         """Stampa su file la lista di nodi e la matrice delle distanze.
         """
-        f = open("pannello.dat", "w")
+        f = open("instances/pannello" + self.instance + ".dat", "w")
         f.write(str(len(self.nodes)) + "\n")
         for nodo in self.nodes:
             f.write(str(nodo.num) + "\t")
@@ -88,6 +92,15 @@ class Grid():
         for i in self.weigths:
             for j in i:
                 f.write(str(j) + "\t")
+            f.write("\n")
+        f.close()
+        f = open("instances/griglia" + self.instance + ".txt", "w")
+        for row in self.grid:
+            for col in row:
+                if col is not None:
+                    f.write(str(col.num) + '\t')
+                else:
+                    f.write("-" + '\t')
             f.write("\n")
         f.close()
 
@@ -128,9 +141,9 @@ class Generator():
     la quantità di cluster dove raggruppare i nodi
     """
 
-    def __init__(self, griglia, distr, num_nodi=0, cluster=1):
+    def __init__(self, griglia, distr, dens=0, cluster=1):
         self.griglia = griglia
-        self.num_nodi = num_nodi
+        self.dens = dens
         self.distr = distr
         self.cluster = cluster
 
@@ -139,9 +152,11 @@ class Generator():
         la distribuzione dei nodi scelta.
         """
         if self.distr == "casuale":
+            num_nodi = round(
+                self.griglia.x_dim * self.griglia.y_dim * self.dens / 100)
             i = 0
             # crea i nodi con posizione x e y ottenute in modo casuale
-            while i < self.num_nodi:
+            while i < num_nodi:
                 x = randrange(self.griglia.x_dim)
                 y = randrange(self.griglia.y_dim)
                 if self.griglia.grid[x][y] is None:
@@ -177,10 +192,12 @@ class Generator():
             # dimensioni del cluster
             dx = floor(self.griglia.x_dim / 2)
             dy = floor(self.griglia.y_dim / 2)
+            # numero di nodi per ogni cluster
+            num_nodi = round(dx * dy * self.dens / 100)
             if self.cluster == 1:
                 i = 0
                 # inserisce i nodi nel primo quarto di griglia
-                while i < self.num_nodi:
+                while i < num_nodi:
                     x = randrange(dx)
                     y = randrange(dy)
                     if self.griglia.grid[x][y] is None:
@@ -189,14 +206,14 @@ class Generator():
             elif self.cluster == 2:
                 i = 0
                 # inserisce i nodi nel primo quarto di griglia
-                while i < self.num_nodi / 2:
+                while i < num_nodi:
                     x = randrange(dx)
                     y = randrange(dy)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
                 # inserisce i nodi nel quarto quarto di griglia
-                while i < self.num_nodi:
+                while i < num_nodi * 2:
                     x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
                     y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
                     if self.griglia.grid[x][y] is None:
@@ -205,51 +222,51 @@ class Generator():
             elif self.cluster == 3:
                 i = 0
                 # inserisce i nodi nel primo quarto di griglia
-                while i < self.num_nodi / 3:
+                while i < num_nodi:
                     x = randrange(dx)
                     y = randrange(dy)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
                 # inserisce i nodi nel secondo quarto di griglia
-                while i < (self.num_nodi / 3) * 2:
+                while i < num_nodi * 2:
                     x = randrange(dx)
                     y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
                 # inserisce i nodi nel terzo quarto di griglia
-                while i < self.num_nodi:
+                while i < num_nodi * 3:
                     x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
                     y = randrange(dy)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
-            else:
+            elif self.cluster == 4:
                 i = 0
                 # inserisce i nodi nel primo quarto di griglia
-                while i < self.num_nodi / 4:
+                while i < num_nodi:
                     x = randrange(dx)
                     y = randrange(dy)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
                 # inserisce i nodi nel secondo quarto di griglia
-                while i < (self.num_nodi / 4) * 2:
+                while i < num_nodi * 2:
                     x = randrange(dx)
                     y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
                 # inserisce i nodi nel terzo quarto di griglia
-                while i < (self.num_nodi / 4) * 3:
+                while i < num_nodi * 3:
                     x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
                     y = randrange(dy)
                     if self.griglia.grid[x][y] is None:
                         self.griglia.insert_node(Node(x, y, i))
                         i += 1
                 # inserisce i nodi nel quarto quarto di griglia
-                while i < self.num_nodi:
+                while i < num_nodi * 4:
                     x = randrange(self.griglia.x_dim - dx, self.griglia.x_dim)
                     y = randrange(self.griglia.y_dim - dy, self.griglia.y_dim)
                     if self.griglia.grid[x][y] is None:
@@ -257,12 +274,12 @@ class Generator():
                         i += 1
 
 
-def main(x_dim, y_dim, distr, num_nodi, verbose, cluster):
+def main(x_dim, y_dim, distr, num_nodi, verbose, cluster, instance):
     """Crea la griglia con le dimensioni desiderate,
     la popola con la distribuzione scelta,
     stampa i risultati ottenuti.
     """
-    griglia = Grid(x_dim, y_dim)
+    griglia = Grid(x_dim, y_dim, instance)
     gen = Generator(griglia, distr, num_nodi, cluster)
     gen.crea_nodi()
     if verbose >= 1:
@@ -292,12 +309,18 @@ if __name__ == '__main__':
                         type=int,
                         default=0,
                         dest="num_nodi",
-                        help="Numero di fori da posizionare nel pannello")
+                        choices=range(1, 101),
+                        help="Densità di fori da posizionare nel pannello")
     parser.add_argument("-c", "--cluster",
                         type=int,
                         dest="cluster",
                         choices=[1, 2, 3, 4],
+                        default=1,
                         help="Numero di cluster dove posizionare i fori")
+    parser.add_argument("-i", "--instance",
+                        dest="instance",
+                        required=True,
+                        help="Numero di istanza generata")
     parser.add_argument("-v", "--verbose",
                         dest="verbose",
                         action="count",
@@ -306,4 +329,4 @@ if __name__ == '__main__':
                         "e matrice delle distanze dei nodi")
     opt = parser.parse_args()
     main(opt.dim[0], opt.dim[1], opt.distr,
-         opt.num_nodi, opt.verbose, opt.cluster)
+         opt.num_nodi, opt.verbose, opt.cluster, opt.instance)

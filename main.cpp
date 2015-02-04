@@ -2,13 +2,14 @@
  * @author 	Marco Pezzutti - 1084411
  * @file 	eserc.lab.01.cpp
  * @brief 	Esercitazione di laboratorio 1
- * @date 	novembre 2014
+ * @date 	gennaio 2014
  */
 
 #include <cstdio>
 #include <iostream>
 #include <vector>
 #include "cpxmacro.h"
+#include "pannllo.h"
 
 using namespace std;
 
@@ -22,16 +23,25 @@ char errmsg[BUF_SIZE];
 * problem data
 */
 int N = 0;	/**< numero di nodi (posizioni dei fori) */
-int A = 0;	/**< numero degli archi (tragitti tra i fori) */
-
-char nameN[N] = NULL;		/**< nomi dei nodi */
-char nameA[A] = NULL; 		/**< nomi degli archi */
-
-double C[A] = NULL;			/**< costi di cammino (spostamento tra fori) */
+std::vector<int> nameN;		/**< nomi dei nodi */
+std::vector<double> C;		/**< costi di cammino (spostamento tra fori) */
 			
 const int NAME_SIZE = 512;
 char name[NAME_SIZE];
 	
+
+/**
+* legge istanza del problema da file e inizializza i parametri
+*/
+void readInstance(const char* fileName)
+{
+	pann = new Pannello();
+	pann.readFile(fileName);
+	N = pann.getN();
+	nameN = pann.getNameN();
+	c = pann.getC();
+}
+
 /**
 * setup problema
 */
@@ -48,17 +58,14 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			if (i != j)
-			{
-				char xtype = 'I';
-				double obj = 0.0;
-				double lb = 0.0;
-				double ub = CPX_INFBOUND;
-				snprintf(name, NAME_SIZE, "x_%c_%c", nameN[i], nameN[j]);
-				char* xname = (char*)(&name[0]);
-				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, 
-					&xtype, &xname );
-			}
+			char xtype = 'I';
+			double obj = 0.0;
+			double lb = 0.0;
+			double ub = CPX_INFBOUND;
+			snprintf(name, NAME_SIZE, "x_%c_%c", nameN[i], nameN[j]);
+			char* xname = (char*)(&name[0]);
+			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &obj, &lb, &ub, 
+				&xtype, &xname );
 		}
 	}
 
@@ -73,16 +80,13 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			if (i != j)
-			{
-				char ytype = 'B';
-				double lb = 0.0;
-				double ub = 1.0;
-				snprintf(name, NAME_SIZE, "y_%c_%c", nameN[i], nameN[j]);
-				char* yname = (char*)(&name[0]);
-				CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &C[i*N+j], &lb, &ub, 
-					&ytype, &yname );
-			}
+			char ytype = 'B';
+			double lb = 0.0;
+			double ub = 1.0;
+			snprintf(name, NAME_SIZE, "y_%c_%c", nameN[i], nameN[j]);
+			char* yname = (char*)(&name[0]);
+			CHECKED_CPX_CALL( CPXnewcols, env, lp, 1, &C[i*N+j], &lb, &ub, 
+				&ytype, &yname );
 		}
 	}
 
@@ -96,7 +100,7 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 		int rmatbeg = 0;
 		std::vector<int> rmatind;
 		std::vector<double> rmatval;
-		for (int j = 0; j < N - 1; j++)
+		for (int j = 0; j < N; j++)
 		{
 			rmatind.push_back(j);
 			rmatval.push_back(1.0);
@@ -109,7 +113,7 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 	/**
 	* vincolo di bilanciamento del flusso su tutti i nodi escluso quello di partenza
 	*/
-	for (int k = 1; k < N; ++k)
+	for (int k = 0; k < N; ++k)
 	{
 		char sense = 'E';
 		int rmatbeg = 0;
@@ -119,11 +123,8 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 		// flusso entrante nel nodo k
 		for (int i = 0; i < N; ++i)
 		{
-			if(i != k)
-			{
-				rmatind.push_back(i*(N - 1) + k);
-				rmatval.push_back(1.0);
-			}
+			rmatind.push_back(i*N + k);
+			rmatval.push_back(1.0);
 		}
 
 		// flusso uscente dal nodo k
@@ -152,6 +153,9 @@ int main (int argc, char const *argv[])
 		DECL_ENV( env );
 		DECL_PROB( env, lp );
 		
+		// read problem instance
+		readInstance(argv[0]);
+
 		// setup LP
 		int numVars;
 		setupLP(env, lp, numVars );
