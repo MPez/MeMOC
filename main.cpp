@@ -128,21 +128,87 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 		}
 
 		// flusso uscente dal nodo k
-		for (int j = k + 1; j < N; ++j)
+		for (int j = 0; j < N; ++j)
 		{
-			rmatind.push_back(j);
+			rmatind.push_back(k*N + j);
 			rmatval.push_back(-1.0);
 		}
 
-		double rhs = 1;
+		double rhs = 1.0;
 
 		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(),
 			&rhs, sense, &rmatbeg, &rmatind[0], &rmatval[0], NULL, NULL)
 	}
 
+	/**
+	* vincolo che indica un unico arco uscente per ogni nodo
+	*/
+	for (int i = 0; i < N; ++i)
+	{
+		char sense = 'E';
+		int rmatbeg = 0;
+		std::vector<int> rmatind;
+		std::vector<double> rmatval;
+		for (int j = 0; j < N; ++j)
+		{
+			rmatind.push_back(i*N + j);
+			rmatval.push_back(1.0);
+		}
+
+		double rhs = 1.0;
+
+		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(),
+			&rhs, sense, &rmatbeg, &rmatind[0], &rmatval[0], NULL, NULL)
+	}
+
+	/**
+	* vincolo che indica un unico arco entrante per ogni nodo
+	*/
+	for (int j = 0; j < N; ++j)
+	{
+		char sense = 'E';
+		int rmatbeg = 0;
+		std::vector<int> rmatind;
+		std::vector<double> rmatval;
+		for (int i = 0; i < N; ++i)
+		{
+			rmatind.push_back(i*N + j);
+			rmatval.push_back(1.0);
+		}
+
+		double rhs = 1.0;
+
+		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(),
+			&rhs, sense, &rmatbeg, &rmatind[0], &rmatval[0], NULL, NULL)
+	}
+
+	/**
+	* vincolo di relazione tra x e y
+	*/
+	const int NRELATION = N*N;
+	for (int n = 0; n < NRELATION; ++n)
+	{
+		char sense = 'L';
+		int rmatbeg = 0;
+		
+		std::vector<int> rmatind(2);
+		// variabili x
+		rmatind[0] = n;
+		// variabili y
+		rmatind[1] = n + NRELATION;
+		
+		std::vector<double> rmatval(2);
+		rmatval[0] = 1.0;
+		rmatval[1] = -N;
+		
+		double rhs = 0.0;
+		
+		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(), 
+			&rhs, &sense, &rmatbeg, &rmatind[0], &rmatval[0], null, NULL);
+	}
 	
 	// print (debug)
-	CHECKED_CPX_CALL( CPXwriteprob, env, lp, "giornali.lp", 0 );
+	CHECKED_CPX_CALL(CPXwriteprob, env, lp, "giornali.lp", 0);
 }
 
 int main (int argc, char const *argv[])
@@ -177,7 +243,7 @@ int main (int argc, char const *argv[])
 		}
 	  	std::vector<double> varVals;
 	  	varVals.resize(n);
-  		CHECKED_CPX_CALL( CPXgetx, env, lp, &varVals[0], 0, n - 1 );
+  		CHECKED_CPX_CALL(CPXgetx, env, lp, &varVals[0], 0, n - 1);
 		/// status = CPXgetx (env, lp, x, 0, CPXgetnumcols(env, lp)-1);
 	  	for ( int i = 0 ; i < n ; ++i ) {
 	  	  	std::cout << "var in position " << i << " : " 
@@ -185,7 +251,7 @@ int main (int argc, char const *argv[])
 	  	  	/// to get variable name, use the RATHER TRICKY "CPXgetcolname"
 	  	  	/// status = CPXgetcolname (env, lp, cur_colname, cur_colnamestore, cur_storespace, &surplus, 0, cur_numcols-1);
 	  	}
-		CHECKED_CPX_CALL( CPXsolwrite, env, lp, "giornali.sol" );
+		CHECKED_CPX_CALL( CPXsolwrite, env, lp, "pannelli.sol" );
 		// free
 		CPXfreeprob(env, &lp);
 		CPXcloseCPLEX(&env);
