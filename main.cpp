@@ -260,7 +260,7 @@ int main (int argc, char const *argv[])
 		// print objval
 		double objval;
 		CHECKED_CPX_CALL(CPXgetobjval, env, lp, &objval);
-		std::cout << "Objval: " << objval << std::endl;
+		std::cout << "Istanza n. " << argv[2] << " objval: " << objval << std::endl;
 
 		// print time to file
 		std::ofstream out("results.txt", std::ofstream::app);
