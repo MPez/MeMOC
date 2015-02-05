@@ -8,7 +8,6 @@
 #include <fstream>
 #include <string>
 #include "pannello.h"
-#include "cpxmacro.h"
 
 Pannello::Pannello() {}
 
@@ -46,10 +45,6 @@ void Pannello::readFile(const char* fileName)
        {
             double costo;
             in >> costo;
-            if(costo == 0)
-            {
-                costo = CPX_INFBOUND;
-            }
             C.push_back(costo);
        }
    }
