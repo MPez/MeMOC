@@ -9,14 +9,21 @@ x_dim=15
 y_dim=15
 
 # nomi script per generare pannelli e opzioni
-script="generator.py"
+gen_script="generator.py"
 dim_opt="-d $x_dim $y_dim"
 
 # nome cartella istanze
 ins_dir="instances/"
-# nome file ed estensione
+
+# nome file ed estensione delle istanze
 ins_name="pannello"
 suff=".dat"
+
+# nome script per calcolare statistiche
+stat_script="statistics.py"
+
+# nome file gnuplot
+plot="plot.gnuplot"
 
 # densità dei fori da creare
 dens=5
@@ -33,7 +40,7 @@ crea_casuali() {
     ((I = $i + $N))
     while [[ $i -le $I ]]; do
         for (( j = 1; j <= 10; j++ )); do
-            command="$script $dim_opt -t casuale -n $dens -i $i"
+            command="$gen_script $dim_opt -t casuale -n $dens -i $i"
             python $command
             ((i += 1))
         done
@@ -48,28 +55,28 @@ crea_cluster() {
     while [[ $i -le $I ]]; do
         # 1 cluster
         for (( j = 0; j < 10; j++ )); do
-            command="$script $dim_opt -t cluster -c 1 -n $dens -i $i"
+            command="$gen_script $dim_opt -t cluster -c 1 -n $dens -i $i"
             python $command
             ((i += 1))
         done
         echo "Create $i istanze"
         # 2 cluster
         for (( j = 0; j < 10; j++ )); do
-            command="$script $dim_opt -t cluster -c 2 -n $dens -i $i"
+            command="$gen_script $dim_opt -t cluster -c 2 -n $dens -i $i"
             python $command
             ((i += 1))
         done
         echo "Create $i istanze"
         # 3 cluster
         for (( j = 0; j < 10; j++ )); do
-            command="$script $dim_opt -t cluster -c 3 -n $dens -i $i"
+            command="$gen_script $dim_opt -t cluster -c 3 -n $dens -i $i"
             python $command
             ((i += 1))
         done
         echo "Create $i istanze"
         # 4 cluster
         for (( j = 0; j < 10; j++ )); do
-            command="$script $dim_opt -t cluster -c 4 -n $dens -i $i"
+            command="$gen_script $dim_opt -t cluster -c 4 -n $dens -i $i"
             python $command
             ((i += 1))
         done
@@ -82,7 +89,7 @@ crea_cluster() {
 crea_circolari() {
     ((I = $i + 9))
     while [[ $i -le $I ]]; do
-        command="$script -d $x_dim $y_dim -t circolare -i $i"
+        command="$gen_script -d $x_dim $y_dim -t circolare -i $i"
         python $command
         echo "Create $i istanze"
         ((x_dim += 2))
@@ -101,8 +108,20 @@ risolvi_cplex() {
     done
 }
 
+# calcola statistiche e stampa file per gnuplot
+calcola_statistiche() {
+    echo "Calcolo statistiche sui risultati ottenuti"
+    python $stat_script
+}
+
+# esegue gnuplot per creare i grafici
+crea_grafici() {
+    echo "Creo grafici con gnuplot"
+    gnuplot $plot
+}
+
 # main
-while getopts ":acilr" flag; do
+while getopts ":acgilrs" flag; do
     case $flag in
         a )
             crea_casuali
@@ -114,9 +133,14 @@ while getopts ":acilr" flag; do
             y_dim=5
             crea_circolari
             risolvi_cplex
+            calcola_statistiche
+            crea_grafici
             ;;
         c )
             crea_casuali
+            ;;
+        g )
+            crea_grafici
             ;;
         i )
             # dimensioni del pannello
@@ -131,6 +155,9 @@ while getopts ":acilr" flag; do
             ;;
         r )
             risolvi_cplex
+            ;;
+        s )
+            calcola_statistiche
             ;;
         * )
             echo "Opzione non presente, nessuna operazione da svolgere."

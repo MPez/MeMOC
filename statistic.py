@@ -7,7 +7,7 @@ from statistics import mean, stdev
 
 class Data():
 
-    """Classe che racchiude i risultati trovati.
+    """Classe che calcola statistiche sui risultati trovati.
 
     Si usa per leggere i dati forniti da cplex per calcolare i dati statistici
     e scrivere file di testo per gnuplot con cui si realizzano i grafici."""
