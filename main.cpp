@@ -48,7 +48,7 @@ void readInstance(const char* fileName)
 /**
 * setup problema
 */
-void setupLP(CEnv env, Prob lp, int & numVars)
+void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 {
 	/**
 	* add x vars
@@ -226,10 +226,11 @@ void setupLP(CEnv env, Prob lp, int & numVars)
 	}
 	
 	// print (debug)
-	CHECKED_CPX_CALL(CPXwriteprob, env, lp, "pannello.lp", NULL);
+	std::string name = "solutions/pannello" + insNum + ".lp";
+	CHECKED_CPX_CALL(CPXwriteprob, env, lp, name.c_str(), NULL);
 }
 
-int main (int argc, char const *argv[])
+int main (int argc, const char* argv[])
 {
 	try
 	{
@@ -248,7 +249,7 @@ int main (int argc, char const *argv[])
 
 		// setup LP
 		int numVars;
-		setupLP(env, lp, numVars);
+		setupLP(env, lp, numVars, argv[2]);
 		
 		// optimize
 		CHECKED_CPX_CALL(CPXmipopt, env, lp);
@@ -264,10 +265,15 @@ int main (int argc, char const *argv[])
 
 		// print time to file
 		std::ofstream out("results.txt", std::ofstream::app);
-		out << "Istanza n. " << argv[2] << " composta da " << N << "nodi.\n";
+		out << "Istanza n. " << argv[2] << " composta da " << N << " nodi.\n";
 		out << "Soluzione ottima " << objval << " trovata in:\n";
 		out << (double)(tv2.tv_sec+tv2.tv_usec*1e-6 - (tv1.tv_sec+tv1.tv_usec*1e-6)) << " seconds (user time)\n";
 		out << (double)(t2-t1) / CLOCKS_PER_SEC << " seconds (CPU time)\n\n";
+		out.close();
+
+		// print time to gnuplot file
+		std::ofstream out("simple_results.txt", std::ofstream::app);
+		out << N << "\t" << (double)(t2-t1) / CLOCKS_PER_SEC << "\n";
 		out.close();
 		
 		//print solution (var values)
@@ -291,7 +297,8 @@ int main (int argc, char const *argv[])
 	  	  	/// status = CPXgetcolname (env, lp, cur_colname, cur_colnamestore, cur_storespace, &surplus, 0, cur_numcols-1);
 	  	}
 	  	*/
-		CHECKED_CPX_CALL(CPXsolwrite, env, lp, "pannello.sol");
+	  	std::string path = "solutions/pannello" + argv[2] + ".sol";
+		CHECKED_CPX_CALL(CPXsolwrite, env, lp, path.c_str());
 		// free
 		CPXfreeprob(env, &lp);
 		CPXcloseCPLEX(&env);

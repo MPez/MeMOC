@@ -2,6 +2,7 @@
 
 # elimino file dei risultati
 rm "results.txt"
+rm "plot_results.txt"
 
 # dimensione del pannello
 x_dim=15
@@ -18,7 +19,7 @@ ins_name="pannello"
 suff=".dat"
 
 # densità dei fori da creare
-dens=10
+dens=5
 
 # indici per la creazione delle istanze
 i=1
