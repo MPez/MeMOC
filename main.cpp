@@ -226,7 +226,8 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 	}
 	
 	// print (debug)
-	std::string name = "solutions/pannello" + insNum + ".lp";
+	std::string num = insNum;
+	std::string name = "solutions/pannello" + num + ".lp";
 	CHECKED_CPX_CALL(CPXwriteprob, env, lp, name.c_str(), NULL);
 }
 
@@ -272,9 +273,9 @@ int main (int argc, const char* argv[])
 		out.close();
 
 		// print time to gnuplot file
-		std::ofstream out("results/simple_results.txt", std::ofstream::app);
-		out << N << "\t" << (double)(t2-t1) / CLOCKS_PER_SEC << "\n";
-		out.close();
+		std::ofstream out2("results/simple_results.txt", std::ofstream::app);
+		out2 << N << "\t" << (double)(t2-t1) / CLOCKS_PER_SEC << "\n";
+		out2.close();
 		
 		//print solution (var values)
 		/*
@@ -297,7 +298,8 @@ int main (int argc, const char* argv[])
 	  	  	/// status = CPXgetcolname (env, lp, cur_colname, cur_colnamestore, cur_storespace, &surplus, 0, cur_numcols-1);
 	  	}
 	  	*/
-	  	std::string path = "solutions/pannello" + argv[2] + ".sol";
+		std::string num = argv[2];
+	  	std::string path = "solutions/pannello" + num + ".sol";
 		CHECKED_CPX_CALL(CPXsolwrite, env, lp, path.c_str());
 		// free
 		CPXfreeprob(env, &lp);

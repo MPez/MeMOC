@@ -32,6 +32,8 @@ class Data():
             # se una sola istanza per numero di nodi
             elif len(nodi) == 1:
                 self.circ_data.append([nodi.pop(), tempi.pop()])
+                nodi.append(int(nodo))
+                tempi.append(float(tempo))
             # se cambia il numero di nodi
             else:
                 self.data_stat.append([nodi[0], mean(tempi), stdev(tempi)])
@@ -59,7 +61,9 @@ class Data():
 
 
 def main():
-    data = Data("simple_results.txt", "plot_results.txt", "plot_circular.txt")
+    data = Data("results/simple_results.txt",
+                "results/plot_results.txt",
+                "results/plot_circular.txt")
     data.read_data()
     data.write_data()
 
