@@ -42,7 +42,12 @@ public:
     * @param nodo2 secondo nodo da scambiare
     */
     void scambiaNodi(int pos1, int pos2);
-    
+
+    /**
+    * stampa la soluzione corrente
+    */
+    void stampa() const;
+
 private:
     /**
     * sequenza di nodi (path representation) che identifica la soluzione

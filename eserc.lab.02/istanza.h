@@ -67,6 +67,11 @@ public:
     */
     void readFile(const char* fileName);
 
+    /**
+    * stampa istanza corrente
+    */
+    void stampa() const;
+
 private:
     /**
     * numero di nodi

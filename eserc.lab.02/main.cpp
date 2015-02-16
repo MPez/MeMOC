@@ -11,14 +11,17 @@
 
 int main(int argc, char const *argv[])
 {
-    // creo l'istanza del problemo e la inizializzo
+    // creo l'istanza del problema e la inizializzo
     Istanza* ist = new Istanza();
     ist->readFile(argv[1]);
+    ist->stampa();
     // creo la soluzione
     Soluzione* sol = new Soluzione();
     // creo il solutore
     Solutore* solver = new Solutore(*ist, *sol);
+    // risolvo il problema
     solver->startSoluzione();
+    sol->stampa();
 
     return 0;
 }

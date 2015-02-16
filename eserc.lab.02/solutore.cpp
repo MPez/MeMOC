@@ -13,7 +13,6 @@ Solutore::Solutore(const Istanza& ist, Soluzione& sol)
 
 void Solutore::startSoluzione()
 {
-    int N = istanza.getNumNodi();
     // riferimenti da usare per selezionare i nodi da aggiungere o rimuovere
     int i = 0;
     int j = 0;
@@ -21,9 +20,9 @@ void Solutore::startSoluzione()
     std::vector<int> selezionati;
     // insiede dei nodi non ancora selezionati
     std::set<int> rimanenti;
-    for (int r = 0; r < N; ++r)
+    for (int n = 0; n < istanza.getNumNodi(); ++n)
     {
-        rimanenti.insert(r);
+        rimanenti.insert(n);
     }
     // calcolo la prima coppia di nodi e li inserisco nel ciclo
     istanza.maxCosto(i, j);
@@ -41,7 +40,7 @@ void Solutore::startSoluzione()
         // inserisco nodo selezionato
         selezionati.insert(selezionati.begin() + j, r);
         //rimuovo nodo selezionato dai rimanenti
-        rimanenti.erase(r);    
+        rimanenti.erase(r);
     }
     soluzione.setSoluzione(selezionati);
 }

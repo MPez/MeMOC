@@ -8,8 +8,10 @@
 #include <fstream>
 #include <string>
 #include <climits>
+#include <limits>
 #include <set>
 #include <iterator>
+#include <iostream>
 #include "istanza.h"
 
 Istanza::Istanza() {}
@@ -71,9 +73,9 @@ void Istanza::minCosto(int& r, int& i, int& j,
     double min = INT_MAX;
     for (int m = 0; m < selezionati.size(); ++m)
     {
-        for (int n = r + 1; n < selezionati.size(); ++n)
+        for (int n = m + 1; n < selezionati.size(); ++n)
         {
-            double costo = costi[i][r] + costi[r][j] - costi[i][j];
+            double costo = costi[m][r] + costi[r][n] - costi[m][n];
             if(costo < min)
             {
                 min = costo;
@@ -90,7 +92,11 @@ void Istanza::readFile(const char* fileName)
    // lettura numero di nodi
    in >> numNodi;
    // ignora riga che contiene identificativo di ogni nodo
-   in.ignore(256, '\n');
+   for (int i = 0; i < numNodi; ++i)
+   {
+       int temp;
+       in >> temp;
+   }
    // lettura costi di cammino per ogni arco
    costi.resize(numNodi);
    for (int i = 0; i < numNodi; ++i)
@@ -104,4 +110,19 @@ void Istanza::readFile(const char* fileName)
        }
    }
    in.close();
+}
+
+void Istanza::stampa() const
+{
+    std::cout << "Istanza del problema con "
+        << numNodi << " nodi:" << std::endl;
+    for (int i = 0; i < numNodi; ++i)
+    {
+        for (int j = 0; j < numNodi; ++j)
+        {
+            std::cout << costi[i][j] << "\t";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }

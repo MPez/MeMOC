@@ -6,6 +6,7 @@
 */
 
 #include <vector>
+#include <iostream>
 #include "soluzione.h"
 
 Soluzione::Soluzione() {}
@@ -39,4 +40,14 @@ void Soluzione::scambiaNodi(int pos1, int pos2)
     int temp = soluzione[pos1];
     soluzione[pos1] = soluzione[pos2];
     soluzione[pos2] = temp;
+}
+
+void Soluzione::stampa() const
+{
+    std::cout << "Soluzione = " ;
+    for (int i = 0; i < soluzione.size(); ++i)
+    {
+        std::cout << soluzione[i] << " ";
+    }
+    std::cout << std::endl;
 }
