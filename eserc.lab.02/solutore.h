@@ -9,6 +9,7 @@
 #define SOLUTORE_H
 
 #include "soluzione.h"
+#include "istanza.h"
 
 class Solutore
 {

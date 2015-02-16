@@ -9,6 +9,7 @@
 #define SOLUZIONE_H
 
 #include <vector>
+#include "istanza.h"
 
 class Soluzione
 {
@@ -22,7 +23,7 @@ public:
     * getter soluzione corrente
     * @return soluzione corrente
     */
-    std::vector<int> getSoluzione();
+    std::vector<int> getSoluzione() const;
 
     /**
     * setter soluzione

@@ -10,7 +10,7 @@
 
 Soluzione::Soluzione() {}
 
-std::vector<int> Soluzione::getSoluzione()
+std::vector<int> Soluzione::getSoluzione() const
 {
     return soluzione;
 }
@@ -20,14 +20,14 @@ void Soluzione::setSoluzione(std::vector<int> sol)
     soluzione.resize(sol.size());
     for (int i = 0; i < sol.size(); ++i)
     {
-        soluzione[i] = sol;
+        soluzione[i] = sol[i];
     }
 }
 
 void Soluzione::initSoluzione(const Istanza& istanza)
 {
-    soluzione.resize(istanza->getNumNodi() + 1)
-    for (int i = 0; i < soluzione.size - 1; ++i)
+    soluzione.resize(istanza.getNumNodi() + 1);
+    for (int i = 0; i < soluzione.size() - 1; ++i)
     {
         soluzione[i] = i;
     }
@@ -37,6 +37,6 @@ void Soluzione::initSoluzione(const Istanza& istanza)
 void Soluzione::scambiaNodi(int pos1, int pos2)
 {
     int temp = soluzione[pos1];
-    soluzione[pos1] = soluzione[pos2]
+    soluzione[pos1] = soluzione[pos2];
     soluzione[pos2] = temp;
 }

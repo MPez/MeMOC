@@ -9,6 +9,7 @@
 #define ISTANZA_H
 
 #include <vector>
+#include <set>
 
 class Istanza
 {
@@ -30,14 +31,14 @@ public:
     * @param j colonna della matrice dei costi
     * @return costo dell'arco da i a j
     */
-    std::vector<std::vector<double>>& getCosti(int i, int j) const;
+    double getCosti(int i, int j) const;
 
     /**
     * cerca il costo più alto tra tutti gli archi
     * @param i nodo di partenza dell'arco
     * @param j nooo di arrivo dell'arco
     */
-    void maxCosto(int& i, int& j);
+    void maxCosto(int& i, int& j) const;
 
     /**
     * cerca il costo più alto tra gli archi che uniscono un nodo
@@ -46,8 +47,8 @@ public:
     * @param rimanenti nodi non ancora selezionati
     * @return nodo con costo più alto da inserire nel ciclo
     */
-    int maxCosto(std::vector<int>& selezionati,
-                    std::vector<int>& rimanenti);
+    int maxCosto(const std::vector<int>& selezionati,
+                 const std::set<int>& rimanenti) const;
 
     /**
     * cerca i nodi i e j tra i quali inserire a costo minimo il nodo r
@@ -56,7 +57,8 @@ public:
     * @param j nodo che deve seguire r
     * @param selezionati nodi presenti nel ciclo
     */
-    void minCosto(int& r, int& i, int& j, std::vector<int>& selezionati);
+    void minCosto(int& r, int& i, int& j,
+                  const std::vector<int>& selezionati) const;
 
     /**
     * legge il file con l'istanza del problema e 
@@ -74,7 +76,7 @@ private:
     /**
     * costi di cammino
     */ 
-    std::vector<std::vector<double>> costi; 
+    std::vector< std::vector<double> > costi; 
 };
 
 #endif /* ISTANZA_H */

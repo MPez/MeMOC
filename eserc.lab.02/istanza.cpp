@@ -1,18 +1,20 @@
 /**
  * @author  Marco Pezzutti - 1084411
  * @file    istanza.cpp
- * @brief   Esercitazione di laboratorio 1
- * @date    gennaio 2014
+ * @brief   Esercitazione di laboratorio 2
+ * @date    febbraio 2014
 */
 
 #include <fstream>
 #include <string>
 #include <climits>
+#include <set>
+#include <iterator>
 #include "istanza.h"
 
 Istanza::Istanza() {}
 
-std::vector<std::vector<double>>& Istanza::getCosti(int i, int j) const
+double Istanza::getCosti(int i, int j) const
 {
     return costi[i][j];
 }
@@ -22,7 +24,7 @@ int Istanza::getNumNodi() const
     return numNodi;
 }
 
-double Istanza::maxCosto(int& i, int& j)
+void Istanza::maxCosto(int& i, int& j) const
 {
     double max = 0;
     for (int r = 0; r < numNodi; ++r)
@@ -39,16 +41,17 @@ double Istanza::maxCosto(int& i, int& j)
     }
 }
 
-int Istanza::maxCosto(std::vector<int>& selezionati,
-                         std::vector<int>& rimanenti)
+int Istanza::maxCosto(const std::vector<int>& selezionati,
+                      const std::set<int>& rimanenti) const
 {
     double max = 0;
     int i = 0;
     int j = 0;
     int r = 0;
-    for (int m = 0; m < rimanenti.size(); ++m)
+    for (std::set<int>::iterator it = rimanenti.begin();
+         it != rimanenti.end(); ++it)
     {
-        i = rimanenti[m];
+        i = *it;
         for (int n = 0; n < selezionati.size(); ++n)
         {
             j = selezionati[n];
@@ -62,7 +65,8 @@ int Istanza::maxCosto(std::vector<int>& selezionati,
     return r;
 }
 
-void Istanza::minCosto(int& r, int& i, int& j, std::vector<int>& selezionati)
+void Istanza::minCosto(int& r, int& i, int& j,
+                       const std::vector<int>& selezionati) const
 {
     double min = INT_MAX;
     for (int m = 0; m < selezionati.size(); ++m)
@@ -85,8 +89,8 @@ void Istanza::readFile(const char* fileName)
    std::ifstream in(fileName);
    // lettura numero di nodi
    in >> numNodi;
-   // lettura riga che contiene identificativo di ogni nodo (da scartare)
-   in.getline();
+   // ignora riga che contiene identificativo di ogni nodo
+   in.ignore(256, '\n');
    // lettura costi di cammino per ogni arco
    costi.resize(numNodi);
    for (int i = 0; i < numNodi; ++i)
