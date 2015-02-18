@@ -5,8 +5,6 @@
  * @date    febbraio 2014
 */
 
-#include <vector>
-#include <iostream>
 #include "soluzione.h"
 
 Soluzione::Soluzione() {}
@@ -28,6 +26,7 @@ Soluzione& Soluzione::operator=(const Soluzione& sol)
     {
         soluzione[i] = soluz[i];
     }
+    return *this;
 }
 
 std::vector<int> Soluzione::getSoluzione() const
@@ -95,5 +94,5 @@ void Soluzione::stampa() const
     {
         std::cout << soluzione[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << "\t";
 }

@@ -8,7 +8,12 @@
 #ifndef SOLUTORE_H
 #define SOLUTORE_H
 
+#include <set>
+#include <limits>
+#include <iostream>
 #include <vector>
+#include <cstdlib>
+
 #include "soluzione.h"
 #include "istanza.h"
 #include "mossa.h"
@@ -25,6 +30,14 @@ public:
     * risolve il problema tramite l'euristica tabu search
     */
     void tabuSearch();
+
+    /**
+    * oggetto funzione (funtore) per comparare due mosse
+    */
+    struct compMossa
+    {
+        bool operator()(const Mossa& a, const Mossa& b) const;
+    };
     
 private:
     /**

@@ -9,7 +9,12 @@
 #define ISTANZA_H
 
 #include <vector>
+#include <fstream>
+#include <string>
+#include <limits>
 #include <set>
+#include <iterator>
+#include <iostream>
 
 class Istanza
 {

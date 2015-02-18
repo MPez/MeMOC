@@ -9,6 +9,8 @@
 #define SOLUZIONE_H
 
 #include <vector>
+#include <iostream>
+
 #include "istanza.h"
 
 class Soluzione

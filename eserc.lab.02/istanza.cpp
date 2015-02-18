@@ -5,12 +5,6 @@
  * @date    febbraio 2014
 */
 
-#include <fstream>
-#include <string>
-#include <limits>
-#include <set>
-#include <iterator>
-#include <iostream>
 #include "istanza.h"
 
 const double infinito = std::numeric_limits<double>::max();

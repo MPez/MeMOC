@@ -30,6 +30,11 @@ public:
     * nodo di arrivo
     */
     int to;
+
+    /**
+    * costo della soluzione effettuando la mossa
+    */
+    double costo;
 };
 
 #endif /* MOSSA_H */
