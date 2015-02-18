@@ -2,7 +2,7 @@ CC=g++
 CPPLAGS=-g -Wall -O2
 LDFLAGS=
 
-SOURCES=main.cpp solutore.cpp soluzione.cpp istanza.cpp
+SOURCES=main.cpp solutore.cpp soluzione.cpp istanza.cpp mossa.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=main
 

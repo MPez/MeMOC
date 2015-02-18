@@ -20,6 +20,16 @@ public:
     Soluzione();
 
     /**
+    * costruttore di copia
+    */
+    Soluzione(const Soluzione& sol);
+
+    /**
+    * overloading operatore =
+    */
+    Soluzione& operator=(const Soluzione& sol);
+
+    /**
     * getter soluzione corrente
     * @return soluzione corrente
     */
@@ -37,11 +47,27 @@ public:
     void initSoluzione(const Istanza& istanza);
 
     /**
-    * scambia posizione di due nodi
-    * @param nodo1 primo nodo da scambiare
-    * @param nodo2 secondo nodo da scambiare
+    * inverte la sottosequenza di nodi tra le due posizioni
+    * @param pos1 posizione di partenza della sequenza
+    * @param pos1 posizione di arrivo della sequenza
     */
-    void scambiaNodi(int pos1, int pos2);
+    void invertiNodi(int pos1, int pos2);
+
+    /**
+    * calcola il costo della soluzione
+    * @param istanza istanza del problema
+    * @return costo della soluzione
+    */
+    double calcolaCosto(const Istanza& istanza) const;
+
+    /**
+    * calcola il costo di un vicino
+    * @param istanza istanza del problema
+    * @param i posizione nodo di inizio sottosequenza da scambiare
+    * @param j posizione nodo di fine sottosequenza da scambiare
+    * @return costo del vicino
+    */
+    double calcolaCostoVicino(const Istanza& istanza, int i, int j) const;
 
     /**
     * stampa la soluzione corrente

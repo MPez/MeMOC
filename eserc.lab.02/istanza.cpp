@@ -7,12 +7,13 @@
 
 #include <fstream>
 #include <string>
-#include <climits>
 #include <limits>
 #include <set>
 #include <iterator>
 #include <iostream>
 #include "istanza.h"
+
+const double infinito = std::numeric_limits<double>::max();
 
 Istanza::Istanza() {}
 
@@ -29,7 +30,7 @@ int Istanza::getNumNodi() const
 void Istanza::maxCosto(int& i, int& j) const
 {
     double max = 0;
-    for (int r = 0; r < numNodi; ++r)
+    for (int r = 0; r < numNodi - 1; ++r)
     {
         for (int c = r + 1; c < numNodi; ++c)
         {
@@ -70,8 +71,8 @@ int Istanza::maxCosto(const std::vector<int>& selezionati,
 void Istanza::minCosto(int& r, int& i, int& j,
                        const std::vector<int>& selezionati) const
 {
-    double min = INT_MAX;
-    for (int m = 0; m < selezionati.size(); ++m)
+    double min = infinito;
+    for (int m = 0; m < selezionati.size() - 1; ++m)
     {
         for (int n = m + 1; n < selezionati.size(); ++n)
         {
