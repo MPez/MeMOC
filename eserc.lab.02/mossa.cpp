@@ -7,9 +7,10 @@
 
 #include "mossa.h"
 
- Mossa::Mossa() {}
+Mossa::Mossa(int from, int to, double costo) 
+    : from(from), to(to), costo(costo) {}
 
- bool Mossa::operator==(const Mossa mossa) const
- {
+bool Mossa::operator==(const Mossa mossa) const
+{
     return (from == mossa.from) && (to == mossa.to);
- }
+}

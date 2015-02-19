@@ -11,7 +11,7 @@ const double infinito = std::numeric_limits<double>::max();
 
 Solutore::Solutore(const Istanza& ist, Soluzione& sol,
                    int tabuTenure, int maxIt) 
-    : istanza(ist), soluzione(sol), tabuList(tabuTenure), maxIter(maxIt) {}
+    : istanza(ist), soluzione(sol), tabuList(tabuTenure), maxIter(maxIt){}
 
 void Solutore::startSoluzione()
 {
@@ -54,11 +54,9 @@ bool Solutore::compMossa::operator()(const Mossa& a, const Mossa& b) const
     return a.costo < b.costo;
 }
 
-void Solutore::trovaVicino(const Soluzione& solCorrente, Mossa& mossa,
-                             double& bestCosto, double& currCosto) const
+void Solutore::trovaVicini(const Soluzione& solCorrente)
 {
-    // insieme di mosse ordinate in ordine crescente di costo
-    std::set<Mossa, compMossa> mosseMigliori;
+    double currCosto = 0.0;
 
     int size = solCorrente.getSoluzione().size();
     for (int i = 1; i <  size - 2; ++i)
@@ -66,25 +64,37 @@ void Solutore::trovaVicino(const Soluzione& solCorrente, Mossa& mossa,
         for (int j = i + 1; j < size - 1; ++j)
         {
             currCosto = solCorrente.calcolaCostoVicino(istanza, i, j);
-            if (currCosto < bestCosto)
+            // creo la mossa corrente
+            Mossa mossa = Mossa(j, i, currCosto);
+            // controllo che la mossa non sia tabu
+            bool mossaTabu = controllaMossa(mossa);
+            if(!mossaTabu)
             {
-                mossa.to = i;
-                mossa.from = j;
-                mossa.costo = currCosto;
-                bestCosto = currCosto;
                 mosseMigliori.insert(mossa);
             }
         }
     }
+}
+
+Mossa Solutore::scegliVicino(std::string tipo) const
+{
+    Mossa mossa = Mossa();
     if (!mosseMigliori.empty())
     {
-        // la mossa migliore viene scelta tra le numMosse migliori
-        int numMosse = rand() % mosseMigliori.size();
-        std::set<Mossa>::iterator it = mosseMigliori.begin();
-        std::advance(it, numMosse);
-        mossa = *it;
-        bestCosto = mossa.costo;
+        if (tipo == "best")
+        {
+            mossa = *mosseMigliori.begin();
+        }
+        else
+        {
+            // la mossa migliore viene scelta tra le numMosse migliori
+            int numMosse = rand() % mosseMigliori.size();
+            std::set<Mossa>::iterator it = mosseMigliori.begin();
+            std::advance(it, numMosse);
+            mossa = *it;
+        }
     }
+    return mossa;
 }
 
 bool Solutore::controllaMossa(const Mossa& mossa) const
@@ -95,7 +105,6 @@ bool Solutore::controllaMossa(const Mossa& mossa) const
         if (tabuList[i] == mossa)
         {
             tabu = true;
-            std::cout << "TABU " << mossa.from << ", " << mossa.to << std::endl;
         }
     }
     return tabu;
@@ -104,52 +113,53 @@ bool Solutore::controllaMossa(const Mossa& mossa) const
 void Solutore::inserisciMossaTabu(const Mossa& mossa)
 {
     if (tabuList.size() == tabuList.capacity())
-        {
-            tabuList.pop_back();
-        }
+    {
+        tabuList.pop_back();
+    }
     tabuList.insert(tabuList.begin(), mossa);
 }
 
 void Solutore::tabuSearch()
 {
     srand(time(NULL));
+
     // genero soluzione iniziale
     startSoluzione();
+
     // numero iterazione corrente
     int k = 0;
+
     // soluzione corrente
     Soluzione* solCorrente = new Soluzione(soluzione);
     std::cout << "Soluzione di partenza" << std::endl;
     solCorrente->stampa();
+
     // costo soluzione corrente
-    double costo = solCorrente->calcolaCosto(istanza);
-    std::cout << "Costo = " << costo << std::endl << std::endl;
-    // costo migliore e corrente
-    double bestCosto = infinito;
-    double currCosto = 0.0;
+    double bestCosto = solCorrente->calcolaCosto(istanza);
+    std::cout << "Costo = " << bestCosto << std::endl << std::endl;
+
     // variabile di controllo ciclo
     bool terminato = false;
+
     while(!terminato)
     {
+        std::cout << "\nIter = " << k << "\t";
+        
         // cerco il miglior vicino
-        Mossa mossa = Mossa();
-        trovaVicino(*solCorrente, mossa, bestCosto, currCosto);
-        // controllo che la mossa migliore non sia tabu
-        std::cout << "Iter = " << k << "\t";
-        bool mossaTabu = controllaMossa(mossa);
-        // se la mossa è valida e migliorativa la eseguo e aggiorno la tabu list
-        if (!mossaTabu)
+        trovaVicini(*solCorrente);
+        Mossa mossa = scegliVicino("best");
+        
+        // se la mossa è migliorativa la eseguo e aggiorno la tabu list
+        if (mossa.costo < bestCosto)
         {
-            if (bestCosto < costo)
-            {
-                costo = bestCosto;
-                solCorrente->invertiNodi(mossa.to, mossa.from);
-                solCorrente->stampa();
-                std::cout << "costo = " << costo << "\t";
-                std::cout << "mossa = " << mossa.to 
-                    << ", " << mossa.from << std::endl;
-            }
+            bestCosto = mossa.costo;
+            solCorrente->invertiNodi(mossa.to, mossa.from);
             inserisciMossaTabu(mossa);
+
+            solCorrente->stampa();
+            std::cout << "costo = " << mossa.costo << "\t";
+            std::cout << "mossa = " << mossa.to 
+                << ", " << mossa.from;
         }
         if (k == maxIter)
         {

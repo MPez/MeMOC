@@ -14,7 +14,7 @@ public:
     /**
     * costruttore
     */
-    Mossa();
+    Mossa(int from=0, int to=0, double costo=0);
 
     /**
     * overloading operatore ==

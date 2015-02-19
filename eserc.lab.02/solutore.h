@@ -13,6 +13,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <string>
 
 #include "soluzione.h"
 #include "istanza.h"
@@ -51,9 +52,14 @@ private:
     Soluzione& soluzione;
 
     /**
-    * tabu list
+    * lista delle mosse tabu
     */
     std::vector<Mossa> tabuList;
+
+    /**
+    * insieme di mosse ordinate in ordine crescente di costo
+    */
+    std::set<Mossa, compMossa> mosseMigliori;
 
     /**
     * massimo numero di iterazioni per tabu search
@@ -66,19 +72,21 @@ private:
     void startSoluzione();
 
     /**
-    * cerca il miglor vicino
+    * cerca tutti i vicini che non sono tabu
     * @param solCorrente soluzione corrente
-    * @param mossa mossa per ottenere al miglior vicino
-    + @param bestCosto miglor costo di soluzione trovato
-    + @param currCosto costo corrente
     */
-    void trovaVicino(const Soluzione& solCorrente, Mossa& mossa,
-                       double& bestCosto, double& currCosto) const;
+    void trovaVicini(const Soluzione& solCorrente);
+
+    /**
+    * sceglie il vicino sul quale spostarsi
+    * @return la mossa da eseguire per ottenere il vicino
+    */
+    Mossa scegliVicino(std::string tipo) const;
 
     /**
     * controlla se una mossa è presente nella tabu list
     * @param mossa mossa da controllare
-    * @param true se la mossa è tabu, false altrimenti
+    * @return true se la mossa è tabu, false altrimenti
     */
     bool controllaMossa(const Mossa& mossa) const;
 
