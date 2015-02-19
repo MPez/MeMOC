@@ -57,6 +57,7 @@ bool Solutore::compMossa::operator()(const Mossa& a, const Mossa& b) const
 void Solutore::trovaVicini(const Soluzione& solCorrente)
 {
     double currCosto = 0.0;
+    mosseMigliori.clear();
 
     int size = solCorrente.getSoluzione().size();
     for (int i = 1; i <  size - 2; ++i)
@@ -83,6 +84,7 @@ Mossa Solutore::scegliVicino(std::string tipo) const
     {
         if (tipo == "best")
         {
+            // viene scelta la mossa migliore
             mossa = *mosseMigliori.begin();
         }
         else
@@ -105,6 +107,7 @@ bool Solutore::controllaMossa(const Mossa& mossa) const
         if (tabuList[i] == mossa)
         {
             tabu = true;
+            //std::cout << "TABU mossa = " << mossa.from << ", " << mossa.to << "\t";
         }
     }
     return tabu;
@@ -129,12 +132,13 @@ void Solutore::tabuSearch()
     // numero iterazione corrente
     int k = 0;
 
-    // soluzione corrente
+    // soluzione corrente e milgiore
     Soluzione* solCorrente = new Soluzione(soluzione);
+    Soluzione* solMigliore = new Soluzione(soluzione);
     std::cout << "Soluzione di partenza" << std::endl;
     solCorrente->stampa();
 
-    // costo soluzione corrente
+    // costo soluzione migliore e corrente
     double bestCosto = solCorrente->calcolaCosto(istanza);
     std::cout << "Costo = " << bestCosto << std::endl << std::endl;
 
@@ -148,25 +152,36 @@ void Solutore::tabuSearch()
         // cerco il miglior vicino
         trovaVicini(*solCorrente);
         Mossa mossa = scegliVicino("best");
-        
-        // se la mossa è migliorativa la eseguo e aggiorno la tabu list
-        if (mossa.costo < bestCosto)
+
+        if (!mosseMigliori.empty())
         {
-            bestCosto = mossa.costo;
+            // effettuo la mossa
             solCorrente->invertiNodi(mossa.to, mossa.from);
+            // inserisco la mossa in quelle tabu
             inserisciMossaTabu(mossa);
 
+            // aggiorno la soluzione migliore
+            if (mossa.costo < bestCosto)
+            {
+                bestCosto = mossa.costo;
+                *solMigliore = *solCorrente;
+            }
+
+            // stampo la soluzione
             solCorrente->stampa();
             std::cout << "costo = " << mossa.costo << "\t";
             std::cout << "mossa = " << mossa.to 
                 << ", " << mossa.from;
         }
+
+
+        // aggiorno il contatore
         if (k == maxIter)
         {
             terminato = true;
         }
         k++;
     }
-    soluzione = *solCorrente;
+    soluzione = *solMigliore;
 }
 
