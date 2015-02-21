@@ -1,0 +1,35 @@
+%\clearpage
+\section{Strumenti utilizzati}
+Per la realizzazione delle esercitazioni mi sono avvalso di diversi strumenti e linguaggi di programmazione: alcuni usati per l'effettiva implementazione dei metodi e altri per automatizzare le procedure di creazione delle istanze, della loro risoluzione e della realizzazione dei grafici.
+Di seguito verranno descritti gli strumenti che ho utilizzato e le motivazioni che mi hanno guidato nella loro scelta.
+
+\begin{description}
+	\item[\textsc{C$++$}]: linguaggio di programmazione orientato agli oggetti che ho utilizzato per l'implementazione del modello per la risoluzione mediante il metodo del simplesso e per lo sviluppo della metaeuristica \tabu;
+	\item[\textsc{Make}]: per automatizzare il processo di compilazione dei sorgenti e generazione dei file eseguibili sono stati utilizzati due \emph{makefile} diversi, uno per esercitazione;
+	\item[\textsc{CPLEX}]: software di ottimizzazione implementato nel linguaggio \acronimo{C} in grado di risolvere problemi di programmazione lineare e lineare intera utilizzando le varianti primale e duale del metodo del simplesso. Fornisce delle \acronimo{api} verso diversi linguaggi, tra cui \acronimo{c$++$};
+	\item[\textsc{Python}]: linguaggio multiparadigma, semplice e flessibile che consente di sviluppare script in poco tempo ma, grazie alla notevole quantità librerie esistenti, consente di scrivere anche applicazioni complesse.
+	
+	Ho utilizzato questo linguaggio per la creazione delle istanze del problema in quanto non era pensabile produrre a mano un numero ragionevole di problemi; inoltre è stato utilizzato per analizzare i risultati ottenuti e produrre i dati statistici da visualizzare sui grafici;
+	\item[\textsc{Gnuplot}]: programma che consente di disegnare grafici mediante l'utilizzo di funzioni matematiche o di dati grezzi sia in \acronimo{2d} che in \acronimo{3d}; è semplice da utilizzare ma è dotato di molte opzioni per personalizzare la resa dei grafici e la visualizzazione dei dati;
+	\item[\textsc{Bash}]: per rendere il processo di creazione istanze, risoluzione mediante i due algoritmi e analisi dei dati automatico, ho realizzato uno script bash che tramite diverse flag consente di eseguire le operazioni desiderate.
+\end{description}
+
+\subsection{Ambiente di sviluppo}
+\label{sec:ambiente}
+I programmi sono state sviluppati sul portatile in mio possesso dotato delle seguenti caratteristiche:
+\begin{description}
+\item[\textsc{processore}]: Intel Core i7-2670QM @ 2.20GHz
+\item[\textsc{ram}]: 6\acronimo{gb}
+\end{description}
+
+Di seguito sono riportate le versioni di software, linguaggi e librerie utilizzate:
+\begin{description}
+\item[\textbf{C$++$}]: \acronimo{c$++$03}
+\item[\textbf{Make}]: 4.1
+\item[\textbf{CPLEX}]: 12.6.0
+\item[\textbf{Python}]: 3.4.2
+\item[\textbf{Gnuplot}]: 4.6
+\item[\textbf{Bash}]: 4.3.33
+\end{description}
+
+I programmi sviluppati sono stati testati anche presso la macchina del laboratorio disponibile mediante \emph{ssh} all'indirizzo \script{torre.studenti.math.unipd.it} e sono quindi conformi alle specifiche date.

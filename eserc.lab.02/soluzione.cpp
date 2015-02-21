@@ -45,21 +45,28 @@ void Soluzione::setSoluzione(std::vector<int> sol)
 
 void Soluzione::initSoluzione(const Istanza& istanza)
 {
-    soluzione.resize(istanza.getNumNodi() + 1);
+    soluzione.resize(istanza.getNumNodi() + 1, 0);
     for (int i = 0; i < soluzione.size() - 1; ++i)
     {
         soluzione[i] = i;
     }
-    soluzione.push_back(0);
 }
 
-void Soluzione::invertiNodi(int pos1, int pos2)
+void Soluzione::shuffleSoluzione()
+{
+    int size = soluzione.size();
+    for (int i = 1; i < (size - 2); ++i)
+    {
+        int j = rand() % (size - 1 - i) + i;
+        scambiaNodi(i, j);
+    }
+}
+
+void Soluzione::invertiSequenza(int pos1, int pos2)
 {
     while(pos1 <= pos2)
     {
-        int temp = soluzione[pos1];
-        soluzione[pos1] = soluzione[pos2];
-        soluzione[pos2] = temp;
+        scambiaNodi(pos1, pos2);
         pos1++;
         pos2--;
     }
@@ -95,4 +102,11 @@ void Soluzione::stampa() const
         std::cout << soluzione[i] << " ";
     }
     std::cout << "\t";
+}
+
+void Soluzione::scambiaNodi(int nodo1, int nodo2)
+{
+    int temp = soluzione[nodo1];
+    soluzione[nodo1] = soluzione[nodo2];
+    soluzione[nodo2] = temp;
 }

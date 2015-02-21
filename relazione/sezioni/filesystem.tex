@@ -1,0 +1,43 @@
+%disegna la struttura di cartelle presente nell'archivio consegnato
+\tikzstyle{every node}=[thick,anchor=west, rounded corners, font={\scriptsize\ttfamily}, inner sep=2.5pt]
+\tikzstyle{selected}=[draw=blue,fill=blue!10]
+\tikzstyle{root}=[selected, fill=blue!30]
+\tikzstyle{optional}=[dashed, draw=blue, fill=blue!5]
+
+\begin{tikzpicture}[%
+    scale=.7,
+    grow via three points={one child at (0.5,-0.65) and
+    two children at (0.5,-0.65) and (0.5,-1.1)},
+    edge from parent path={(\tikzparentnode.south) |- (\tikzchildnode.west)}]
+  \node [root] {eserc.lab.01}
+    child { node [selected] {eserc.lab.02}
+      child { node {istanza.cpp}}
+      child { node {istanza.cpp}}
+      child { node {main.cpp}}
+      child { node {Makefile}}
+      child { node {mossa.cpp}}
+      child { node {mossa.h}}
+      child { node {solutore.cpp}}
+      child { node {solutore.h}}
+      child { node {soluzione.cpp}}
+      child { node {soluzione.h}}
+    }
+    child { node at (0,-5) [optional] {instances}
+      child { node {\dots}}
+    }
+    child { node at (0,-6) [optional] {results}
+      child { node {\dots}}
+    }
+    child { node at (0,-7) [optional] {solutions}
+      child { node {\dots}}
+    }
+    child { node at (0,-8) {cpxmacro.h}}
+    child { node at (0,-8.2) {eserc\_lab.sh}}
+    child { node at (0,-8.4) {generator.py}}
+    child { node at (0,-8.6) {main.cpp}}
+    child { node at (0,-8.8) {Makefile}}
+    child { node at (0,-9) {pannello.cpp}}
+    child { node at (0,-9.2) {pannello.h}}
+    child { node at (0,-9.4) {plot.gnuplot}}
+    child { node at (0,-9.6) {statistic.py}};
+\end{tikzpicture}

@@ -1,0 +1,36 @@
+%\clearpage
+\section{Esecuzione}
+L'esecuzione del programma è gestita mediante lo script \emph{bash} chiamato \script{eserc\_lab.sh}; tale script è stato dotato di diverse opzioni che permettono di eseguire il programma con diverse modalità richiamabili tramite gli appositi flag:
+
+\begin{description}
+	\item[\texttt{-a arg}]: modalità \modo{all}, esegue in sequenza tutte le operazioni descritte nella sezione \ref{sec:bash} e comprende tutte le altre modalità di esecuzione; permette quindi di eseguire l'intero programma ed ottenere tutti i risultati; l'argomento \texttt{arg} è necessario per impostare il numero di istanze da generare in quanto indica il numero di ripetizioni da effettuare;
+	\item[\texttt{-c arg}]: modalità \modo{casuali}, richiama lo script \script{generator.py} per generare solamente i problemi creati casualmente; l'argomento \texttt{arg} serve per impostare il numero di problemi da generare;
+	\item[\texttt{-g}]: modalità \modo{gnuplot}, richiama \emph{gnuplot} per disegnare i grafici con i dati ottenuti;
+	\item[\texttt{-i arg}]: modalità \modo{circolari}, richiama lo script \script{generator.py} per generare  solamente i problemi circolari; l'argomento \texttt{arg} serve per impostare il numero di problemi da generare;
+	\item[\texttt{-l arg}]: modalità \modo{cluster}, richiama lo script \script{generator.py} per generare  solamente i problemi a cluster; l'argomento \texttt{arg} serve per impostare il numero di problemi da generare;
+	\item[\texttt{-r arg}]: modalità \modo{cplex}, richiama il programma \script{cplex} per risolvere i problemi che sono stati generati; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere;
+	\item[\texttt{-s}]: modalità \modo{statistiche}, richiama lo script \script{statistic.py} per elaborare i risultati ottenuti e generare i file di input per \emph{gnuplot};
+	\item[\texttt{-t arg}]: modalità \modo{tabu search}, richiama il programma \script{tabusearch} per risolvere i problemi generati; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere.
+\end{description}
+
+Per valutare e confrontare l'efficienza dei due metodi in modo significativo è necessario avere una considerevole quantità di dati, questo implica il dover generare e risolvere molte istanze diverse.
+
+Per questo motivo ho deciso di creare tre diversi tipi di problemi: istanze con distribuzione di nodi casuale all'interno della griglia, con una disposizione a cluster, suddividendo la griglia in quarti e concentrando la disposizione dei nodi prima su un quarto, poi su due, tre e quattro cluster in modo da capire se ci sono differenze a parità di densità di nodi: ho utilizzato infatti come indice per creare i nodi la densità in funzione delle dimensioni della griglia, o del cluster.
+
+Come ultima tipologia di istanza ho usato quella circolare che, su una griglia con nodi equispaziati, equivale ad un quadrato con i vertici in direzione degli assi dei lati della griglia stessa.
+
+Una volta creati i nodi, per calcolare il peso degli archi che li unisce ho utilizzato la distanza Manhattan.
+
+
+
+\subsection{Struttura cartelle}
+Affinché l'esecuzione dei programmi non provochi errori è necessario che la struttura di file sia coerente con quella usata nell'ambiente di sviluppo; insieme alla presente relazione viene fornito un archivio contenente tutti i file sviluppati necessari al funzionamento, tralasciando, ovviamente, quelli che verranno creati dagli stessi programmi.
+
+Qui di seguito viene descritta la struttura di file e cartelle nell'ambiente di sviluppo:\\*
+
+\input{sezioni/filesystem.tex}
+
+
+\subsection{Compilazione}
+Una volta aperto l'archivio contenente il codice sorgente ed essersi assicurati che siano installati e presenti nella variabile di sistema \comando{path} le librerie e i software descritti nella sezione \ref{sec:ambiente} e, prima di eseguire il programma tramite script \emph{bash}, è necessario procedere alla compilazione del codice \acronimo{c$++$}: per fare questo è sufficiente digitare ed eseguire il comando \script{make} all'interno della cartella radice del progetto, per compilare \script{cplex}, ed eseguire nuovamente il comando \script{make} all'interno della cartella \script{eserc.lab.02} per compilare \script{tabusearch}.
+

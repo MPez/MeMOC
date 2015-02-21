@@ -4,7 +4,7 @@ LDFLAGS=
 
 SOURCES=main.cpp solutore.cpp soluzione.cpp istanza.cpp mossa.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=main
+EXECUTABLE=tabusearch
 
 all: $(SOURCES) $(EXECUTABLE)
 

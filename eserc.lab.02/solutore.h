@@ -52,7 +52,7 @@ private:
     Soluzione& soluzione;
 
     /**
-    * lista delle mosse tabu
+    * vettore delle mosse tabu
     */
     std::vector<Mossa> tabuList;
 
@@ -68,20 +68,22 @@ private:
 
     /**
     * determina la soluzione di partenza mediante farthest insertion
+    * @param strategia strategia di creazione soluzione di partenza
     */
-    void startSoluzione();
+    void startSoluzione(std::string strategia);
 
     /**
     * cerca tutti i vicini che non sono tabu
     * @param solCorrente soluzione corrente
     */
-    void trovaVicini(const Soluzione& solCorrente);
+    void trovaVicini(const Soluzione& solCorrente, std::string strategia);
 
     /**
     * sceglie il vicino sul quale spostarsi
+    * @param strategia strategia di selezione miglior vicino
     * @return la mossa da eseguire per ottenere il vicino
     */
-    Mossa scegliVicino(std::string tipo) const;
+    Mossa scegliVicino(std::string strategia) const;
 
     /**
     * controlla se una mossa è presente nella tabu list

@@ -14,10 +14,11 @@ OBJ = main.o pannello.o
 %.o: %.cpp
 		$(CC) $(CPPFLAGS) -I$(CPX_INCDIR) -c $^ -o $@
 
-main: $(OBJ)
-		$(CC) $(CPPFLAGS) $(OBJ) -o main -L$(CPX_LIBDIR) $(CPX_LDFLAGS)
-
-clean:
-		rm -rf $(OBJ) main
+cplex: $(OBJ)
+		$(CC) $(CPPFLAGS) $(OBJ) -o cplex -L$(CPX_LIBDIR) $(CPX_LDFLAGS)
 
 .PHONY: clean
+
+clean:
+		rm -rf $(OBJ) cplex
+

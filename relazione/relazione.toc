@@ -1,0 +1,18 @@
+\select@language {italian}
+\select@language {italian}
+\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}
+\contentsline {section}{\numberline {2}Strumenti utilizzati}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Ambiente di sviluppo}{3}{subsection.2.1}
+\contentsline {section}{\numberline {3}Sviluppo}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Cplex}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Tabu Search}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Script \emph {Python}}{5}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}generator.py}{5}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}statistic.py}{6}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Script \emph {Gnuplot}}{6}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Script \emph {Bash}}{6}{subsection.3.5}
+\contentsline {section}{\numberline {4}Esecuzione}{7}{section.4}
+\contentsline {subsection}{\numberline {4.1}Struttura cartelle}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Compilazione}{9}{subsection.4.2}
+\contentsline {section}{\numberline {5}Risultati}{9}{section.5}
+\contentsline {section}{\numberline {6}Conclusioni}{9}{section.6}

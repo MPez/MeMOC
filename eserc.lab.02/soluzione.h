@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <iostream>
+#include <cstdlib>
 
 #include "istanza.h"
 
@@ -49,11 +50,16 @@ public:
     void initSoluzione(const Istanza& istanza);
 
     /**
+    * usa algoritmo Fisher-Yates shuffle per mescolare la soluzione
+    */
+    void shuffleSoluzione();
+
+    /**
     * inverte la sottosequenza di nodi tra le due posizioni
     * @param pos1 posizione di partenza della sequenza
     * @param pos1 posizione di arrivo della sequenza
     */
-    void invertiNodi(int pos1, int pos2);
+    void invertiSequenza(int pos1, int pos2);
 
     /**
     * calcola il costo della soluzione
@@ -81,6 +87,13 @@ private:
     * sequenza di nodi (path representation) che identifica la soluzione
     */
     std::vector<int> soluzione;
+
+    /**
+    * scambia la posizione di due nodi
+    * @param i primo nodo da scambiare
+    * @param j secondo nodo da scambiare
+    */
+    void scambiaNodi(int nodo1, int nodo2);
 };
 
  #endif /* SOLUZIONE_H */

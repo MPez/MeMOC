@@ -13,40 +13,48 @@ Solutore::Solutore(const Istanza& ist, Soluzione& sol,
                    int tabuTenure, int maxIt) 
     : istanza(ist), soluzione(sol), tabuList(tabuTenure), maxIter(maxIt){}
 
-void Solutore::startSoluzione()
+void Solutore::startSoluzione(std::string strategia)
 {
-    // riferimenti da usare per selezionare i nodi da aggiungere o rimuovere
-    int i = 0;
-    int j = 0;
-    // insieme dei nodi presenti nel ciclo
-    std::vector<int> selezionati;
-    // insiede dei nodi non ancora selezionati
-    std::set<int> rimanenti;
-    for (int n = 0; n < istanza.getNumNodi(); ++n)
+    if (strategia == "shuffle")
     {
-        rimanenti.insert(n);
+        soluzione.initSoluzione(istanza);
+        soluzione.shuffleSoluzione();
     }
-    // calcolo la prima coppia di nodi e li inserisco nel ciclo
-    istanza.maxCosto(i, j);
-    selezionati.push_back(i);
-    selezionati.push_back(j);
-    // rimuovo i nodi selezionati dai rimanenti
-    rimanenti.erase(i);
-    rimanenti.erase(j);
-    while(!rimanenti.empty())
+    else
     {
-        // cerco nodo da inserire con costo massimo
-        int r = istanza.maxCosto(selezionati, rimanenti);
-        // cerco posizione dove inserire il nodo selezionato
-        istanza.minCosto(r, i, j, selezionati);
-        // inserisco nodo selezionato
-        selezionati.insert(selezionati.begin() + j, r);
-        //rimuovo nodo selezionato dai rimanenti
-        rimanenti.erase(r);
+        // riferimenti da usare per selezionare i nodi da aggiungere o rimuovere
+        int i = 0;
+        int j = 0;
+        // insieme dei nodi presenti nel ciclo
+        std::vector<int> selezionati;
+        // insiede dei nodi non ancora selezionati
+        std::set<int> rimanenti;
+        for (int n = 0; n < istanza.getNumNodi(); ++n)
+        {
+            rimanenti.insert(n);
+        }
+        // calcolo la prima coppia di nodi e li inserisco nel ciclo
+        istanza.maxCosto(i, j);
+        selezionati.push_back(i);
+        selezionati.push_back(j);
+        // rimuovo i nodi selezionati dai rimanenti
+        rimanenti.erase(i);
+        rimanenti.erase(j);
+        while(!rimanenti.empty())
+        {
+            // cerco nodo da inserire con costo massimo
+            int r = istanza.maxCosto(selezionati, rimanenti);
+            // cerco posizione dove inserire il nodo selezionato
+            istanza.minCosto(r, i, j, selezionati);
+            // inserisco nodo selezionato
+            selezionati.insert(selezionati.begin() + j, r);
+            //rimuovo nodo selezionato dai rimanenti
+            rimanenti.erase(r);
+        }
+        // inserisco come ultimo nodo quello di partenza per chiudere il ciclo
+        selezionati.push_back(selezionati.front());
+        soluzione.setSoluzione(selezionati);
     }
-    // inserisco come ultimo nodo quello di partenza per chiudere il ciclo
-    selezionati.push_back(selezionati.front());
-    soluzione.setSoluzione(selezionati);
 }
 
 bool Solutore::compMossa::operator()(const Mossa& a, const Mossa& b) const
@@ -54,9 +62,10 @@ bool Solutore::compMossa::operator()(const Mossa& a, const Mossa& b) const
     return a.costo < b.costo;
 }
 
-void Solutore::trovaVicini(const Soluzione& solCorrente)
+void Solutore::trovaVicini(const Soluzione& solCorrente, std::string strategia)
 {
     double currCosto = 0.0;
+    double bestCosto = infinito;
     mosseMigliori.clear();
 
     int size = solCorrente.getSoluzione().size();
@@ -71,18 +80,29 @@ void Solutore::trovaVicini(const Soluzione& solCorrente)
             bool mossaTabu = controllaMossa(mossa);
             if(!mossaTabu)
             {
-                mosseMigliori.insert(mossa);
+                if (strategia == "notAll")
+                {
+                    if (currCosto < bestCosto)
+                    {
+                        bestCosto = currCosto;
+                        mosseMigliori.insert(mossa);
+                    }
+                }
+                else
+                {
+                    mosseMigliori.insert(mossa);
+                }
             }
         }
     }
 }
 
-Mossa Solutore::scegliVicino(std::string tipo) const
+Mossa Solutore::scegliVicino(std::string strategia) const
 {
     Mossa mossa = Mossa();
     if (!mosseMigliori.empty())
     {
-        if (tipo == "best")
+        if (strategia == "best")
         {
             // viene scelta la mossa migliore
             mossa = *mosseMigliori.begin();
@@ -127,7 +147,7 @@ void Solutore::tabuSearch()
     srand(time(NULL));
 
     // genero soluzione iniziale
-    startSoluzione();
+    startSoluzione("shuffle");
 
     // numero iterazione corrente
     int k = 0;
@@ -140,23 +160,23 @@ void Solutore::tabuSearch()
 
     // costo soluzione migliore e corrente
     double bestCosto = solCorrente->calcolaCosto(istanza);
-    std::cout << "Costo = " << bestCosto << std::endl << std::endl;
+    std::cout << "Costo = " << bestCosto << std::endl;
 
     // variabile di controllo ciclo
     bool terminato = false;
 
     while(!terminato)
     {
-        std::cout << "\nIter = " << k << "\t";
+        //std::cout << "\nIter = " << k << "\t";
         
         // cerco il miglior vicino
-        trovaVicini(*solCorrente);
+        trovaVicini(*solCorrente, "notAll");
         Mossa mossa = scegliVicino("best");
 
         if (!mosseMigliori.empty())
         {
             // effettuo la mossa
-            solCorrente->invertiNodi(mossa.to, mossa.from);
+            solCorrente->invertiSequenza(mossa.to, mossa.from);
             // inserisco la mossa in quelle tabu
             inserisciMossaTabu(mossa);
 
@@ -168,10 +188,9 @@ void Solutore::tabuSearch()
             }
 
             // stampo la soluzione
-            solCorrente->stampa();
-            std::cout << "costo = " << mossa.costo << "\t";
-            std::cout << "mossa = " << mossa.to 
-                << ", " << mossa.from;
+            //solCorrente->stampa();
+            //std::cout << "costo = " << mossa.costo << "\t";
+            //std::cout << "mossa = " << mossa.to << ", " << mossa.from;
         }
 
 

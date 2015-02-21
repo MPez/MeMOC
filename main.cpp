@@ -265,7 +265,7 @@ int main (int argc, const char* argv[])
 		std::cout << "Istanza n. " << argv[2] << " objval: " << objval << std::endl;
 
 		// print time to file
-		std::ofstream out("results/results.txt", std::ofstream::app);
+		std::ofstream out("results/CPXresults.txt", std::ofstream::app);
 		out << "Istanza n. " << argv[2] << " composta da " << N << " nodi.\n";
 		out << "Soluzione ottima " << objval << " trovata in:\n";
 		out << (double)(tv2.tv_sec+tv2.tv_usec*1e-6 - (tv1.tv_sec+tv1.tv_usec*1e-6)) << " seconds (user time)\n";
@@ -273,8 +273,9 @@ int main (int argc, const char* argv[])
 		out.close();
 
 		// print time to gnuplot file
-		std::ofstream out2("results/simple_results.txt", std::ofstream::app);
-		out2 << N << "\t" << (double)(t2-t1) / CLOCKS_PER_SEC << "\n";
+		std::ofstream out2("results/CPXsimple_results.txt", std::ofstream::app);
+		out2 << N << "\t" << (double)(t2-t1) / CLOCKS_PER_SEC << "\t";
+		out2 << objval << "\n";
 		out2.close();
 		
 		//print solution (var values)

@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{Introduzione}{}% 1
+\BOOKMARK [1][-]{section.2}{Strumenti utilizzati}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Ambiente di sviluppo}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Sviluppo}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Cplex}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Tabu Search}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.3}{Script Python}{section.3}% 7
+\BOOKMARK [3][-]{subsubsection.3.3.1}{generator.py}{subsection.3.3}% 8
+\BOOKMARK [3][-]{subsubsection.3.3.2}{statistic.py}{subsection.3.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{Script Gnuplot}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.5}{Script Bash}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Esecuzione}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{Struttura cartelle}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.2}{Compilazione}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{Risultati}{}% 15
+\BOOKMARK [1][-]{section.6}{Conclusioni}{}% 16
