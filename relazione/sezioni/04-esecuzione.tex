@@ -19,17 +19,22 @@ Per questo motivo ho deciso di creare tre diversi tipi di problemi: istanze con 
 
 Come ultima tipologia di istanza ho usato quella circolare che, su una griglia con nodi equispaziati, equivale ad un quadrato con i vertici in direzione degli assi dei lati della griglia stessa.
 
-Una volta creati i nodi, per calcolare il peso degli archi che li unisce ho utilizzato la distanza Manhattan.
-
-
+Visto che la distribuzione dei nodi all'interno della griglia avviene in modo casuale sui problemi \emph{casuali} e su quelli \emph{cluster}, ho deciso di creare più problemi simili, cioè con lo stesso numero di nodi, per tipo; il numero di problemi è impostabile tramite l'argomento \texttt{arg} delle opzioni dello script; inoltre per creare istanze con un numero di nodi crescente utilizzo un paramentro \texttt{dens}, che rappresenta la densità dei nodi, che viene incrementato durante la generazione delle istanze.
 
 \subsection{Struttura cartelle}
 Affinché l'esecuzione dei programmi non provochi errori è necessario che la struttura di file sia coerente con quella usata nell'ambiente di sviluppo; insieme alla presente relazione viene fornito un archivio contenente tutti i file sviluppati necessari al funzionamento, tralasciando, ovviamente, quelli che verranno creati dagli stessi programmi.
+In figura \ref{fig:struttura} viene descritta la struttura di file e cartelle nell'ambiente di sviluppo.
 
-Qui di seguito viene descritta la struttura di file e cartelle nell'ambiente di sviluppo:\\*
-
+\begin{figure}[htb]
+\centering
 \input{sezioni/filesystem.tex}
+\caption{Struttura file e cartelle delle esercitazioni}
+\label{fig:struttura}
+\end{figure}
 
+Le cartelle tratteggiare sono quelle che conterranno i file creati dai programmi e non saranno quindi presenti inizialmente; nella cartella \emph{instances} saranno salvati due file per ogni istanza generata, uno contenente la matrice dei costi e l'altro la griglia con la disposizione dei nodi.
+
+Nella cartella \emph{results} verranno salvati i file relativi ai risultati ottenuti dalle risoluzioni dei problemi e i \acronimo{pdf} con i grafici; nella cartella \emph{solutions} ci saranno le soluzioni ai problemi generate dal programma \script{cplex}.
 
 \subsection{Compilazione}
 Una volta aperto l'archivio contenente il codice sorgente ed essersi assicurati che siano installati e presenti nella variabile di sistema \comando{path} le librerie e i software descritti nella sezione \ref{sec:ambiente} e, prima di eseguire il programma tramite script \emph{bash}, è necessario procedere alla compilazione del codice \acronimo{c$++$}: per fare questo è sufficiente digitare ed eseguire il comando \script{make} all'interno della cartella radice del progetto, per compilare \script{cplex}, ed eseguire nuovamente il comando \script{make} all'interno della cartella \script{eserc.lab.02} per compilare \script{tabusearch}.

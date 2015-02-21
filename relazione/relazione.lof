@@ -1,2 +1,12 @@
 \select@language {italian}
 \select@language {italian}
+\contentsline {figure}{\numberline {1}{\ignorespaces Struttura file e cartelle delle esercitazioni\relax }}{9}{figure.caption.4}
+\contentsline {figure}{\numberline {2}{\ignorespaces Istanza casuali e circolari - \texttt {cplex}\xspace \relax }}{10}{figure.caption.5}
+\contentsline {subfigure}{\numberline {a}{\ignorespaces Istanze casuali\relax }}{10}{figure.caption.5}
+\contentsline {subfigure}{\numberline {b}{\ignorespaces Istanze circolari\relax }}{10}{figure.caption.5}
+\contentsline {figure}{\numberline {3}{\ignorespaces Istanze cluster - \texttt {cplex}\xspace \relax }}{12}{figure.caption.8}
+\contentsline {subfigure}{\numberline {a}{\ignorespaces Istanze 1 cluster\relax }}{12}{figure.caption.8}
+\contentsline {subfigure}{\numberline {b}{\ignorespaces Istanze 2 cluster\relax }}{12}{figure.caption.8}
+\contentsline {subfigure}{\numberline {c}{\ignorespaces Istanze 3 cluster\relax }}{12}{figure.caption.8}
+\contentsline {subfigure}{\numberline {d}{\ignorespaces Istanze 4 cluster\relax }}{12}{figure.caption.8}
+\contentsline {figure}{\numberline {4}{\ignorespaces Istanze casuali, cluster e circolari - \texttt {cplex}\xspace \relax }}{12}{figure.caption.9}
