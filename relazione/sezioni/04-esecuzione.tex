@@ -15,7 +15,7 @@ L'esecuzione del programma è gestita mediante lo script \emph{bash} chiamato \s
 
 Per valutare e confrontare l'efficienza dei due metodi in modo significativo è necessario avere una considerevole quantità di dati, questo implica il dover generare e risolvere molte istanze diverse.
 
-Per questo motivo ho deciso di creare tre diversi tipi di problemi: istanze con distribuzione di nodi casuale all'interno della griglia, con una disposizione a cluster, suddividendo la griglia in quarti e concentrando la disposizione dei nodi prima su un quarto, poi su due, tre e quattro cluster in modo da capire se ci sono differenze a parità di densità di nodi: ho utilizzato infatti come indice per creare i nodi la densità in funzione delle dimensioni della griglia, o del cluster.
+Per questo motivo ho deciso di creare tre diversi tipi di problemi: istanze con distribuzione di nodi casuale all'interno della griglia, con una disposizione a cluster, suddividendo la griglia in quarti e concentrando la disposizione dei nodi prima su un quarto, poi su due, tre e quattro cluster in modo da capire se ci sono differenze a parità di densità di nodi: ho utilizzato infatti come valore per creare i nodi la densità in funzione delle dimensioni della griglia, o del cluster.
 
 Come ultima tipologia di istanza ho usato quella circolare che, su una griglia con nodi equispaziati, equivale ad un quadrato con i vertici in direzione degli assi dei lati della griglia stessa.
 
@@ -32,7 +32,7 @@ In figura \ref{fig:struttura} viene descritta la struttura di file e cartelle ne
 \label{fig:struttura}
 \end{figure}
 
-Le cartelle tratteggiare sono quelle che conterranno i file creati dai programmi e non saranno quindi presenti inizialmente; nella cartella \emph{instances} saranno salvati due file per ogni istanza generata, uno contenente la matrice dei costi e l'altro la griglia con la disposizione dei nodi.
+Le cartelle tratteggiate sono quelle che conterranno i file creati dai programmi e non saranno quindi presenti inizialmente; nella cartella \emph{instances} saranno salvati due file per ogni istanza generata, uno contenente la matrice dei costi e l'altro la griglia con la disposizione dei nodi.
 
 Nella cartella \emph{results} verranno salvati i file relativi ai risultati ottenuti dalle risoluzioni dei problemi e i \acronimo{pdf} con i grafici; nella cartella \emph{solutions} ci saranno le soluzioni ai problemi generate dal programma \script{cplex}.
 

@@ -86,8 +86,8 @@ Da notare come l'andamento del grafico non sia molto lineare: questo fatto proba
 \end{table}
 
 Tutti i tempi e i costi medi ottenuti sono visibili nella tabella \ref{tab:casuali} per le istanze casuali e in tabella \ref{tab:circolari} per quelle circolari.
-Il costo medio per le istanze casuali non è molto significativo in quanto il simplesso è un algoritmo esatto e ogni istanza è diversa dall'altra, di conseguenza il costo esatto delle rispettive soluzione è diverso.
-Tale media verrà però utilizzata per fare un confronto con \tabu in modo da valutare la bontà delle soluzione trovate da tale metaeuristica.
+Il costo medio per le istanze casuali non è molto significativo in quanto il simplesso è un algoritmo esatto e ogni istanza è diversa dall'altra, di conseguenza il costo esatto delle rispettive soluzioni è diverso.
+Tale media verrà però utilizzata per fare un confronto con \tabu in modo da valutare la bontà delle soluzioni trovate da tale metaeuristica.
 
 \begin{figure}[htb]
 	\centering
@@ -126,21 +126,20 @@ L'unico aspetto da sottolineare è la deviazione standard molto alta sulle istan
 \end{figure}
 
 Infine ho deciso di riportare un grafico completo di tutti i risultati ottenuti, questo è visibile in figura \ref{fig:all cplex}.
-È possibile vedere come con ogni tipologia di istanza, tranne quelle circolari, a parità di numero di nodi e quindi di complessità del problema, le prestazioni del programma sono simili.
+È possibile vedere come con ogni tipologia di istanza, tranne quelle circolari, a parità di numero di nodi e quindi di complessità del problema, le prestazioni del programma siano simili.
 
 È presente solo un leggero aumento nei tempi per quanto riguarda le istanze a $2$ cluster: esse infatti sono costruite utilizzando due quarti opposti della griglia, creando quindi maggiori difficoltà nella risoluzione in quanto i nodi si trovano in due zone distanti e separate fra loro.
 Nei casi con $3$ e $4$ cluster invece la griglia ha una quantità di nodi maggiori ed è meno evidente la separazione tra gli stessi cluster.
 
-Nella tabella \ref{tab:cluster} in apendice \ref{sec:tabelle} sono riportati i tempi medi e i costi medi per la risoluzione delle istanze cluster.
+Nella tabella \ref{tab:cluster} in appendice \ref{sec:tabelle} sono riportati i tempi medi e i costi medi per la risoluzione delle istanze cluster.
 
 \subsection{Tabu Search}
 
-Ho scelto di utilizzare la metaeuristica \tabu per risolvere solo alcuni dei problemi generati precedentemente: mi sono concentrato infatti sui istanze generate casualmente.
-In quanto la mia implementazione presenta una generazione della soluzione di partenza randomizzata ho risolto $10$ volte ogni istanza in modo da avere dati statistici apprezzabili.
+Ho scelto di utilizzare la metaeuristica \tabu per risolvere solo alcuni dei problemi generati precedentemente: mi sono concentrato infatti sulle istanze generate casualmente; dal momento che la mia implementazione presenta una generazione della soluzione di partenza randomizzata, ho risolto $10$ volte ogni istanza in modo da avere dati statistici apprezzabili.
 
 La \tabu ha un parametro chiamato \emph{tabu tenure} che permette di determinare la lunghezza della \emph{tabu list} determinando quindi, quando settato in modo appropriato, un miglioramento per quanto riguarda il valore della soluzione trovata, che dovrebbe avvicinarsi maggiormente al valore esatto calcolato da \acronimo{cplex}.
 
-Il modo migliore per testare questa caratteristica mi è sembrato quello di effettuare al risoluzione delle istanze con diversi valori e riportarle su grafico in modo da capire i miglioramenti ottenuti.
+Il modo migliore per testare questa caratteristica mi è sembrato quello di effettuare la risoluzione delle istanze con diversi valori e riportarle su grafico in modo da capire i miglioramenti ottenuti.
 Ho scelto di provare i valori di \emph{tabu tenure} tra $4$ e $8$, dato che erano i valori suggeriti per la dimensione dei problemi che ho usato.
 
 \begin{figure}[htb]
@@ -162,4 +161,4 @@ Inoltre le prestazioni non cambiano con diversi valori di \emph{tabu tenure} com
 
 In figura \ref{fig:all costi tabu}, invece, troviamo il grafico relativo alle medie dei costi delle soluzioni che sono state trovate: si può notare che al crescere del numero dei nodi si intravede un miglioramento con valori di \emph{tabu tenure} più alti, mentre con istanze di piccole dimensioni le differenze sono praticamente nulle.
 
-Per avere un idea precisa dei valori trovati si rimanda ai grafici in figura \ref{fig:tempi tabu} relativi ai tempi, a quelli in figura \ref{fig:costi tabu} relativi ai costi posti in appendice \ref{sec:grafici} e alla tabella \ref{tab:tabu} posta in appendice \ref{sec:tabelle} che riporta tutti i risultati ottenuti.
+Per avere un'idea precisa dei valori trovati si rimanda ai grafici in figura \ref{fig:tempi tabu} relativi ai tempi, a quelli in figura \ref{fig:costi tabu} relativi ai costi posti in appendice \ref{sec:grafici} e alla tabella \ref{tab:tabu} posta in appendice \ref{sec:tabelle} che riporta tutti i risultati ottenuti.

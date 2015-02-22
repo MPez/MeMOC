@@ -5,7 +5,7 @@ Lo sviluppo del codice è stato diviso in due fasi distinte, la prima ha riguard
 Vengono quindi descritte prima le parti principali delle implementazioni degli algoritmi usati; in seguito verranno descritti gli script di utilità creati a supporto dei programmi veri e propri.
 
 \subsection{Cplex}
-Per la realizzazione della prima esercitazione, e quindi dell'implementazione del modello fornito mediante le \acronimo{api} di \acronimo{cplex} è stata mantenuta la struttura del codice fornita durante i laboratori con l'aggiunta di una classe: 
+Per la realizzazione della prima esercitazione, e quindi dell'implementazione del modello fornito mediante le \acronimo{api} di \acronimo{cplex} è stata mantenuta la struttura del codice fornita durante i laboratori, con l'aggiunta di una classe: 
 
 \begin{description}
 	\item[\textsc{Pannello}]: classe progettata per rappresentare un'istanza del problema, possiede quindi attributi che indicano il numero di nodi, la matrice dei costi e l'identificativo di ogni nodo;
@@ -13,11 +13,11 @@ Per la realizzazione della prima esercitazione, e quindi dell'implementazione de
 		\item[\textsc{readFile}]: metodo che consente di leggere il file di input e di inizializzare gli attributi dell'oggetto;
 	\end{description}
 	\item[\textsc{main}]: metodo principale che inizializza \acronimo{cplex} preparando l'ambiente, calcola i tempi di esecuzione e scrive i risultati ottenuti su file;
-	\item[\textsc{setupLP}]: metodo che implementa il modello matematico del problema; vengono definite prima le variabili presenti e, in seguit, vengono inseriti i vincoli in modo da permettere all'ottimizzatore di risolvere il problema.
+	\item[\textsc{setupLP}]: metodo che implementa il modello di programmazione matematica del problema; vengono definite prima le variabili presenti e, in seguito, vengono inseriti i vincoli in modo da permettere all'ottimizzatore di risolvere il problema.
 \end{description}
 
 \subsection{Tabu Search}
-L'implementazione della \tabu ha richiesto una fase di progettazione iniziale dove ho definito classi e metodi da utilizzare, ho cercato di sviluppare un codice il più possibile modulare; ne è scaturita la seguente struttura che per semplicità espositiva non scenderà nei minimi dettagli in quanto il codice allegato è molto documentato:
+L'implementazione della \tabu ha richiesto una fase di progettazione iniziale dove ho definito classi e metodi da utilizzare, ho cercato di sviluppare un codice il più possibile modulare; ne è scaturita la seguente struttura che per semplicità espositiva non scenderà nei minimi dettagli in quanto il codice allegato è ben documentato:
 
 \begin{description}
 	\item[\textsc{Istanza}]: classe che rappresenta un'istanza del problema, possiede come attributi la matrice dei costi e il numero di nodi del problema;
@@ -26,7 +26,7 @@ L'implementazione della \tabu ha richiesto una fase di progettazione iniziale do
 		\item[\textsc{maxCosto}]: metodo che calcola il costo massimo tra due nodi;
 		\item[\textsc{minCosto}]: metodo che cerca i due nodi tra i quali inserire a costo minimo un terzo nodo;
 	\end{description}
-	\item[\textsc{Soluzione}]: classe che rappresenta la soluzione al problema e viene utilizzata la \emph{path representation}, ovvero un vettore con la sequenza di nodi che costituiscono il ciclo di costo minimo.
+	\item[\textsc{Soluzione}]: classe che rappresenta la soluzione al problema utilizzando la \emph{path representation}, ovvero un vettore con la sequenza di nodi che costituiscono il ciclo di costo minimo.
 	\begin{description}
 		\item[\textsc{shuffleCosto}]: metodo usato per ottenere una soluzione di partenza casuale;
 		\item[\textsc{invertiSequenza}]: metodo usato per invertire una sottosequenza della soluzione compresa tra due nodi;
@@ -57,9 +57,9 @@ L'implementazione della metaeuristica \tabu, e della ricerca locale di cui fa us
 
 Io ho scelto di adottare la \emph{path representation}, come suggerito dalle dispense, un vicinato \emph{2-opt} che consente di avere un vicino per ogni coppia di nodi $i, j$ tali che $i$ precede $j$ nella sequenza centro del vicinato.
 
-Ho scelto di adottare come strategia di esplorazione la \emph{steepest descent} adottando però due varianti diverse, in un caso viene scelto il vicino migliore, nell'altro viene scelto casualmente un vicino tra i migliori trovati.
+Ho scelto, inoltre, di adottare come strategia di esplorazione la \emph{steepest descent} utilizzando però due varianti diverse, in un caso viene scelto il vicino migliore, nell'altro viene scelto casualmente un vicino tra i migliori trovati.
 
-Anche per quanto riguarda la soluzione di partenza ho adottato due tecniche diverse, la prima è la \emph{Farthest Insertion} che crea il ciclo iniziale inserendo i nodi più distanti e continua cercando il nodo più lontano tra quelli non ancora inseriti, inserendolo tra due nodi consecutivi per cui è minimo il costo di inserimento.
+Anche per quanto riguarda la soluzione di partenza ho adottato due tecniche diverse, la prima è la \emph{Farthest Insertion} che crea il ciclo iniziale inserendo i nodi più distanti e continua cercando il nodo più lontano tra quelli non ancora inseriti, aggiungendolo tra due nodi consecutivi per cui è minimo il costo di inserimento.
 
 La condizione di terminazione che ho scelto è basata sul numero massimo di iterazioni dell'algoritmo e non ho implementato alcun criterio di aspirazione in quanto da alcune prove iniziali non mi è sembrato portasse benefici alla mia implementazione.
 
@@ -81,9 +81,9 @@ Lo script \script{generator.py} è stato creato per agevolare la generazione di 
 \end{description}
 
 \subsubsection{statistic.py}
-Lo script \script{statistic.py} è stato creato per effettuare l'analisi dei dati ottenuti mediante l'esecuzione dei metodi di risoluzione producendo poi le medie e le devdiazioni standard per disegnare i grafici.
+Lo script \script{statistic.py} è stato creato per effettuare l'analisi dei dati ottenuti mediante l'esecuzione dei metodi di risoluzione producendo poi le medie e le deviazioni standard per disegnare i grafici.
 
-Lo script possiede un unica classe che si occupa di svolgere tutto il lavoro:
+Lo script possiede un'unica classe che si occupa di svolgere tutto il lavoro:
 \begin{description}
 	\item[\textsc{Data}]: classe che che legge i risultati, calcola le statistiche sugli stessi e scrive i dati su file;
 	\begin{description}
@@ -93,7 +93,7 @@ Lo script possiede un unica classe che si occupa di svolgere tutto il lavoro:
 \end{description}
 
 \subsection{Script \emph{Gnuplot}}
-Per la stampa dei grafici riguardanti tempi di risoluzione e costi con i relativi confronti tra algoritmi, è stato creato uno script chiamato \script{plot.gnuplot} che ha il compito di produrre i file in formato \acronimo{pdf} che verranno poi aggiunti a questa relazione.
+Per la stampa dei grafici riguardanti i tempi di risoluzione e i costi con i relativi confronti tra algoritmi, è stato creato uno script chiamato \script{plot.gnuplot} che ha il compito di produrre i file in formato \acronimo{pdf} che verranno poi aggiunti a questa relazione.
 
 \subsection{Script \emph{Bash}}
 \label{sec:bash}
