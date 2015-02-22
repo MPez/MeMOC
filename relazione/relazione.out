@@ -16,3 +16,9 @@
 \BOOKMARK [2][-]{subsection.5.1}{cplex}{section.5}% 16
 \BOOKMARK [2][-]{subsection.5.2}{Tabu Search}{section.5}% 17
 \BOOKMARK [1][-]{section.6}{Conclusioni}{}% 18
+\BOOKMARK [1][-]{appendix.Alph1}{Grafici}{}% 19
+\BOOKMARK [2][-]{subsection.Alph1.1}{Tempi di risoluzione per Tabu Search}{appendix.Alph1}% 20
+\BOOKMARK [2][-]{subsection.Alph1.2}{Costi delle soluzioni con Tabu Search}{appendix.Alph1}% 21
+\BOOKMARK [1][-]{appendix.Alph2}{Tabelle}{}% 22
+\BOOKMARK [2][-]{subsection.Alph2.1}{Statistiche istanze cluster risolte con cplex}{appendix.Alph2}% 23
+\BOOKMARK [2][-]{subsection.Alph2.2}{Statistiche istanze casuali risolte con Tabu Search}{appendix.Alph2}% 24

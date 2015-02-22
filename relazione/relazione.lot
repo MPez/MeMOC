@@ -2,5 +2,5 @@
 \select@language {italian}
 \contentsline {table}{\numberline {1}{\ignorespaces Tempi e costi istanze casuali - \uppercase {cplex}\xspace \relax }}{11}{table.caption.6}
 \contentsline {table}{\numberline {2}{\ignorespaces Tempi e costi istanze circolari - \uppercase {cplex}\xspace \relax }}{12}{table.caption.7}
-\contentsline {table}{\numberline {3}{\ignorespaces Tempi e costi istanze cluster - \uppercase {cplex}\xspace \relax }}{14}{table.caption.10}
-\contentsline {table}{\numberline {4}{\ignorespaces Tempi e costi istanze casuali - \textit {Tabu Search}\xspace \relax }}{18}{table.caption.15}
+\contentsline {table}{\numberline {3}{\ignorespaces Tempi e costi istanze cluster - \uppercase {cplex}\xspace \relax }}{19}{table.caption.16}
+\contentsline {table}{\numberline {4}{\ignorespaces Tempi e costi istanze casuali - \textit {Tabu Search}\xspace \relax }}{20}{table.caption.17}

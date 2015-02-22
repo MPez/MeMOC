@@ -100,6 +100,11 @@ plot \
     "results/TABUplot_results.txt" every ::30::39 using 1:2:3 with yerrorlines title "Istanze casuali TABU 7", \
     "results/TABUplot_results.txt" every ::40::49 using 1:2:3 with yerrorlines title "Istanze casuali TABU 8"
 
+set output "results/cplex_tabu_tempo.pdf"
+plot \
+    "results/TABUplot_results.txt" every ::40::49 using 1:2:3 with yerrorlines title "Istanze casuali TABU 8", \
+    "results/CPXplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "Istanze casuali CPX"
+
 set ylabel "Costo"
 unset logscale y
 
@@ -110,3 +115,9 @@ plot \
     "results/TABUplot_results.txt" every ::20::29 using 1:4:5 with yerrorlines title "Istanze casuali TABU 6", \
     "results/TABUplot_results.txt" every ::30::39 using 1:4:5 with yerrorlines title "Istanze casuali TABU 7", \
     "results/TABUplot_results.txt" every ::40::49 using 1:4:5 with yerrorlines title "Istanze casuali TABU 8"
+
+
+set output "results/cplex_tabu_costo.pdf"
+plot \
+    "results/TABUplot_results.txt" every ::40::49 using 1:4:5 with yerrorlines title "Istanze casuali TABU 8", \
+    "results/CPXplot_results.txt" every ::0::9 using 1:4 with linespoints title "Istanze casuali CPX"

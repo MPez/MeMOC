@@ -1,2 +1,23 @@
 %\clearpage
 \section{Conclusioni}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.85\textwidth]{immagini/cplex_tabu_tempo.pdf}
+	\caption{Tempi istanze casuali - \acronimo{cplex} vs. \tabu}
+	\label{fig:tempi cplex tabu}
+\end{figure}
+
+In figura \ref{fig:tempi cplex tabu} si può vedere come i tempi di calcolo dell'euristica \tabu siano migliori di almeno due unità di grandezza rispetto a quelli trovati con \acronimo{cplex}: questo giustifica la perdita di precisione sui valori delle soluzioni trovati, come si evince in figura \ref{fig:costi cplex tabu}, soprattutto in contesti dove sia critico il tempo di calcolo e non sia così importante la soluzione esatta del problema.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.85\textwidth]{immagini/cplex_tabu_costo.pdf}
+	\caption{Costi istanze casuali - \acronimo{cplex} vs. \tabu}
+	\label{fig:costi cplex tabu}
+\end{figure}
+
+In conclusione posso dire che le mie implementazioni degli algoritmi si comportano come atteso, sia in termini prestazionali che in termini di precisione della soluzione.
+
+La mia versione della \tabu risulta essere leggermente più lenta rispetto alla versione fornita durante i laboratori: questo fatto è dovuto al modo in cui calcolo il vicinato, per permettere la ricerca dei $k$ migliori vicini utilizzo un insieme di mosse ordinato per costo della soluzione, mantenere questa struttura ordinata ad ogni inserimento impatta sui tempi di risoluzione e provoca questo differenza di prestazioni.
+Resta comunque un peggioramento marginale e facilmente eliminabile nel caso sia necessario.
