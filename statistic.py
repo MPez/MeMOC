@@ -29,16 +29,16 @@ class Data():
             if len(nodi) == 0 or nodi[0] == int(nodo):
                 nodi.append(int(nodo))
                 tempi.append(float(tempo))
-                costi.append(float(costo))
+                costi.append(int(costo))
             # se una sola istanza per numero di nodi
             elif len(nodi) == 1:
                 self.circ_data.append([nodi.pop(), tempi.pop(), costi.pop()])
                 nodi.append(int(nodo))
                 tempi.append(float(tempo))
-                costi.append(float(costo))
+                costi.append(int(costo))
             # se cambia il numero di nodi
             else:
-                self.data_stat.append([nodi[0], mean(tempi), stdev(tempi)])
+                self.data_stat.append([nodi[0], mean(tempi), stdev(tempi), mean(costi)])
                 # pulisco le liste
                 nodi.clear()
                 tempi.clear()
@@ -46,12 +46,12 @@ class Data():
                 # inserisco nuovo elemento
                 nodi.append(int(nodo))
                 tempi.append(float(tempo))
-                costi.append(float(costo))
+                costi.append(int(costo))
         if len(nodi) == 1:
             self.circ_data.append([nodi.pop(), tempi.pop(), costi.pop()])
         else:
             self.data_stat.append(
-                [nodi[0], mean(tempi), stdev(tempi), costi[0]])
+                [nodi[0], mean(tempi), stdev(tempi), mean(costi)])
         f_in.close()
 
     def read_data_tabu(self, tabu_file):
@@ -69,7 +69,7 @@ class Data():
                 istanze.append(int(istanza))
                 nodi.append(int(nodo))
                 tempi.append(float(tempo))
-                costi.append(float(costo))
+                costi.append(int(costo))
                 tabu_tenure.append(int(tabu_ten))
             # se cambia istanza
             else:
@@ -85,7 +85,7 @@ class Data():
                 istanze.append(int(istanza))
                 nodi.append(int(nodo))
                 tempi.append(float(tempo))
-                costi.append(float(costo))
+                costi.append(int(costo))
                 tabu_tenure.append(int(tabu_ten))
         self.tabu_temp.append(
             [nodi[0], mean(tempi), mean(costi), tabu_tenure[0]])
@@ -95,7 +95,7 @@ class Data():
         costi.clear()
         tabu_tenure.clear()
         # seconda passata, medie su stesso numero di nodi
-        for nodo, media_tempi, media_costi,  tabu_ten in self.tabu_temp:
+        for nodo, media_tempi, media_costi, tabu_ten in self.tabu_temp:
             # se lista vuota o stesso numero di nodi
             if len(nodi) == 0 or nodi[0] == nodo:
                 nodi.append(nodo)
@@ -128,7 +128,7 @@ class Data():
         f_out.close()
         # stampa statistiche per circolari
         f_out = open(circ_file, "w")
-        for nodi, tempo in self.circ_data:
+        for nodi, tempo, costo in self.circ_data:
             f_out.write(str(nodi) + "\t" + str(tempo) + "\t" +
                         str(costo) + "\n")
         f_out.close()

@@ -121,7 +121,7 @@ risolvi_cplex() {
     fi
     for (( k = 1; k < i; k++ )); do
         instance=$ins_dir$ins_name$k$suff
-        ./main $instance $k
+        ./cplex $instance $k
     done
 }
 
@@ -134,7 +134,7 @@ risolvi_tabu() {
         for (( k = 1; k < T; k++ )); do
             for (( j = 0; j < 20; j++ )); do
                 instance=$ins_dir_tabu$ins_name$k$suff
-                ./main $instance $k $h $it
+                ./tabusearch $instance $k $h $it
             done
         done
     done

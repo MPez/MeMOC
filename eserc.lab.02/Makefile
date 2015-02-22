@@ -17,4 +17,4 @@ $(EXECUTABLE): $(OBJECTS)
 .PHONY: clean
 
 clean:
-	rm -rf $(OBJECTS) main
+	rm -rf $(OBJECTS) tabusearch
