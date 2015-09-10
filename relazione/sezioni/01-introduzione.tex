@@ -1,6 +1,13 @@
 \section{Introduzione}
-Con la presente relazione intendo descrivere in modo dettagliato il lavoro svolto per completare le esercitazioni dell'insegnamento \memoclong. In particolare descriverò come ho implementato il modello di programmazione matematica fornito per il problema della foratura di pannelli attraverso le \acronimo{api} di \acronimo{cplex}, come ho generato le istanze di prova per effettuare i test e illustrerò i risultati ottenuti tramite dei grafici esplicativi.
+Con la presente relazione intendo descrivere in modo dettagliato il lavoro svolto per completare le esercitazioni dell'insegnamento \memoclong.
 
-Per quanto riguarda la seconda esercitazione, ho deciso di implementare la metaeuristica \tabu in quanto mi è sembrato essere un metodo di risoluzione interessante da sviluppare. Per effettuare i test su questo algoritmo ho utilizzato gli stessi problemi generati per la prima parte, in modo da poter effettuare un confronto prestazionale coerente tra le due tecniche.
+Il problema proposto consiste nell'individuare la sequenza di foratura ottimale che minimizzi i tempi di produzione su dei pannelli forati prodotti da un'azienda metalmeccanica.
+Tale problema è rappresentabile mediante un grafo pesato completo in cui l'insieme di nodi e archi identificano rispettivamente i fori e il tragitto da percorrere per raggiungere la posizione di ogni foro: si tratta quindi di trovare il cammino di costo minore tale da visitare ogni nodo del grafo una volta sola.
 
-Ho quindi disegnato dei grafici per valutare la bontà della mia implementazione con diversi valori di \emph{tabu tenure} e confrontato poi i risultati ottenuti con quelli relativi all'implementazione con \acronimo{cplex}.
+Si deve quindi risolvere un problema del commesso viaggiatore (\acronimo{tsp}), modellato su di una rete di flusso in cui ogni nodo riceve una sola unità di flusso, viene visitato una e una sola volta e il costo del cammino sia minimo.
+Il modello di programmazione matematica è stato fornito come specifica ed è stato richiesto di implementare tale modello tramite l'utilizzo delle \acronimo{api} di \acronimo{cplex} e tramite un metodo a scelta dello studente tra quelli presentati a lezione.
+
+La mia scelta è caduta sulla metaeuristica \tabu: nel seguito descriverò come ho progettato e sviluppato tale algoritmo descrivendo il codice prodotto e gli strumenti che ho utilizzato.
+Dopo aver realizzato i due solutori ho effettuato dei test su alcune istanze di prova, generate in modo automatico e casuale, in modo da poter valutare la bontà delle implementazioni e la loro efficacia: i metodi usati sono stati esaminati singolarmente e poi confrontati per ottenere una comparativa sui risultati ottenuti.
+
+I risultati vengono riportati mediante grafici e tabelle in modo da consentire un raffronto visuale ma anche un'eventuale valutazione puntuale.

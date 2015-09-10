@@ -21,7 +21,7 @@ class Grid():
         self.instance = instance
         self.grid = [[None for col in range(y_dim)] for row in range(x_dim)]
         self._nodes = []
-        self._weigths = [[]]
+        self._weights = [[]]
 
     @property
     def nodes(self):
@@ -33,11 +33,11 @@ class Grid():
 
     @property
     def weigths(self):
-        return self._weigths
+        return self._weights
 
     @weigths.setter
     def weigths(self, dim):
-        self._weigths = [[0 for j in range(dim)] for i in range(dim)]
+        self._weights = [[0 for j in range(dim)] for i in range(dim)]
 
     def insert_node(self, nodo):
         """Inserisce un nodo nella griglia nella posizione corretta.
