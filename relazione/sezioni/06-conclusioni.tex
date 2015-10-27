@@ -8,12 +8,39 @@
 	\label{fig:tempi cplex tabu}
 \end{figure}
 
-In figura \ref{fig:tempi cplex tabu} si può vedere come i tempi di calcolo dell'euristica \tabu siano migliori di almeno due unità di grandezza rispetto a quelli ottenuti con \acronimo{cplex}: questo giustifica la perdita di precisione sui valori delle soluzioni trovati, come si evince in figura \ref{fig:costi cplex tabu}, soprattutto in contesti dove sia critico il tempo di calcolo e non sia così importante la soluzione esatta del problema.
+In figura \ref{fig:tempi cplex tabu} si può vedere come i tempi di calcolo dell'euristica \tabu siano migliori di almeno due unità di grandezza rispetto a quelli ottenuti con \acronimo{cplex}: questo giustifica la perdita di precisione sui valori delle soluzioni trovati, soprattutto in contesti dove sia critico il tempo di calcolo e non sia così importante la soluzione esatta del problema.
+
+Per confrontare l'efficacia dell'implementazione della \tabu rispetto a \acronimo{cplex} ho calcolato prima la media sulle ripetizioni delle istanze identiche e poi la media sulle istanze simili con lo stesso numero di nodi ottenendo i grafici in figura \ref{fig:costi cplex tabu}: si nota che il valore della soluzione ottenuta con la metaeuristica non si allontana troppo dal valore esatto, con un basso numero di nodi, il peggioramento, si attesta intorno al $2\%$ e cresce al crescere della loro quantità.
+Aumentando il valore di \emph{tabu tenure} si riesce però a mitigare la perdita di precisione recuperando circa l'$1\%$ e questo conferma la necessità di effettuare un'attenta calibrazione dei parametri con lo scopo di ottenere risultati migliori.
+In figura sono riportate anche le medie dei valori peggiori delle soluzioni che sono stati calcolati con l'algoritmo e indicano come in alcuni casi la \tabu non riesca ad avvicinarsi sufficientemente all'ottimo globale incappando probabilmente in qualche ottimo locale.
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=.85\textwidth]{immagini/cplex_tabu_costo.pdf}
-	\caption{Costi istanze casuali - \acronimo{cplex} vs. \tabu}
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/cplex_tabu4_compare.pdf}
+			\caption{Tabu tenure 4}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/cplex_tabu5_compare.pdf}
+			\caption{Tabu tenure 5}
+	\end{subfigure}
+	\\
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/cplex_tabu6_compare.pdf}
+			\caption{Tabu tenure 6}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/cplex_tabu7_compare.pdf}
+			\caption{Tabu tenure 7}
+	\end{subfigure}
+	\\
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/cplex_tabu8_compare.pdf}
+			\caption{Tabu tenure 8}
+	\end{subfigure}
+	\caption{Costi medi e massimi istanze casuali - \acronimo{cplex} vs \tabu}
 	\label{fig:costi cplex tabu}
 \end{figure}
 
