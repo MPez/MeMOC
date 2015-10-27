@@ -32,7 +32,7 @@ I punti di interesse sono quelli identificati dal simbolo presente nella legenda
 	\label{fig:casuali circolari cplex}
 \end{figure}
 
-In figura \ref{fig:casuali cplex} vediamo i risultati per le istanze casuali, esse seguono un andamento abbastanza regolare con il crescere del numero dei nodi: per istanze piccole il tempo di risoluzione è abbastanza rapido, ma sale molto velocemente, fino a oltre $200s$, con l'aumentare dei nodi.
+In figura \ref{fig:casuali cplex} vediamo i risultati per le istanze casuali, esse seguono un andamento esponenziale con il crescere del numero dei nodi: per istanze piccole il tempo di risoluzione è abbastanza rapido, ma sale molto velocemente, fino a oltre $200s$, con l'aumentare dei nodi.
 
 \begin{table}[htb]
 	\footnotesize
@@ -59,7 +59,7 @@ In figura \ref{fig:casuali cplex} vediamo i risultati per le istanze casuali, es
 \end{table}
 
 Per quanto riguarda le istanze circolari, vediamo in figura \ref{fig:circolari cplex} che i tempi sono molto più bassi rispetto alle istanze casuali: questo è dovuto alla semplicità intrinseca di queste istanze che sono quindi più facili da risolvere.
-Da notare come l'andamento del grafico non sia molto lineare: questo fatto probabilmente è dovuto al carico del processore al momento dell'esecuzione del test, che può non essere stato costante durante il periodo di prova.
+Da notare come l'andamento del grafico non sia molto regolare: questo fatto probabilmente è dovuto al carico del processore al momento dell'esecuzione del test, che può non essere stato costante durante il periodo di prova.
 
 \begin{table}[htb]
 	\footnotesize

@@ -2,7 +2,7 @@
  * @author 	Marco Pezzutti - 1084411
  * @file 	eserc.lab.01.cpp
  * @brief 	Esercitazione di laboratorio 1
- * @date 	gennaio 2014
+ * @date 	gennaio 2015
  */
 
 #include <cstdio>

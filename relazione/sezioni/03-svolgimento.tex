@@ -7,27 +7,40 @@ Per ragioni di semplicità espositiva non verranno analizzati in dettaglio ogni 
 Vengono quindi descritte prima le parti principali delle implementazioni degli algoritmi usati; in seguito verranno descritti gli script di utilità creati a supporto dei programmi veri e propri.
 
 \subsection{Cplex}
+Per la risoluzione del problema ho deciso di adottare il modello di \acronimo{tsp} asimmetrico trasformando il grafo del problema, che per natura sarebbe non orientato, in un grafo orientato, utilizzando due archi con lo stesso peso per ogni spigolo.
+
+Inizialmente ho definito delle variabili intere \eqref{eqn:intere} che rappresentano le unità di flusso trasportate tra due nodi diversi e delle variabili binarie \eqref{eqn:binarie} che identificano l'utilizzo o meno di un arco nella soluzione.
+Ho quindi inserito il vincolo di flusso sul nodo di partenza \eqref{eqn:sorgente} e i vincoli di bilanciamento di flusso sui restanti nodi \eqref{eqn:flusso}, i quali indicano che la quantità di flusso entrante deve corrispondere a quella uscente, due serie di vincoli che indicano che deve esistere un solo arco uscente \eqref{eqn:uscente} ed un solo arco entrante \eqref{eqn:entrante} per nodo e infine i vincoli che mettono in relazione le variabili del problema \eqref{eqn:relazione}.
+
 Per la realizzazione della prima esercitazione, e quindi dell'implementazione del modello di programmazione mediante le \acronimo{api} di \acronimo{cplex}, è stata mantenuta la struttura del codice fornita durante i laboratori, con l'aggiunta di una classe.
-I file coinvolti sono \script{pannello.h}, \script{pannello.cpp} che riguardano la nuova classe aggiunta, \script{cpxmacro.h} che riguarda delle macro utili al funzionamento di \acronimo{cplex} e \script{main.cpp}:
+I file coinvolti sono \script{pannello.h} e \script{pannello.cpp} che rappresentano la nuova classe, \script{cpxmacro.h} che contiene delle macro utili al funzionamento di \acronimo{cplex} e \script{main.cpp}:
 
 \begin{description}
 	\item[\textsc{Pannello}]: classe progettata per rappresentare un'istanza del problema, possiede infatti attributi che indicano il numero di nodi, la matrice dei costi e l'identificativo di ogni nodo;
 	\begin{description}
 		\item[\textsc{readFile}]: metodo che consente di leggere il file di input, che contiene i valori relativi all'istanza generata, e di inizializzare gli attributi dell'oggetto;
 	\end{description}
-	\item[\textsc{main}]: metodo principale che inizializza \acronimo{cplex} preparando l'ambiente, che calcola i tempi di esecuzione e scrive i risultati ottenuti su file;
+	\item[\textsc{main}]: metodo principale che inizializza \acronimo{cplex} preparando l'ambiente, calcola i tempi di esecuzione e scrive i risultati ottenuti su file;
 	\item[\textsc{setupLP}]: metodo che implementa il modello di programmazione matematica del problema; vengono definite prima le variabili presenti e, in seguito, vengono inseriti i vincoli in modo da permettere all'ottimizzatore di risolvere il problema.
 \end{description}
-
-Per la risoluzione del problema ho deciso di adottare il modello di \acronimo{tsp} asimmetrico trasformando il grafo del problema, che per natura sarebbe non orientato, in un grafo orientato, utilizzando due archi con lo stesso peso per ogni spigolo.
-
-Inizialmente ho definito delle variabili intere che rappresentano le unità di flusso trasportate tra due nodi diversi e delle variabili binarie che identificano l'utilizzo o meno di un arco nella soluzione.
-Ho quindi inserito il vincolo di flusso sul nodo di partenza, i vincoli di bilanciamento di flusso sui restanti nodi, i quali indicano che la quantità di flusso entrante deve corrispondere a quella uscente, due serie di vincoli che indicano che deve esistere un solo arco uscente ed un solo arco entrante per nodo e infine i vincoli che mettono in relazione le variabili del problema.
 
 \subsection{Tabu Search}
 La \tabu è un metodo basato sulla ricerca locale in grado di superare il limite dei minimi locali sfruttando meccanismi di memoria: con tale metodo si cerca di sfruttare la struttura dello spazio di ricerca memorizzando alcune informazioni sulle soluzioni già visitate in modo da orientare la ricerca ed evitare di incappare in cicli.
 
 Per raggiungere l'obiettivo la metaerusitica fa uso di una \emph{tabu list}: struttura dati dove vengono salvate le ultime mosse effettuate; una mossa identifica i cambiamenti apportati alla soluzione corrente per giungere alla prossima soluzione esplorata.
+La \emph{tabu list} ha una lunghezza variabile che necessita di essere tarata per ottenere i risultati migliori, il parametro che permette di modificare tale lunghezza viene chiamato \emph{tabu tenure}.
+
+Essendo un metodo di ricerca generico, la \tabu richiede di essere specializzata per risolvere uno specifico problema.
+Di seguito vengono elencate le componenti del metodo che necessitano di questa specializzazione:
+
+\begin{description}
+\item[\textsc{Soluzione}]: la rappresentazione della soluzione avviene tramite \emph{path representation}, ho quindi usato un vettore che indica in modo sequenziale l'ordine dei nodi nel ciclo hamiltoniano;
+\item[\textsc{Vicinato}]: ho scelto di utilizzare un vicinato \emph{2-opt} che consente di avere un vicino per ogni coppia di nodi $i, j$ tali che $i$ precede $j$ nella sequenza centro;
+\item[\textsc{Mosse}]: le mosse sono implementate salvando al contrario gli indici dei due nodi scambiati, in modo da impedire di tornare ad una soluzione appena visitata;
+\item[\textsc{Strategia esplorazione}]: ho scelto di adottare come strategia di esplorazione la \emph{steepest descent} utilizzando però due varianti diverse, in un caso viene scelto il vicino migliore, nell'altro viene scelto casualmente un vicino tra i migliori $k$ trovati;
+\item[\textsc{Soluzione di partenza}]: ho adottato due tecniche diverse, la prima è la \emph{Farthest Insertion} che crea il ciclo iniziale inserendo i nodi più distanti e continua cercando il nodo più lontano tra quelli non ancora inseriti, aggiungendolo tra due nodi consecutivi per cui è minimo il costo di inserimento; la seconda, invece, crea una soluzione casuale usando l'algoritmo \emph{Fisher-Yates shuffle}\footnote{\url{https://en.wikipedia.org/wiki/Fisher\%E2\%80\%93Yates_shuffle}};
+\item[\textsc{Condizione di terminazione}]: è basata sul numero massimo di iterazioni dell'algoritmo.
+\end{description}
 
 L'implementazione della \tabu ha richiesto una fase di progettazione iniziale dove ho definito classi e metodi da utilizzare, ho cercato di sviluppare un codice il più possibile modulare; ne è scaturita la seguente struttura che per semplicità espositiva non scenderà nei minimi dettagli in quanto il codice allegato è ben documentato:
 
@@ -65,27 +78,9 @@ L'implementazione della \tabu ha richiesto una fase di progettazione iniziale do
 	\end{description}
 \end{description}
 
-Essendo un metodo di ricerca generico, la \tabu richiede di essere specializzata per risolvere uno specifico problema.
-Di seguito vengono elencate le componenti del metodo che necessitano di questa specializzazione:
 
-\begin{description}
-\item[\textsc{Soluzione}]:
-\item[\textsc{Vicinato}]:
-\item[\textsc{Mosse}]:
-\item[\textsc{Strategia esplorazione}]:
-\item[\textsc{Soluzione di partenza}]:
-\item[\textsc{Condizioni di terminazione}]:
-\end{description}
 
-L'implementazione della metaeuristica \tabu, e della ricerca locale di cui fa uso, richiede di effettuare alcune scelte su come rappresentare la soluzione e di conseguenza la definizione del vicinato e delle mosse per spostarsi al suo interno. È necessario inoltre scegliere la strategia di esplorazione dei vicini, la determinazione della soluzione di partenza e le condizioni di terminazione.
 
-Io ho scelto di adottare la \emph{path representation}, come suggerito dalle dispense, un vicinato \emph{2-opt} che consente di avere un vicino per ogni coppia di nodi $i, j$ tali che $i$ precede $j$ nella sequenza centro del vicinato.
-
-Ho scelto, inoltre, di adottare come strategia di esplorazione la \emph{steepest descent} utilizzando però due varianti diverse, in un caso viene scelto il vicino migliore, nell'altro viene scelto casualmente un vicino tra i migliori trovati.
-
-Anche per quanto riguarda la soluzione di partenza ho adottato due tecniche diverse, la prima è la \emph{Farthest Insertion} che crea il ciclo iniziale inserendo i nodi più distanti e continua cercando il nodo più lontano tra quelli non ancora inseriti, aggiungendolo tra due nodi consecutivi per cui è minimo il costo di inserimento.
-
-La condizione di terminazione che ho scelto è basata sul numero massimo di iterazioni dell'algoritmo e non ho implementato alcun criterio di aspirazione in quanto da alcune prove iniziali non mi è sembrato portasse benefici alla mia implementazione.
 
 \subsection{Script \emph{Python}}
 \subsubsection{generator.py}

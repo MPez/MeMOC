@@ -1,5 +1,13 @@
 %\clearpage
 \section{Esecuzione}
+Per valutare e confrontare l'efficienza dei due metodi in modo significativo è necessario avere una considerevole quantità di dati, questo implica il dover generare e risolvere molte istanze diverse.
+
+Per questo motivo ho deciso di creare tre diversi tipi di problemi: istanze con distribuzione di nodi casuale all'interno della griglia, con una disposizione a cluster, suddividendo la griglia in quarti e concentrando la disposizione dei nodi prima su un quarto, poi su due, tre e quattro cluster in modo da capire se ci sono differenze a parità di densità di nodi: ho utilizzato infatti come valore per creare i nodi la densità in funzione delle dimensioni della griglia, o del cluster.
+
+Come ultima tipologia di istanza ho usato quella circolare che, su una griglia con nodi equispaziati, equivale ad un quadrato con i vertici in direzione degli assi dei lati della griglia stessa.
+
+Visto che la distribuzione dei nodi all'interno della griglia avviene in modo casuale sui problemi \emph{casuali} e su quelli \emph{cluster}, ho deciso di creare più problemi simili, cioè con lo stesso numero di nodi, per tipo; il numero di problemi è impostabile tramite l'argomento \texttt{arg} delle opzioni dello script; inoltre per creare istanze con un numero di nodi crescente utilizzo un paramentro \texttt{dens}, che rappresenta la densità dei nodi, che viene incrementato durante la generazione delle istanze.
+
 L'esecuzione del programma è gestita mediante lo script \emph{bash} chiamato \script{eserc\_lab.sh}; tale script è stato dotato di diverse opzioni che permettono di eseguire il programma con diverse modalità richiamabili tramite gli appositi flag:
 
 \begin{description}
@@ -12,14 +20,6 @@ L'esecuzione del programma è gestita mediante lo script \emph{bash} chiamato \s
 	\item[\texttt{-s}]: modalità \modo{statistiche}, richiama lo script \script{statistic.py} per elaborare i risultati ottenuti e generare i file di input per \emph{gnuplot};
 	\item[\texttt{-t arg}]: modalità \modo{tabu search}, richiama il programma \script{tabusearch} per risolvere i problemi generati; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere.
 \end{description}
-
-Per valutare e confrontare l'efficienza dei due metodi in modo significativo è necessario avere una considerevole quantità di dati, questo implica il dover generare e risolvere molte istanze diverse.
-
-Per questo motivo ho deciso di creare tre diversi tipi di problemi: istanze con distribuzione di nodi casuale all'interno della griglia, con una disposizione a cluster, suddividendo la griglia in quarti e concentrando la disposizione dei nodi prima su un quarto, poi su due, tre e quattro cluster in modo da capire se ci sono differenze a parità di densità di nodi: ho utilizzato infatti come valore per creare i nodi la densità in funzione delle dimensioni della griglia, o del cluster.
-
-Come ultima tipologia di istanza ho usato quella circolare che, su una griglia con nodi equispaziati, equivale ad un quadrato con i vertici in direzione degli assi dei lati della griglia stessa.
-
-Visto che la distribuzione dei nodi all'interno della griglia avviene in modo casuale sui problemi \emph{casuali} e su quelli \emph{cluster}, ho deciso di creare più problemi simili, cioè con lo stesso numero di nodi, per tipo; il numero di problemi è impostabile tramite l'argomento \texttt{arg} delle opzioni dello script; inoltre per creare istanze con un numero di nodi crescente utilizzo un paramentro \texttt{dens}, che rappresenta la densità dei nodi, che viene incrementato durante la generazione delle istanze.
 
 \subsection{Struttura cartelle}
 Affinché l'esecuzione dei programmi non provochi errori è necessario che la struttura di file sia coerente con quella usata nell'ambiente di sviluppo; insieme alla presente relazione viene fornito un archivio contenente tutti i file sviluppati necessari al funzionamento, tralasciando, ovviamente, quelli che verranno creati dagli stessi programmi.
@@ -37,5 +37,5 @@ Le cartelle tratteggiate sono quelle che conterranno i file creati dai programmi
 Nella cartella \emph{results} verranno salvati i file relativi ai risultati ottenuti dalle risoluzioni dei problemi e i \acronimo{pdf} con i grafici; nella cartella \emph{solutions} ci saranno le soluzioni ai problemi generate dal programma \script{cplex}.
 
 \subsection{Compilazione}
-Una volta aperto l'archivio contenente il codice sorgente ed essersi assicurati che siano installati e presenti nella variabile di sistema \comando{path} le librerie e i software descritti nella sezione \ref{sec:ambiente} e, prima di eseguire il programma tramite script \emph{bash}, è necessario procedere alla compilazione del codice \acronimo{c$++$}: per fare questo è sufficiente digitare ed eseguire il comando \script{make} all'interno della cartella radice del progetto, per compilare \script{cplex}, ed eseguire nuovamente il comando \script{make} all'interno della cartella \script{eserc.lab.02} per compilare \script{tabusearch}.
+Una volta aperto l'archivio contenente il codice sorgente ed essersi assicurati che siano installati e presenti nella variabile di sistema \comando{path} le librerie e i software descritti nella sezione \ref{sec:ambiente} è necessario procedere alla compilazione del codice \acronimo{c$++$}, prima di eseguire il programma tramite script \emph{bash}: per fare questo è sufficiente digitare ed eseguire il comando \script{make} all'interno della cartella radice del progetto, per compilare \script{cplex}, ed eseguire nuovamente il comando \script{make} all'interno della cartella \script{eserc.lab.02} per compilare \script{tabusearch}.
 

@@ -121,3 +121,31 @@ set output "results/cplex_tabu_costo.pdf"
 plot \
     "results/TABUplot_results.txt" every ::40::49 using 1:4:5 with yerrorlines title "Istanze casuali TABU 8", \
     "results/CPXplot_results.txt" every ::0::9 using 1:4 with linespoints title "Istanze casuali CPX"
+
+
+set ylabel "Costo (%)"
+
+set output "results/cplex_tabu4_compare.pdf"
+plot \
+    "results/compare.txt" every ::0::9 using 1:2 with linespoints title "Istanze casuali TABU 4 - media", \
+    "results/compare.txt" every ::0::9 using 1:4 with linespoints title "Istanze casuali TABU 4 - max"
+
+set output "results/cplex_tabu5_compare.pdf"
+plot \
+    "results/compare.txt" every ::10::19 using 1:2 with linespoints title "Istanze casuali TABU 5 - media", \
+    "results/compare.txt" every ::10::19 using 1:4 with linespoints title "Istanze casuali TABU 5 - max"
+
+set output "results/cplex_tabu6_compare.pdf"
+plot \
+    "results/compare.txt" every ::20::29 using 1:2 with linespoints title "Istanze casuali TABU 6 - media", \
+    "results/compare.txt" every ::20::29 using 1:4 with linespoints title "Istanze casuali TABU 6 - max"
+
+set output "results/cplex_tabu7_compare.pdf"
+plot \
+    "results/compare.txt" every ::30::39 using 1:2 with linespoints title "Istanze casuali TABU 7 - media", \
+    "results/compare.txt" every ::30::39 using 1:4 with linespoints title "Istanze casuali TABU 7 - max"
+    
+set output "results/cplex_tabu8_compare.pdf"
+plot \
+    "results/compare.txt" every ::40::49 using 1:2 with linespoints title "Istanze casuali TABU 8 - media", \
+    "results/compare.txt" every ::40::49 using 1:4 with linespoints title "Istanze casuali TABU 8 - max"

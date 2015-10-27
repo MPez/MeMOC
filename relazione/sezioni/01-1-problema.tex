@@ -1,12 +1,12 @@
 \section{Descrizione del problema}
 Un'azienda metalmeccanica produce pannelli forati per la costruzione di quadri elettrici.
 Per la foratura si serve di un macchinario a controllo numerico dotato di una punta diamantata che, muovendosi sul pannello secondo una sequenza programmata, produce i fori nelle posizioni desiderate.
-L'obiettivo dell'azienda è quello di individuare la sequenza di foratura ottimale che minimizzi i tempi di produzione, tenendo conto che il tempo necessario per la foratura è lo stesso e costante per tutti i punti.
+L'obiettivo dell'azienda è quello di individuare la sequenza di foratura ottimale che minimizzi i tempi di produzione, tenendo conto che il tempo necessario per la foratura è lo stesso ed è costante per tutti i punti.
 
-Si chiede quindi di risolvere il problema attraverso due metodi diversi, il primo sfruttando \acronimo{cplex} per implementare il modello di programmazione lineare fornito, il secondo utilizzando una metaeuristica a scelta tra quelle proposte a lezione.
+Si chiede quindi di risolvere il problema attraverso due metodi diversi, il primo sfruttando \acronimo{cplex} per implementare il modello di programmazione lineare fornito, il secondo utilizzando una metaeuristica a scelta tra quelle proposte a lezione e di fornire un confronto prestazionale tra le due implementazioni dopo aver svolto dei test con delle istanze di prova.
 
 \subsection{Modello del problema}
-Il problema può essere rappresentato tramite un grafo pesato completo $G = (N, A)$ in cui $N$ è l'insieme dei nodi che corrispondono alle posizioni dei fori desiderati, $A$ è l'insieme degli archi $(i, j)$, $\forall\ i, j \in N$, che corrispondono al tragitto che la punta del macchinario percorre per spostarsi dalla posizione $i$ alla posizione $j$, e, a ciascun arco $(i, j) \in A$, è associato il peso $c_{ij}$ che indica il tempo impiegato dalla punta diamantata per effettuare lo spostamento corrispondente.
+Il problema può essere rappresentato tramite un grafo pesato completo $G = (N, A)$ in cui $N$ è l'insieme dei nodi che corrispondono alle posizioni dei fori desiderati, $A$ è l'insieme degli archi $(i, j)$, $\forall\ i, j \in N$, che corrispondono al tragitto che la punta del macchinario percorre per spostarsi dalla posizione $i$ alla posizione $j$; a ciascun arco $(i, j) \in A$, è associato il peso $c_{ij}$ che indica il tempo impiegato dalla punta diamantata per effettuare lo spostamento corrispondente.
 
 A partire dal grafo $G = (N, A)$, il problema può essere formulato come un problema di ottimizzazione su reti di flusso.
 L'idea è quella di spingere il flusso verso gli altri nodi in modo che ciascun nodo (eccetto il nodo di partenza) riceva una e una sola unità di flusso, ogni nodo sia visitato una e una sola volta e il costo del cammino, in termini di pesi $c_{ij}$, sia minimo.
@@ -34,13 +34,13 @@ Il problema può essere formalizzato con il seguente modello di programmazione l
 	\end{itemize}
 \item[\textsc{modello:}]
 	\begin{align}
-	min 	&\sum_{i,j:(i,j) \in A} c_{ij} y_{ij} \\
-	s.t. 	&\sum_{j:(0,j) \in A} x_{0j} 								& &= 		& &|N| \\
-			&\sum_{i:(i,k) \in A} x_{ik} - \sum_{j:(kj) \in A} x_{kj} 	& &= 		& & 1 			& &\forall\ k \in N \backslash {0} \\
-			&\sum_{j(i,j) \in A} y_{ij} 								& &= 		& & 1 			& &\forall\ i \in N \\
-			&\sum_{i(i,j) \in A} y_{ij} 								& &= 		& & 1 			& &\forall\ j \in N \\
-			& x_{ij} 													& & \leq 	& & |N| \cdot y_{ij} 	& &\forall\ (i,j) \in A \\
-			& x_{ij} \in \mathbb{Z_+}									& & 		& &				& &\forall\ (i,j) \in A \\
-			& y_{ij} \in \{0,1\}										& &			& &				& &\forall\ (i,j) \in A
+	min 	&\sum_{i,j:(i,j) \in A} c_{ij} y_{ij} \label{eqn:obiettivo}\\
+	s.t. 	&\sum_{j:(0,j) \in A} x_{0j} 								& &= 		& &|N| \label{eqn:sorgente}\\
+			&\sum_{i:(i,k) \in A} x_{ik} - \sum_{j:(k,j) \in A} x_{kj} 	& &= 		& & 1 			& &\forall\ k \in N \backslash \{0\} \label{eqn:flusso} \\
+			&\sum_{j:(i,j) \in A} y_{ij} 								& &= 		& & 1 			& &\forall\ i \in N \label{eqn:entrante} \\
+			&\sum_{i:(i,j) \in A} y_{ij} 								& &= 		& & 1 			& &\forall\ j \in N \label{eqn:uscente} \\
+			& x_{ij} 													& & \leq 	& & |N| \cdot y_{ij} 	& &\forall\ (i,j) \in A \label{eqn:relazione}\\
+			& x_{ij} \in \mathbb{Z_+}									& & 		& &				& &\forall\ (i,j) \in A \label{eqn:intere}\\
+			& y_{ij} \in \{0,1\}										& &			& &				& &\forall\ (i,j) \in A \label{eqn:binarie}
 	\end{align}
 \end{description}

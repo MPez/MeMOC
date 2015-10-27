@@ -17,6 +17,7 @@ class Data():
         self.circ_data = []
         self.tabu_temp = []
         self.tabu_stat = []
+        self.max_costo = []
 
     def read_data(self, data_file):
         nodi = []
@@ -50,8 +51,7 @@ class Data():
         if len(nodi) == 1:
             self.circ_data.append([nodi.pop(), tempi.pop(), costi.pop()])
         else:
-            self.data_stat.append(
-                [nodi[0], mean(tempi), stdev(tempi), mean(costi)])
+            self.data_stat.append([nodi[0], mean(tempi), stdev(tempi), mean(costi)])
         f_in.close()
 
     def read_data_tabu(self, tabu_file):
@@ -73,8 +73,7 @@ class Data():
                 tabu_tenure.append(int(tabu_ten))
             # se cambia istanza
             else:
-                self.tabu_temp.append(
-                    [nodi[0], mean(tempi), mean(costi), tabu_tenure[0]])
+                self.tabu_temp.append([nodi[0], mean(tempi), mean(costi), tabu_tenure[0]])
                 # pulisco le liste
                 istanze.clear()
                 nodi.clear()
@@ -101,10 +100,10 @@ class Data():
                 nodi.append(nodo)
                 tempi.append(media_tempi)
                 costi.append(media_costi)
+                self.update_max_costo(int(media_costi), int(nodo), int(tabu_ten))
                 tabu_tenure.append(tabu_ten)
             else:
-                self.tabu_stat.append(
-                    [nodi[0], mean(tempi), stdev(tempi), mean(costi), stdev(costi), tabu_tenure[0]])
+                self.tabu_stat.append([nodi[0], mean(tempi), stdev(tempi), mean(costi), stdev(costi), tabu_tenure[0]])
                 # pulisco le liste
                 nodi.clear()
                 tempi.clear()
@@ -114,10 +113,18 @@ class Data():
                 nodi.append(nodo)
                 tempi.append(media_tempi)
                 costi.append(media_costi)
+                self.update_max_costo(int(media_costi), int(nodo), int(tabu_ten))
                 tabu_tenure.append(tabu_ten)
-        self.tabu_stat.append(
-            [nodi[0], mean(tempi), stdev(tempi), mean(costi), stdev(costi), tabu_tenure[0]])
+        self.tabu_stat.append([nodi[0], mean(tempi), stdev(tempi), mean(costi), stdev(costi), tabu_tenure[0]])
         f_in.close()
+
+    def update_max_costo(self, costo, nodi, tenure):
+        if (nodi, tenure) not in [(nodo, ten) for nodo, cost, ten in self.max_costo]:
+                self.max_costo.append([nodi, costo, tenure])
+        else:
+            for n, c, t in self.max_costo:
+                if n == nodi and t == tenure:
+                    self.max_costo[self.max_costo.index([n, c, t])][1] = max(c, costo)
 
     def write_data(self, stat_file, circ_file):
         # stampa statistiche per casuali e cluster
@@ -142,6 +149,36 @@ class Data():
                         str(tabu_ten) + "\n")
         f_out.close()
 
+    def compare(self, stat_file, tabu_stat_file, compare_file):
+        cplex_in = open(stat_file, "r")
+        tabu_in = open(tabu_stat_file, "r")
+        comp_out = open(compare_file, "w")
+        cplex_cost = []
+        tabu_cost = []
+        for line in cplex_in:
+            nodi, tempo, dev, costo = line.split()
+            cplex_cost.append([nodi, float(costo)])
+        for line in tabu_in:
+            nodi, media_tempo, dev_tempo, media_costo, dev_costo, tabu_ten = line.split()
+            tabu_cost.append([nodi, float(media_costo), tabu_ten])
+        i = 0
+        while i < len(tabu_cost):
+            j = 0
+            while j < 10:
+                avg_value = (tabu_cost[i][1] - cplex_cost[j][1]) / cplex_cost[j][1] * 100
+                max_value = [costo for nodo, costo, tenure
+                                   in self.max_costo if int(nodo) == int(tabu_cost[i][0])
+                                                     and int(tenure) == int(tabu_cost[i][2])]
+                max_percent = (max_value[0] - cplex_cost[j][1]) / cplex_cost[j][1] * 100
+                comp_out.write(tabu_cost[i][0] + "\t" + str(avg_value) + "\t" +
+                               tabu_cost[i][2] + "\t" +
+                               str(max_percent) + "\n")
+                i += 1
+                j += 1
+        cplex_in.close()
+        tabu_in.close()
+        comp_out.close()
+
 
 def main():
     # file per risultati cplex
@@ -151,12 +188,15 @@ def main():
     # file per risultati tabu search
     tabu_file = "results/TABUsimple_results.txt"
     tabu_stat_file = "results/TABUplot_results.txt"
+    # file per comparazione cplex e tabu search
+    compare_file = "results/compare.txt"
     # creo oggetto data, leggo, elaboro i dati e li scrivo
     data = Data()
     data.read_data(data_file)
     data.write_data(stat_file, circ_file)
     data.read_data_tabu(tabu_file)
     data.write_data_tabu(tabu_stat_file)
+    data.compare(stat_file, tabu_stat_file, compare_file)
 
 if __name__ == '__main__':
     main()

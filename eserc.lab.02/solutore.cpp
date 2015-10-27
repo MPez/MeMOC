@@ -27,7 +27,7 @@ void Solutore::startSoluzione(std::string strategia)
         int j = 0;
         // insieme dei nodi presenti nel ciclo
         std::vector<int> selezionati;
-        // insiede dei nodi non ancora selezionati
+        // insieme dei nodi non ancora selezionati
         std::set<int> rimanenti;
         for (int n = 0; n < istanza.getNumNodi(); ++n)
         {
@@ -152,7 +152,7 @@ void Solutore::tabuSearch()
     // numero iterazione corrente
     int k = 0;
 
-    // soluzione corrente e milgiore
+    // soluzione corrente e migliore
     Soluzione* solCorrente = new Soluzione(soluzione);
     Soluzione* solMigliore = new Soluzione(soluzione);
     std::cout << "Soluzione di partenza" << std::endl;
