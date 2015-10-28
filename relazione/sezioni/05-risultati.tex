@@ -9,87 +9,46 @@ che esegue l'intero processo, generando 20 problemi simili per ogni incremento d
 
 In totale sono quindi state generate $1020$ istanze, $200$ di tipo casuale, $800$ di tipo cluster e $20$ di tipo circolare.
 
-I grafici riportano sull'asse delle ascisse il numero di nodi del problema, mentre sull'asse delle ordinate il tempo in secondi che è servito per trovare la soluzione, da notare che si è scelto di rappresentare il tempo in scala logaritmica.
+I grafici riportano sull'asse delle ascisse il numero di nodi del problema, mentre sull'asse delle ordinate il tempo in secondi che è servito per trovare la soluzione oppure il costo rappresentato in unità o in percentuale, da notare che si è scelto di rappresentare il tempo in scala logaritmica.
+
 
 I punti di interesse sono quelli identificati dal simbolo presente nella legenda di ogni grafico e rappresentano la media dei risultati ottenuti per le istanze simili, mentre le linee verticali indicano la variabilità nei risultati individuata tramite la deviazione standard.
 
 \subsection{\acronimo{cplex}}
 
-In figura \ref{fig:casuali cplex} vediamo i risultati per le istanze casuali, esse seguono un andamento esponenziale con il crescere del numero dei nodi: per istanze piccole il tempo di risoluzione è abbastanza rapido, ma sale molto velocemente, fino a oltre $200s$, con l'aumentare dei nodi.
-
-\begin{figure}[htb]
-	\centering
-	\begin{subfigure}[b]{.45\textwidth}
-		\includegraphics[width=\textwidth]{immagini/cplex_casuali.pdf}
-		\caption{Istanze casuali}
-		\label{fig:casuali cplex}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}[b]{.45\textwidth}
-		\includegraphics[width=\textwidth]{immagini/cplex_circolari.pdf}
-		\caption{Istanze circolari}
-		\label{fig:circolari cplex}
-	\end{subfigure}
-	\caption{Istanza casuali e circolari - \acronimo{cplex}}
-	\label{fig:casuali circolari cplex}
-\end{figure}
-
-Per quanto riguarda le istanze circolari, vediamo in figura \ref{fig:circolari cplex} che i tempi sono molto più bassi rispetto alle istanze casuali: questo è dovuto alla semplicità intrinseca di queste istanze che sono quindi più facili da risolvere.
+In figura \ref{fig:all cplex} sono riportati i tempi di esecuzione ottenuti mediante \acronimo{cplex} per tutte le tipologie di istanze risolte.
+A primo impatto si vede come le istanze circolari sono quelle che richiedono il minor tempo a parità di dimensione per giungere alla soluzione: questo è dovuto alla semplicità intrinseca di questi problemi che sono quindi più facili da risolvere.
 Da notare come l'andamento del grafico non sia molto regolare: questo fatto probabilmente è dovuto al carico del processore al momento dell'esecuzione del test, che può non essere stato costante durante il periodo di prova.
 
-Tutti i tempi e i costi medi ottenuti sono visibili nella tabella \ref{tab:casuali} per le istanze casuali e in tabella \ref{tab:circolari} per quelle circolari, entrambe poste in appendice \ref{sec:tabelle}.
-Il costo medio per le istanze casuali non è molto significativo in quanto il simplesso è un algoritmo esatto e ogni istanza è diversa dall'altra, di conseguenza il costo esatto delle rispettive soluzioni è diverso.
-Tale media verrà però utilizzata per fare un confronto con \tabu in modo da valutare la bontà delle soluzioni trovate da tale metaeuristica.
+Per quanto riguarda le altre due tipologie di problemi, casuali e cluster, notiamo che hanno un andamento esponenziale con il crescere del numero dei nodi: per istanze piccole il tempo di risoluzione è abbastanza rapido, ma sale molto velocemente, fino a oltre $200s$, con l'aumentare dei nodi.
 
-In figura \ref{fig:cluster cplex} sono riportati i grafici riguardanti le istanze cluster: si può notare come abbiano tutti un andamento simile con tempi di risoluzione comparabili eccezion fatta per le istanze con $2$ nodi a $1$ cluster che hanno richiesto un tempo molto inferiore.
-
-\begin{figure}[htb]
-	\centering
-	\begin{subfigure}[b]{.45\textwidth}
-		\includegraphics[width=\textwidth]{immagini/cplex_cluster_1.pdf}
-		\caption{Istanze 1 cluster}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}[b]{.45\textwidth}
-		\includegraphics[width=\textwidth]{immagini/cplex_cluster_2.pdf}
-		\caption{Istanze 2 cluster}
-	\end{subfigure}
-	\\
-	\begin{subfigure}[b]{.45\textwidth}
-		\includegraphics[width=\textwidth]{immagini/cplex_cluster_3.pdf}
-		\caption{Istanze 3 cluster}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}[b]{.45\textwidth}
-		\includegraphics[width=\textwidth]{immagini/cplex_cluster_4.pdf}
-		\caption{Istanze 4 cluster}
-	\end{subfigure}
-	\caption{Istanze cluster - \acronimo{cplex}}
-	\label{fig:cluster cplex}
-\end{figure}
-
-L'unico aspetto da sottolineare è la deviazione standard molto alta sulle istanze con $32$ nodi a $2$ cluster che è dovuta probabilmente ad un'istanza particolare che ha richiesto un tempo di risoluzione molto superiore alle altre.
-
-Infine ho deciso di riportare un grafico completo di tutti i risultati ottenuti, questo è visibile in figura \ref{fig:all cplex}.
-È possibile vedere come con ogni tipologia di istanza, tranne quelle circolari, a parità di numero di nodi e quindi di complessità del problema, le prestazioni del programma siano simili.
+È possibile vedere come con ogni tipologia di istanza a parità di numero di nodi e quindi di complessità del problema, le prestazioni del programma siano simili.
+È presente solo un leggero aumento nei tempi per quanto riguarda le istanze a $2$ cluster: esse infatti sono costruite utilizzando due quarti opposti della griglia, creando quindi maggiori difficoltà nella risoluzione in quanto i nodi si trovano in due zone distanti e separate fra loro.
+Nei casi con $3$ e $4$ cluster invece la griglia ha una quantità di nodi maggiori ed è meno evidente la separazione tra gli stessi cluster.
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=.85\textwidth]{immagini/cplex_all.pdf}
+	\includegraphics[width=.95\textwidth]{immagini/cplex_all.pdf}
 	\caption{Istanze casuali, cluster e circolari - \script{cplex}}
 	\label{fig:all cplex}
 \end{figure}
 
-È presente solo un leggero aumento nei tempi per quanto riguarda le istanze a $2$ cluster: esse infatti sono costruite utilizzando due quarti opposti della griglia, creando quindi maggiori difficoltà nella risoluzione in quanto i nodi si trovano in due zone distanti e separate fra loro.
-Nei casi con $3$ e $4$ cluster invece la griglia ha una quantità di nodi maggiori ed è meno evidente la separazione tra gli stessi cluster.
+Per avere un dettaglio migliore del comportamento dell'algoritmo con le diverse tipologie di problemi si rimanda all'appendice \ref{sec:grafici} dove sono inseriti i grafici relativi ai tempi di risoluzione suddivisi per tipo di istanza, figura \ref{fig:casuali cplex} per istanze casuali, figura \ref{fig:circolari cplex} per quelle circolari e figura \ref{fig:cluster cplex} per quelle cluster.
 
-Nella tabella \ref{tab:cluster} in appendice \ref{sec:tabelle} sono riportati i tempi medi e i costi medi per la risoluzione delle istanze cluster.
+Inoltre, in appendice \ref{sec:tabelle}, sono riportati tutti i tempi e i costi medi ottenuti nella tabella \ref{tab:casuali} per le istanze casuali, in tabella \ref{tab:circolari} per quelle circolari e in tabella \ref{tab:cluster} per quelle cluster.
+
+Il costo medio per le istanze casuali non è molto significativo in quanto il simplesso è un algoritmo esatto e ogni istanza è diversa dall'altra, di conseguenza il costo esatto delle rispettive soluzioni è diverso.
+Tale media verrà però utilizzata per fare un confronto con \tabu in modo da valutare la bontà delle soluzioni trovate da tale metaeuristica.
+
 
 \subsection{Tabu Search}
 
 Ho scelto di utilizzare la metaeuristica \tabu per risolvere solo alcuni dei problemi generati precedentemente: mi sono concentrato infatti sulle istanze generate casualmente; dal momento che la mia implementazione presenta una generazione della soluzione di partenza randomizzata, ho risolto $10$ volte ogni istanza in modo da avere dati statistici apprezzabili.
+Le variante con \emph{Farthest Insertion} non è stata utilizzata in quanto, dopo alcune prove preliminari, è risultata avere prestazioni peggiori, anche se è ancora presente nel codice sorgente ed è utilizzabile con una piccola modifica.
+Inoltre ho optato per scegliere in ogni occasione il vicino migliore tra quelli trovati in quanto offriva prestazioni migliori con la mia implementazione.
 
 La \tabu ha un parametro chiamato \emph{tabu tenure} che permette di determinare la lunghezza della \emph{tabu list} determinando quindi, quando settato in modo appropriato, un miglioramento per quanto riguarda il valore della soluzione trovata, che dovrebbe avvicinarsi maggiormente al valore esatto calcolato da \acronimo{cplex}.
+La \emph{tabu tenure} deve essere aumentata con l'aumentare della dimensione dei problemi da risolvere in modo da permettere all'algoritmo di esplorare maggiormente lo spazio delle soluzioni.
 
 Il modo migliore per testare questa caratteristica mi è sembrato quello di effettuare la risoluzione delle istanze con diversi valori e riportarle su grafico in modo da capire i miglioramenti ottenuti.
 Ho scelto di provare i valori di \emph{tabu tenure} tra $4$ e $8$, dato che erano i valori suggeriti per la dimensione dei problemi che ho usato.
@@ -97,21 +56,23 @@ Ho scelto di provare i valori di \emph{tabu tenure} tra $4$ e $8$, dato che eran
 In figura \ref{fig:all tempi tabu} è riportato il grafico complessivo relativo ai tempi di risoluzione dei problemi mediante l'algoritmo \tabu; si può notare subito come i tempi siano molto bassi rispetto a quanto visto per \acronimo{cplex} e seguano un andamento regolare.
 Inoltre le prestazioni non cambiano con diversi valori di \emph{tabu tenure} come, infatti, ci si aspetta.
 
-\begin{figure}[htb]
-	\centering
-	\includegraphics[width=.85\textwidth]{immagini/tabu_all_tempo.pdf}
-	\caption{Tempi istanze casuali - \tabu}
-	\label{fig:all tempi tabu}
-\end{figure}
-
-
 In figura \ref{fig:all costi tabu}, invece, troviamo il grafico relativo alle medie dei costi delle soluzioni che sono state trovate: si può notare che al crescere del numero dei nodi si intravede un miglioramento con valori di \emph{tabu tenure} più alti, mentre con istanze di piccole dimensioni le differenze sono praticamente nulle.
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=.85\textwidth]{immagini/tabu_all_costo.pdf}
-	\caption{Costi istanze casuali - \tabu}
-	\label{fig:all costi tabu}
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/tabu_all_tempo.pdf}
+			\caption{Tempi}
+			\label{fig:all tempi tabu}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}[b]{.45\textwidth}
+			\includegraphics[width=\textwidth]{immagini/tabu_all_costo.pdf}
+			\caption{Costi}
+			\label{fig:all costi tabu}
+	\end{subfigure}
+	\caption{Istanze casuali - \tabu}
+	\label{fig:all tempi costi tabu}
 \end{figure}
 
 Per avere un'idea precisa dei valori trovati si rimanda ai grafici in figura \ref{fig:tempi tabu} relativi ai tempi, a quelli in figura \ref{fig:costi tabu} relativi ai costi posti in appendice \ref{sec:grafici} e alla tabella \ref{tab:tabu} posta in appendice \ref{sec:tabelle} che riporta tutti i risultati ottenuti.

@@ -34,9 +34,10 @@ Essendo un metodo di ricerca generico, la \tabu richiede di essere specializzata
 Di seguito vengono elencate le componenti del metodo che necessitano di questa specializzazione:
 
 \begin{description}
-\item[\textsc{Soluzione}]: la rappresentazione della soluzione avviene tramite \emph{path representation}, ho quindi usato un vettore che indica in modo sequenziale l'ordine dei nodi nel ciclo hamiltoniano;
-\item[\textsc{Vicinato}]: ho scelto di utilizzare un vicinato \emph{2-opt} che consente di avere un vicino per ogni coppia di nodi $i, j$ tali che $i$ precede $j$ nella sequenza centro;
-\item[\textsc{Mosse}]: le mosse sono implementate salvando al contrario gli indici dei due nodi scambiati, in modo da impedire di tornare ad una soluzione appena visitata;
+\item[\textsc{Soluzione}]: la rappresentazione della soluzione avviene tramite \emph{path representation}, ho usato un vettore che indica in modo sequenziale l'ordine di visita dei nodi nel ciclo hamiltoniano;
+\item[\textsc{Vicinato}]: ho scelto di utilizzare un vicinato \emph{2-opt} che consente di avere un vicino per ogni coppia di nodi $i, j$ tali che $i$ precede $j$ nella sequenza centro.
+Un vicino si ottiene cambiando la posizione di due nodi e invertendo la sottosequenza compresa tra di essi sulla soluzione corrente;
+\item[\textsc{Mosse}]: le mosse \emph{tabu} sono implementate salvando al contrario gli indici dei due nodi scambiati, in modo da impedire di tornare ad una soluzione appena visitata;
 \item[\textsc{Strategia esplorazione}]: ho scelto di adottare come strategia di esplorazione la \emph{steepest descent} utilizzando però due varianti diverse, in un caso viene scelto il vicino migliore, nell'altro viene scelto casualmente un vicino tra i migliori $k$ trovati;
 \item[\textsc{Soluzione di partenza}]: ho adottato due tecniche diverse, la prima è la \emph{Farthest Insertion} che crea il ciclo iniziale inserendo i nodi più distanti e continua cercando il nodo più lontano tra quelli non ancora inseriti, aggiungendolo tra due nodi consecutivi per cui è minimo il costo di inserimento; la seconda, invece, crea una soluzione casuale usando l'algoritmo \emph{Fisher-Yates shuffle}\footnote{\url{https://en.wikipedia.org/wiki/Fisher\%E2\%80\%93Yates_shuffle}};
 \item[\textsc{Condizione di terminazione}]: è basata sul numero massimo di iterazioni dell'algoritmo.
