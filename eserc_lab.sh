@@ -56,7 +56,7 @@ crea_casuali() {
     while [[ $i -le $I ]]; do
         for (( j = 1; j <= R; j++ )); do
             command="$gen_script $dim_opt -t casuale -n $dens -i $i"
-            python $command
+            python3 $command
             ((i += 1))
         done
         echo "Create $i istanze"
@@ -71,28 +71,28 @@ crea_cluster() {
         # 1 cluster
         for (( j = 0; j < R; j++ )); do
             command="$gen_script $dim_opt -t cluster -c 1 -n $dens -i $i"
-            python $command
+            python3 $command
             ((i += 1))
         done
         echo "Create $i istanze"
         # 2 cluster
         for (( j = 0; j < R; j++ )); do
             command="$gen_script $dim_opt -t cluster -c 2 -n $dens -i $i"
-            python $command
+            python3 $command
             ((i += 1))
         done
         echo "Create $i istanze"
         # 3 cluster
         for (( j = 0; j < R; j++ )); do
             command="$gen_script $dim_opt -t cluster -c 3 -n $dens -i $i"
-            python $command
+            python3 $command
             ((i += 1))
         done
         echo "Create $i istanze"
         # 4 cluster
         for (( j = 0; j < R; j++ )); do
             command="$gen_script $dim_opt -t cluster -c 4 -n $dens -i $i"
-            python $command
+            python3 $command
             ((i += 1))
         done
         echo "Create $i istanze"
@@ -105,7 +105,7 @@ crea_circolari() {
     ((  I = i + R - 1 ))
     while [[ $i -le $I ]]; do
         command="$gen_script -d $x_dim $y_dim -t circolare -i $i"
-        python $command
+        python3 $command
         (( x_dim += 2 ))
         (( y_dim += 2 ))
         (( i += 1 ))
@@ -144,7 +144,7 @@ risolvi_tabu() {
 # calcola statistiche e stampa file per gnuplot
 calcola_statistiche() {
     echo "Calcolo statistiche sui risultati ottenuti"
-    python $stat_script
+    python3 $stat_script
 }
 
 # esegue gnuplot per creare i grafici
