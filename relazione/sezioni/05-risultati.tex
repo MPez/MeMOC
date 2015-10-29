@@ -33,7 +33,7 @@ Nei casi con $3$ e $4$ cluster invece la griglia ha una quantità di nodi maggio
 	\label{fig:all cplex}
 \end{figure}
 
-Per avere un dettaglio migliore del comportamento dell'algoritmo con le diverse tipologie di problemi si rimanda all'appendice \ref{sec:grafici} dove sono inseriti i grafici relativi ai tempi di risoluzione suddivisi per tipo di istanza, figura \ref{fig:casuali cplex} per istanze casuali, figura \ref{fig:circolari cplex} per quelle circolari e figura \ref{fig:cluster cplex} per quelle cluster.
+Per avere un dettaglio migliore del comportamento dell'algoritmo con le diverse tipologie di problemi si rimanda all'appendice \ref{sec:grafici}, dove sono inseriti i grafici relativi ai tempi di risoluzione suddivisi per tipo di istanza, figura \ref{fig:casuali cplex} per istanze casuali, figura \ref{fig:circolari cplex} per quelle circolari e figura \ref{fig:cluster cplex} per quelle cluster.
 
 Inoltre, in appendice \ref{sec:tabelle}, sono riportati tutti i tempi e i costi medi ottenuti nella tabella \ref{tab:casuali} per le istanze casuali, in tabella \ref{tab:circolari} per quelle circolari e in tabella \ref{tab:cluster} per quelle cluster.
 
@@ -43,7 +43,7 @@ Tale media verrà però utilizzata per fare un confronto con \tabu in modo da va
 
 \subsection{Tabu Search}
 
-Ho scelto di utilizzare la metaeuristica \tabu per risolvere solo alcuni dei problemi generati precedentemente: mi sono concentrato infatti sulle istanze generate casualmente; dal momento che la mia implementazione presenta una generazione della soluzione di partenza randomizzata, ho risolto $10$ volte ogni istanza in modo da avere dati statistici apprezzabili.
+Ho scelto di utilizzare la metaeuristica \tabu per risolvere solo alcuni dei problemi generati precedentemente: mi sono concentrato infatti sulle istanze generate casualmente; dal momento che la mia implementazione presenta una generazione della soluzione di partenza randomizzata, ho risolto $20$ volte ogni istanza in modo da avere dati statistici apprezzabili.
 Le variante con \emph{Farthest Insertion} non è stata utilizzata in quanto, dopo alcune prove preliminari, è risultata avere prestazioni peggiori, anche se è ancora presente nel codice sorgente ed è utilizzabile con una piccola modifica.
 Inoltre ho optato per scegliere in ogni occasione il vicino migliore tra quelli trovati in quanto offriva prestazioni migliori con la mia implementazione.
 
@@ -53,7 +53,7 @@ La \emph{tabu tenure} deve essere aumentata con l'aumentare della dimensione dei
 Il modo migliore per testare questa caratteristica mi è sembrato quello di effettuare la risoluzione delle istanze con diversi valori e riportarle su grafico in modo da capire i miglioramenti ottenuti.
 Ho scelto di provare i valori di \emph{tabu tenure} tra $4$ e $8$, dato che erano i valori suggeriti per la dimensione dei problemi che ho usato.
 
-In figura \ref{fig:all tempi tabu} è riportato il grafico complessivo relativo ai tempi di risoluzione dei problemi mediante l'algoritmo \tabu; si può notare subito come i tempi siano molto bassi rispetto a quanto visto per \acronimo{cplex} e seguano un andamento regolare.
+In figura \ref{fig:all tempi tabu} è riportato il grafico complessivo relativo ai tempi di risoluzione dei problemi mediante l'algoritmo \tabu; si può notare subito come i tempi siano molto bassi rispetto a quanto visto per \acronimo{cplex} e seguano un andamento esponenziale.
 Inoltre le prestazioni non cambiano con diversi valori di \emph{tabu tenure} come, infatti, ci si aspetta.
 
 In figura \ref{fig:all costi tabu}, invece, troviamo il grafico relativo alle medie dei costi delle soluzioni che sono state trovate: si può notare che al crescere del numero dei nodi si intravede un miglioramento con valori di \emph{tabu tenure} più alti, mentre con istanze di piccole dimensioni le differenze sono praticamente nulle.
@@ -75,4 +75,4 @@ In figura \ref{fig:all costi tabu}, invece, troviamo il grafico relativo alle me
 	\label{fig:all tempi costi tabu}
 \end{figure}
 
-Per avere un'idea precisa dei valori trovati si rimanda ai grafici in figura \ref{fig:tempi tabu} relativi ai tempi, a quelli in figura \ref{fig:costi tabu} relativi ai costi posti in appendice \ref{sec:grafici} e alla tabella \ref{tab:tabu} posta in appendice \ref{sec:tabelle} che riporta tutti i risultati ottenuti.
+Per avere un'idea precisa dei valori trovati si rimanda ai grafici in figura \ref{fig:tempi tabu} relativi ai tempi, a quelli in figura \ref{fig:costi tabu} relativi ai costi posti in appendice \ref{sec:grafici} e alla tabella \ref{tab:tabu} posta in appendice \ref{sec:tabelle}, che riporta tutti i risultati ottenuti.
