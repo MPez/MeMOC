@@ -164,11 +164,11 @@ class Data():
         i = 0
         while i < len(tabu_cost):
             j = 0
-            while j < 10:
+            while j < 50:
                 avg_value = (tabu_cost[i][1] - cplex_cost[j][1]) / cplex_cost[j][1] * 100
                 max_value = [costo for nodo, costo, tenure
                                    in self.max_costo if int(nodo) == int(tabu_cost[i][0])
-                                                     and int(tenure) == int(tabu_cost[i][2])]
+                                                     and int(tenure) == int(tabu_cost[i][2])]   
                 max_percent = (max_value[0] - cplex_cost[j][1]) / cplex_cost[j][1] * 100
                 comp_out.write(tabu_cost[i][0] + "\t" + str(avg_value) + "\t" +
                                tabu_cost[i][2] + "\t" +

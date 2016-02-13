@@ -117,7 +117,8 @@ crea_circolari() {
 risolvi_cplex() {
     echo "Risolvo istanze con cplex"
     if [[ $i -eq 1 ]]; then
-        $i = $1
+        a=$1
+        ((i = a * 10 + 1))
     fi
     for (( k = 1; k < i; k++ )); do
         instance=$ins_dir$ins_name$k$suff
@@ -128,7 +129,8 @@ risolvi_cplex() {
 # risolvo le istanze create tramite tabu search
 risolvi_tabu() {
     echo "Risolvo istanze con tabu search"
-    (( T = R*10 + 1))
+    (( T = R*10 + (N+1)*4 + 1))
+    #(( T = R*10 + 1))
     cd $tabu_dir
     for (( h = tt; h <= tt + 4; h++ )); do
         for (( k = 1; k < T; k++ )); do
@@ -250,6 +252,7 @@ while getopts ":a:c:gi:l:r:st:" flag; do
         r ) # cplex
             crea_cartelle
             remove_results_cplex
+            imposta_problemi $OPTARG
             risolvi_cplex $OPTARG
             ;;
         s ) # statistiche

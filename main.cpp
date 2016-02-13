@@ -60,14 +60,14 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			char xtype = 'I';
-			double obj = 0.0;
-			double lb = 0.0;
-			double ub = CPX_INFBOUND;
-			snprintf(name, NAME_SIZE, "x_%d_%d", nameN[i], nameN[j]);
-			char* xname = (char*)(&name[0]);
-			CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &obj, &lb, &ub, 
-				&xtype, &xname);
+				char xtype = 'I';
+				double obj = 0.0;
+				double lb = 0.0;
+				double ub = CPX_INFBOUND;
+				snprintf(name, NAME_SIZE, "x_%d_%d", nameN[i], nameN[j]);
+				char* xname = (char*)(&name[0]);
+				CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &obj, &lb, &ub, 
+					&xtype, &xname);
 		}
 	}
 
@@ -81,13 +81,13 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 	{
 		for (int j = 0; j < N; j++)
 		{
-			char ytype = 'B';
-			double lb = 0.0;
-			double ub = 1.0;
-			snprintf(name, NAME_SIZE, "y_%d_%d", nameN[i], nameN[j]);
-			char* yname = (char*)(&name[0]);
-			CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &C[i*N+j], &lb, &ub, 
-				&ytype, &yname);
+				char ytype = 'B';
+				double lb = 0.0;
+				double ub = 1.0;
+				snprintf(name, NAME_SIZE, "y_%d_%d", nameN[i], nameN[j]);
+				char* yname = (char*)(&name[0]);
+				CHECKED_CPX_CALL(CPXnewcols, env, lp, 1, &C[i*N+j], &lb, &ub, 
+					&ytype, &yname);
 		}
 	}
 
@@ -126,21 +126,17 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 		// flusso entrante nel nodo k
 		for (int i = 0; i < N; ++i)
 		{
-			if(k != i)
-			{
+
 				rmatind.push_back(i*N + k);
 				rmatval.push_back(1.0);
-			}
-		}
+
+
 
 		// flusso uscente dal nodo k
-		for (int j = 0; j < N; ++j)
-		{
-			if(k != j)
-			{
-				rmatind.push_back(k*N + j);
+
+				rmatind.push_back(k*N + i);
 				rmatval.push_back(-1.0);
-			}
+
 		}
 
 		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(),
@@ -161,11 +157,10 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 
 		for (int j = 0; j < N; ++j)
 		{
-			if(i != j)
-			{
+
 				rmatind.push_back(i*N + j + NRELATION);
 				rmatval.push_back(1.0);
-			}
+
 		}
 
 		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(),
@@ -185,11 +180,10 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 
 		for (int i = 0; i < N; ++i)
 		{
-			if(i != j)
-			{
+
 				rmatind.push_back(i*N + j + NRELATION);
 				rmatval.push_back(1.0);
-			}
+
 		}
 
 		CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(),
@@ -210,8 +204,7 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 			std::vector<double> rmatval;
 			double rhs = 0.0;
 
-			if(i != j)
-			{
+
 				// variabili x
 				rmatind.push_back(i*N + j);
 				rmatval.push_back(1.0);
@@ -221,9 +214,22 @@ void setupLP(CEnv env, Prob lp, int & numVars, const char* insNum)
 
 				CHECKED_CPX_CALL(CPXaddrows, env, lp, 0, 1, rmatind.size(), 
 					&rhs, &sense, &rmatbeg, &rmatind[0], &rmatval[0], NULL, NULL);
-			}
+
 		}
 	}
+
+	{
+		std::vector<int> delstat (N*N*2);
+
+		for (int i = 0; i < N; ++i)
+		{
+			delstat[i*N + i] = 1;
+			delstat[i*N + i + NRELATION] = 1;
+		}
+		
+		CHECKED_CPX_CALL(CPXdelsetcols, env, lp, &delstat[0]);
+	}
+
 	
 	// print (debug)
 	std::string num = insNum;
@@ -242,15 +248,15 @@ int main (int argc, const char* argv[])
 		// read problem instance
 		readInstance(argv[1]);
 
+		// setup LP
+		int numVars;
+		setupLP(env, lp, numVars, argv[2]);
+
 		// initial time
 		clock_t t1,t2;
 		t1 = clock();
 		struct timeval  tv1, tv2;
 		gettimeofday(&tv1, NULL);
-
-		// setup LP
-		int numVars;
-		setupLP(env, lp, numVars, argv[2]);
 		
 		// optimize
 		CHECKED_CPX_CALL(CPXmipopt, env, lp);

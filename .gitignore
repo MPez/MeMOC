@@ -3,3 +3,10 @@
 *.txt
 *.log
 *.o
+*.aux
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.toc
