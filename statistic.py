@@ -130,22 +130,22 @@ class Data():
         # stampa statistiche per casuali e cluster
         f_out = open(stat_file, "w")
         for nodi, media, dev, costo in self.data_stat:
-            f_out.write(str(nodi) + "\t" + str(media) + "\t" +
-                        str(dev) + "\t" + str(costo) + "\n")
+            f_out.write(str(nodi) + "\t" + str(round(media, 4)) + "\t" +
+                        str(round(dev, 4)) + "\t" + str(round(costo, 3)) + "\n")
         f_out.close()
         # stampa statistiche per circolari
         f_out = open(circ_file, "w")
         for nodi, tempo, costo in self.circ_data:
-            f_out.write(str(nodi) + "\t" + str(tempo) + "\t" +
-                        str(costo) + "\n")
+            f_out.write(str(nodi) + "\t" + str(round(tempo, 4)) + "\t" +
+                        str(round(costo, 3)) + "\n")
         f_out.close()
 
     def write_data_tabu(self, tabu_stat_file):
         f_out = open(tabu_stat_file, "w")
         for nodi, media_tempi, dev_tempi, media_costi, dev_costi, tabu_ten in self.tabu_stat:
             f_out.write(str(nodi) + "\t" +
-                        str(media_tempi) + "\t" + str(dev_tempi) + "\t" +
-                        str(media_costi) + "\t" + str(dev_costi) + "\t" +
+                        str(round(media_tempi, 4)) + "\t" + str(round(dev_tempi, 4)) + "\t" +
+                        str(round(media_costi, 3)) + "\t" + str(round(dev_costi, 4)) + "\t" +
                         str(tabu_ten) + "\n")
         f_out.close()
 
@@ -170,14 +170,51 @@ class Data():
                                    in self.max_costo if int(nodo) == int(tabu_cost[i][0])
                                                      and int(tenure) == int(tabu_cost[i][2])]   
                 max_percent = (max_value[0] - cplex_cost[j][1]) / cplex_cost[j][1] * 100
-                comp_out.write(tabu_cost[i][0] + "\t" + str(avg_value) + "\t" +
+                comp_out.write(tabu_cost[i][0] + "\t" + str(round(avg_value, 3)) + "\t" +
                                tabu_cost[i][2] + "\t" +
-                               str(max_percent) + "\n")
+                               str(round(max_percent, 4)) + "\n")
                 i += 1
                 j += 1
         cplex_in.close()
         tabu_in.close()
         comp_out.close()
+
+    def splitFile(self, tabu_stat_file, split_file):
+        tabu_in = open(tabu_stat_file, "r")
+        split_out = open(split_file, "w")
+        casuali = []
+        cluster1 = []
+        cluster2 = []
+        cluster3 = []
+        cluster4 = []
+        i = 1
+        for line in tabu_in:
+            c = i % 50
+            if c <= 10:
+                casuali.append(line)
+            else:
+                t = c % 4
+                if t == 3:
+                    cluster1.append(line)
+                elif t == 0:
+                    cluster2.append(line)
+                elif t == 1:
+                    cluster3.append(line)
+                elif t == 2:
+                    cluster4.append(line)
+            i += 1
+        for line in casuali:
+            split_out.write(line)
+        for line in cluster1:
+            split_out.write(line)
+        for line in cluster2:
+            split_out.write(line)
+        for line in cluster3:
+            split_out.write(line)
+        for line in cluster4:
+            split_out.write(line)
+        tabu_in.close()
+        split_out.close()
 
 
 def main():
@@ -190,6 +227,8 @@ def main():
     tabu_stat_file = "results/TABUplot_results.txt"
     # file per comparazione cplex e tabu search
     compare_file = "results/compare.txt"
+    # file per suddivisione valori tabu search tra casuali e cluster
+    split_file = "results/split.txt"
     # creo oggetto data, leggo, elaboro i dati e li scrivo
     data = Data()
     data.read_data(data_file)
@@ -197,6 +236,7 @@ def main():
     data.read_data_tabu(tabu_file)
     data.write_data_tabu(tabu_stat_file)
     data.compare(stat_file, tabu_stat_file, compare_file)
+    data.splitFile(tabu_stat_file, split_file)
 
 if __name__ == '__main__':
     main()

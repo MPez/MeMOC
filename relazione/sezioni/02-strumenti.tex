@@ -6,7 +6,7 @@ Di seguito verranno descritti gli strumenti che ho utilizzato e le motivazioni c
 \begin{description}
 	\item[\textsc{C$++$}]: linguaggio di programmazione orientato agli oggetti che ho utilizzato per l'implementazione del modello per la risoluzione mediante il metodo del simplesso e per lo sviluppo della metaeuristica \tabu;
 	\item[\textsc{Make}]: per automatizzare il processo di compilazione dei sorgenti e generazione dei file eseguibili sono stati utilizzati due \emph{makefile} diversi, uno per esercitazione;
-	\item[\textsc{CPLEX}]: software di ottimizzazione implementato nel linguaggio \acronimo{C} in grado di risolvere problemi di programmazione lineare e lineare intera utilizzando le varianti primale e duale del metodo del simplesso. Fornisce delle \acronimo{api} verso diversi linguaggi, tra cui il \acronimo{c$++$};
+	\item[\textsc{CPLEX}]: software di ottimizzazione implementato nel linguaggio \acronimo{C} in grado di risolvere problemi di programmazione lineare e lineare intera utilizzando le varianti primale e duale del metodo del simplesso insieme a metodi di \emph{Branch \& Bound}. Fornisce delle \acronimo{api} verso diversi linguaggi, tra cui il \acronimo{c$++$};
 	\item[\textsc{Python}]: linguaggio multiparadigma, semplice e flessibile che consente di sviluppare script in poco tempo e, grazie alla notevole quantità di librerie esistenti, consente di scrivere anche applicazioni complesse.
 	
 	Ho utilizzato questo linguaggio per la creazione delle istanze del problema in quanto non era pensabile produrre a mano un numero ragionevole di problemi; inoltre è stato utilizzato per analizzare i risultati ottenuti e produrre i dati statistici da visualizzare sui grafici;
@@ -19,7 +19,7 @@ Di seguito verranno descritti gli strumenti che ho utilizzato e le motivazioni c
 I programmi sono stati sviluppati sul notebook in mio possesso dotato delle seguenti caratteristiche hardware:
 \begin{description}
 \item[\textsc{processore}]: Intel Core i7-2670QM @ 2.20GHz
-\item[\textsc{ram}]: 6\acronimo{gb}
+\item[\textsc{ram}]: 8\acronimo{gb}
 \end{description}
 
 Di seguito sono riportate le versioni di software, linguaggi e librerie utilizzate:
@@ -27,9 +27,9 @@ Di seguito sono riportate le versioni di software, linguaggi e librerie utilizza
 \item[\textbf{C$++$}]: \acronimo{c$++$03}
 \item[\textbf{Make}]: 4.1
 \item[\textbf{CPLEX}]: 12.6.0
-\item[\textbf{Python}]: 3.4.2
-\item[\textbf{Gnuplot}]: 4.6
-\item[\textbf{Bash}]: 4.3.33
+\item[\textbf{Python}]: 3.5.0
+\item[\textbf{Gnuplot}]: 5.0
+\item[\textbf{Bash}]: 4.3.42
 \end{description}
 
 I programmi sviluppati sono stati testati anche presso la macchina del laboratorio disponibile mediante \emph{ssh} all'indirizzo \script{torre.studenti.math.unipd.it} e sono quindi conformi alle specifiche date.

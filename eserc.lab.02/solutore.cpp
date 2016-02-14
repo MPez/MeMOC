@@ -147,7 +147,7 @@ void Solutore::tabuSearch()
     srand(time(NULL));
 
     // genero soluzione iniziale
-    startSoluzione("shuffle");
+    startSoluzione("");
 
     // numero iterazione corrente
     int k = 0;

@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,final]{article}
+\documentclass[10pt,a4paper,final]{article}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -11,10 +11,13 @@
 \usepackage{tikz}
 \usetikzlibrary{trees}
 \usepackage{graphicx}
+\graphicspath{{./immagini/}}
+\DeclareGraphicsExtensions{.pdf,.png}
 \usepackage{hyperref}
-\usepackage{caption}
+\usepackage[hypcap]{caption}
 \usepackage[list=true]{subcaption}
-\captionsetup{tableposition=top, figureposition=bottom, font=small}
+\captionsetup{font=small, format=hang, tableposition=top, figureposition=bottom}
+\usepackage{float}
 
 % tabelle
 \usepackage{booktabs}

@@ -118,7 +118,7 @@ risolvi_cplex() {
     echo "Risolvo istanze con cplex"
     if [[ $i -eq 1 ]]; then
         a=$1
-        ((i = a * 10 + 1))
+        ((i = a*10 + a*4*10 + a + 1))
     fi
     for (( k = 1; k < i; k++ )); do
         instance=$ins_dir$ins_name$k$suff
@@ -203,7 +203,7 @@ imposta_problemi() {
 }
 
 # main
-while getopts ":a:c:gi:l:r:st:" flag; do
+while getopts ":a:c:ghi:l:r:st:z:" flag; do
     case $flag in
         a ) # all
             crea_cartelle
@@ -231,6 +231,23 @@ while getopts ":a:c:gi:l:r:st:" flag; do
             ;;
         g ) # gnuplot
             crea_grafici
+            ;;
+        h ) # help
+            echo "------------------------------------------------------------------------------------------------------"
+            echo "                      Metodi e Modelli per l'Ottimizzazione Combinatoria."
+            echo "                  Generazione e risoluzione problemi con CPLEX e Tabu Search."
+            echo "------------------------------------------------------------------------------------------------------"
+            echo "-a arg    Generazione # arg istanze casuali, cluster e circolari,"
+            echo "          risoluzione mediante CPLEX e Tabu Search, generazione statistiche e grafici."
+            echo "-c arg    Generazione # arg istanze casuali."
+            echo "-g        Creazione grafici."
+            echo "-h        Help."
+            echo "-i arg    Generazione # arg istanze circolari."
+            echo "-l arg    Generazione # arg istanze cluster."
+            echo "-r arg    Risoluzione # arg istanze mediante CPLEX."
+            echo "-s        Generazione statistiche."
+            echo "-t arg    Risoluzione # arg istanze mediante Tabu Search."
+            echo "-z arg    Risoluzione # arg istanze mediante CPLEX e Tabu Search, generazione statistiche e grafici."
             ;;
         i ) # circolari
             crea_cartelle
@@ -264,8 +281,21 @@ while getopts ":a:c:gi:l:r:st:" flag; do
             imposta_problemi $OPTARG
             risolvi_tabu
             ;;
+        z ) # istanze esistenti
+            crea_cartelle
+            remove_results_cplex
+            remove_results_tabu
+            imposta_problemi $OPTARG
+            risolvi_cplex $OPTARG
+            risolvi_tabu
+            calcola_statistiche
+            crea_grafici
+            ;;
+        : ) echo "Opzione -$OPTARG richiede un argomento."
+            ;;
         * )
             echo "Opzione non presente, nessuna operazione da svolgere."
+            echo "Opzione -h per help."
             ;;
     esac
 done

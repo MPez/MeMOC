@@ -18,7 +18,8 @@ L'esecuzione del programma è gestita mediante lo script \emph{bash} chiamato \s
 	\item[\texttt{-l arg}]: modalità \modo{cluster}, richiama lo script \script{generator.py} per generare  solamente i problemi a cluster; l'argomento \texttt{arg} serve per impostare il numero di problemi da generare;
 	\item[\texttt{-r arg}]: modalità \modo{cplex}, richiama il programma \script{cplex} per risolvere i problemi che sono stati generati; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere;
 	\item[\texttt{-s}]: modalità \modo{statistiche}, richiama lo script \script{statistic.py} per elaborare i risultati ottenuti e generare i file di input per \emph{gnuplot};
-	\item[\texttt{-t arg}]: modalità \modo{tabu search}, richiama il programma \script{tabusearch} per risolvere i problemi generati; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere.
+	\item[\texttt{-t arg}]: modalità \modo{tabu search}, richiama il programma \script{tabusearch} per risolvere i problemi generati; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere;
+	\item[\texttt{-z arg}]: modalità \modo{istanze esistenti}, parte dal presupposto che le istanze sono già state generate e si occupa di risolverle mediante i programmi \script{cplex} e \script{tabusearch}, elabora i risultati e genera i grafici; l'argomento \texttt{arg} serve per indicare il numero di problemi da risolvere;
 \end{description}
 
 \subsection{Struttura cartelle}

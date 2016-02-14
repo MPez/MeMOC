@@ -6,7 +6,7 @@ Per ragioni di semplicità espositiva non verranno analizzati in dettaglio ogni 
 
 Vengono quindi descritte prima le parti principali delle implementazioni degli algoritmi usati; in seguito verranno descritti gli script di utilità creati a supporto dei programmi veri e propri.
 
-\subsection{Cplex}
+\subsection{CPLEX}
 Per la risoluzione del problema ho deciso di adottare il modello di \acronimo{tsp} asimmetrico trasformando il grafo del problema, che per natura sarebbe non orientato, in un grafo orientato, utilizzando due archi con lo stesso peso per ogni spigolo.
 
 Inizialmente ho definito delle variabili intere \eqref{eqn:intere} che rappresentano le unità di flusso trasportate tra due nodi diversi e delle variabili binarie \eqref{eqn:binarie} che identificano l'utilizzo o meno di un arco nella soluzione.
@@ -29,6 +29,7 @@ La \tabu è un metodo basato sulla ricerca locale in grado di superare il limite
 
 Per raggiungere l'obiettivo la metaerusitica fa uso di una \emph{tabu list}: struttura dati dove vengono salvate le ultime mosse effettuate; una mossa identifica i cambiamenti apportati alla soluzione corrente per giungere alla prossima soluzione esplorata.
 La \emph{tabu list} ha una lunghezza variabile che necessita di essere tarata per ottenere i risultati migliori, il parametro che permette di modificare tale lunghezza viene chiamato \emph{tabu tenure}.
+Una corretta calibrazione della \emph{tabu tenure} è necessaria per evitare la possibilità che il solutore cicli sulle stesse soluzioni, garantendo una più ampia esplorazione dello spazio delle soluzioni.
 
 Essendo un metodo di ricerca generico, la \tabu richiede di essere specializzata per risolvere uno specifico problema.
 Di seguito vengono elencate le componenti del metodo che necessitano di questa specializzazione:
