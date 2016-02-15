@@ -179,8 +179,8 @@ class Data():
         tabu_in.close()
         comp_out.close()
 
-    def splitFile(self, tabu_stat_file, split_file):
-        tabu_in = open(tabu_stat_file, "r")
+    def splitFile(self, input_file, split_file):
+        file_in = open(input_file, "r")
         split_out = open(split_file, "w")
         casuali = []
         cluster1 = []
@@ -188,19 +188,19 @@ class Data():
         cluster3 = []
         cluster4 = []
         i = 1
-        for line in tabu_in:
+        for line in file_in:
             c = i % 50
-            if c <= 10:
+            if c > 0 and c <= 10:
                 casuali.append(line)
             else:
                 t = c % 4
-                if t == 3:
+                if t == 3 and c != 0:
                     cluster1.append(line)
-                elif t == 0:
+                elif t == 0 and c != 0:
                     cluster2.append(line)
-                elif t == 1:
+                elif t == 1 and c != 0:
                     cluster3.append(line)
-                elif t == 2:
+                elif t == 2 or c == 0:
                     cluster4.append(line)
             i += 1
         for line in casuali:
@@ -213,7 +213,7 @@ class Data():
             split_out.write(line)
         for line in cluster4:
             split_out.write(line)
-        tabu_in.close()
+        file_in.close()
         split_out.close()
 
 
@@ -229,6 +229,7 @@ def main():
     compare_file = "results/compare.txt"
     # file per suddivisione valori tabu search tra casuali e cluster
     split_file = "results/split.txt"
+    split_comp = "results/split_compare.txt"
     # creo oggetto data, leggo, elaboro i dati e li scrivo
     data = Data()
     data.read_data(data_file)
@@ -237,6 +238,8 @@ def main():
     data.write_data_tabu(tabu_stat_file)
     data.compare(stat_file, tabu_stat_file, compare_file)
     data.splitFile(tabu_stat_file, split_file)
+    data.splitFile(compare_file, split_comp)
 
 if __name__ == '__main__':
     main()
+
