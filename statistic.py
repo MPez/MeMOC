@@ -218,18 +218,22 @@ class Data():
 
 
 def main():
+    # cartella risultati
+    # folder = "results/"
+    # folder = "results_farthest/"
+    folder = "results_k/"
     # file per risultati cplex
-    data_file = "results/CPXsimple_results.txt"
-    stat_file = "results/CPXplot_results.txt"
-    circ_file = "results/CPXplot_circular.txt"
+    data_file = folder + "CPXsimple_results.txt"
+    stat_file = folder + "CPXplot_results.txt"
+    circ_file = folder + "CPXplot_circular.txt"
     # file per risultati tabu search
-    tabu_file = "results/TABUsimple_results.txt"
-    tabu_stat_file = "results/TABUplot_results.txt"
+    tabu_file = folder + "TABUsimple_results.txt"
+    tabu_stat_file = folder + "TABUplot_results.txt"
     # file per comparazione cplex e tabu search
-    compare_file = "results/compare.txt"
+    compare_file = folder + "compare.txt"
     # file per suddivisione valori tabu search tra casuali e cluster
-    split_file = "results/split.txt"
-    split_comp = "results/split_compare.txt"
+    split_file = folder + "split.txt"
+    split_comp = folder + "split_compare.txt"
     # creo oggetto data, leggo, elaboro i dati e li scrivo
     data = Data()
     data.read_data(data_file)

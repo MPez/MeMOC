@@ -147,7 +147,7 @@ void Solutore::tabuSearch()
     srand(time(NULL));
 
     // genero soluzione iniziale
-    startSoluzione("");
+    startSoluzione("shuffle");
 
     // numero iterazione corrente
     int k = 0;
@@ -171,7 +171,7 @@ void Solutore::tabuSearch()
         
         // cerco il miglior vicino
         trovaVicini(*solCorrente, "notAll");
-        Mossa mossa = scegliVicino("best");
+        Mossa mossa = scegliVicino("");
 
         if (!mosseMigliori.empty())
         {
