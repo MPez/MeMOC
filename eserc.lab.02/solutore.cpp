@@ -171,7 +171,7 @@ void Solutore::tabuSearch()
         
         // cerco il miglior vicino
         trovaVicini(*solCorrente, "notAll");
-        Mossa mossa = scegliVicino("");
+        Mossa mossa = scegliVicino("best");
 
         if (!mosseMigliori.empty())
         {

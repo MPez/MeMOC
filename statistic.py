@@ -219,9 +219,9 @@ class Data():
 
 def main():
     # cartella risultati
-    # folder = "results/"
+    folder = "results/"
     # folder = "results_farthest/"
-    folder = "results_k/"
+    # folder = "results_k/"
     # file per risultati cplex
     data_file = folder + "CPXsimple_results.txt"
     stat_file = folder + "CPXplot_results.txt"

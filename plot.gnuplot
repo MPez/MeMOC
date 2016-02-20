@@ -14,76 +14,76 @@ plot "results/CPXplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines tit
 
 set output "results/tabu_4_tempo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::0::9 using 1:2:3 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_5_tempo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::50::59 using 1:2:3 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_6_tempo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::100::109 using 1:2:3 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_7_tempo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::150::159 using 1:2:3 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_8_tempo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::200::209 using 1:2:3 with yerrorlines title "random k, farthest insertion"
 
 unset logscale y
 set ylabel "Costo"
 
 set output "results/tabu_4_costo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::0::9 using 1:4:5 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_5_costo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::50::59 using 1:4:5 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_6_costo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::100::109 using 1:4:5 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_7_costo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::150::159 using 1:4:5 with yerrorlines title "random k, farthest insertion"
 
 set output "results/tabu_8_costo.pdf"
 plot \
-    "results/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "best, shuffle", \
-    "results_k/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "random k, shuffle", \
-    "results_farthest/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "best, farthest insertion", \
-    "results_k_farthest/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "random k, farthest insertion"
+    "results/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "best, shuffle"
+    # "results_k/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "random k, shuffle", \
+    # "results_farthest/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "best, farthest insertion", \
+    # "results_k_farthest/TABUplot_results.txt" every ::200::209 using 1:4:5 with yerrorlines title "random k, farthest insertion"
 
 set xrange [0:88]
 set xtics 0, 4, 88
