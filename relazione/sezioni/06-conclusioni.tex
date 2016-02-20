@@ -10,7 +10,7 @@ In figura \ref{fig:tempi cplex tabu} si può vedere come i tempi di calcolo dell
 	\label{fig:tempi cplex tabu}
 \end{figure}
 
-Anche per quanto riguarda le istanze cluster, i tempi di calcolo sono a vantaggio di \tabu: si può vedere in figura \ref{fig:tempi cplex tabu cluster} che la differenza tra i 2 algoritmi è minore per le istanze a 1 cluster e con pochi nodi, ma cresce con l'aumentare dei cluster e dei nodi,  rimanendo comunque entro 2 ordini di grandezza.
+Anche per quanto riguarda le istanze cluster i tempi di calcolo sono a vantaggio di \tabu: si può vedere in figura \ref{fig:tempi cplex tabu cluster} che la differenza tra i 2 algoritmi è minore per le istanze a 1 cluster e con pochi nodi, ma cresce con l'aumentare dei cluster e dei nodi,  rimanendo comunque entro 2 ordini di grandezza.
 
 \begin{figure}[H]
 	\centering
@@ -37,7 +37,7 @@ Anche per quanto riguarda le istanze cluster, i tempi di calcolo sono a vantaggi
 	\label{fig:tempi cplex tabu cluster}
 \end{figure}
 
-Per confrontare l'efficacia dell'implementazione della \tabu rispetto a \acronimo{cplex} ho calcolato prima la media sulle ripetizioni delle istanze identiche e poi la media sulle istanze simili con lo stesso numero di nodi ottenendo i grafici in figura \ref{fig:costi cplex tabu}: si nota che il valore della soluzione ottenuta con la metaeuristica non si allontana troppo dal valore esatto, con un basso numero di nodi, il peggioramento, si attesta intorno al $2\%$ e cresce al crescere della loro quantità.
+Per confrontare l'efficacia dell'implementazione della \tabu rispetto a \acronimo{cplex} ho calcolato prima la media sulle ripetizioni delle istanze identiche e poi la media sulle istanze simili con lo stesso numero di nodi ottenendo i grafici in figura \ref{fig:costi cplex tabu}: si nota che il valore della soluzione ottenuta con la metaeuristica non si allontana troppo dal valore esatto, con un basso numero di nodi il peggioramento si attesta intorno al $2\%$ e cresce al crescere della loro quantità.
 Aumentando il valore di \emph{tabu tenure} si riesce però a mitigare la perdita di precisione recuperando circa l'$1\%$ e questo conferma la necessità di effettuare un'attenta calibrazione dei parametri con lo scopo di ottenere risultati migliori.
 In figura sono riportate anche le medie dei valori peggiori delle soluzioni che sono stati calcolati con l'algoritmo e indicano come in alcuni casi la \tabu non riesca ad avvicinarsi sufficientemente all'ottimo globale incappando probabilmente in qualche ottimo locale.
 

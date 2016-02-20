@@ -55,21 +55,21 @@ Ho scelto di provare i valori di \emph{tabu tenure} tra $4$ e $8$, dato che eran
 Avendo sviluppato due varianti per la scelta della soluzione di partenza e per la strategia di esplorazione, ho dovuto effettuare dei test per scegliere quali fossero le versioni migliori da usare.
 Ho dovuto combinare le diverse strategie ottenendo quattro algoritmi alternativi, elencati di seguito in ordine di efficacia:
 \begin{enumerate}
-	\item Best neighbour, Shuffle
-	\item Best neighbour, Farthest insertion 
-	\item Random k neighbour, Shuffle
-	\item Random k neighbour, Farthest insertion
+	\item Best neighbour - Shuffle
+	\item Best neighbour - Farthest insertion 
+	\item Random k neighbour - Shuffle
+	\item Random k neighbour - Farthest insertion
 \end{enumerate}
 In questo modo ho valutato quale fosse la combinazione migliore da usare per il resto del progetto.
 I risultati sono visibili in appendice \ref{sec:grafici} dove sono presenti i grafici relativi ai tempi (\ref{fig:tempi tabu}) e ai costi (\ref{fig:costi tabu}) delle istanze casuali risolte con le precedenti varianti.
 
 I test hanno evidenziato che ordinare casualmente la soluzione di partenza e scegliere il miglior vicino possibile porta ad ottenere risultati migliori in termini di qualità della soluzione finale al crescere del numero di nodi.
-La \emph{farthest insertion} peggiora di poco il valore della soluzione e la scelta casuale di un vicino tra i $k$ migliori vicini porta ai risultati peggiori.
+La \emph{Farthest insertion} peggiora di poco il valore della soluzione e la scelta casuale di un vicino tra i $k$ migliori vicini porta ai risultati peggiori.
 
-Se si osservano i tempi di risoluzione si nota che la \emph{Best neighbour, Farthest insertion} con \emph{tabu tenure} più basse termina più velocemente mentre la \emph{Best neighbour, Shuffle} è la più lenta tra le quattro.
-Con l'aumentare della \emph{tabu tenure} le differenze si assottigliano ma la \emph{Best neighbour, Shuffle} tende ad impiegare più tempo a trovare la soluzione rispetto alle altre, soprattutto con un alto numero di nodi.
+Se si osservano i tempi di risoluzione si nota che la \emph{Best neighbour - Farthest insertion} con \emph{tabu tenure} più basse termina più velocemente mentre la \emph{Best neighbour - Shuffle} è la più lenta tra le quattro.
+Con l'aumentare della \emph{tabu tenure} le differenze si assottigliano ma la \emph{Best neighbour - Shuffle} tende ad impiegare più tempo a trovare la soluzione rispetto alle altre, soprattutto con un alto numero di nodi.
 
-Visti i risultati ottenuti ho scelto la versione \emph{Best neighbour, Shuffle} che riesce a calcolare la soluzione migliore in un tempo di poco superiore alle altre.
+Visti i risultati ottenuti ho scelto la versione \emph{Best neighbour - Shuffle} che riesce a calcolare la soluzione migliore in un tempo di poco superiore alle altre.
 
 
 \subsubsection{Istanze Casuali}
@@ -101,7 +101,7 @@ Per avere un'idea precisa dei valori trovati si rimanda ai grafici in figura \re
 Le istanze cluster confermano quanto visto per le istanze casuali: i tempi di risoluzione mediante \tabu sono molto inferiori rispetto a \acronimo{cplex}.
 In figura \ref{fig: tabu cluster tempo} sono riportati i grafici relativi ai tempi di risoluzione, ogni grafico contiene i valori riscontrati per le 4 tipologie di cluster analizzati: si nota come non vi sia grande differenza e l'andamento sia pressoché identico per diversi valori di \emph{tabu tenure}.
 
-Lo stesso discorso vale anche per la media dei costi ottenuti: in figura \ref{fig: tabu cluster costo} sono riportati i grafici riguardanti i costi calcolati dall'algoritmo; per un basso numero di nodi non si notano differenze tra diversi valori di \emph{tabu tenure}, per un numero alto di nodi la differenza e di poco più marcata a vantaggio di \emph{tabu tenure} più alte.
+Lo stesso discorso vale anche per la media dei costi ottenuti: in figura \ref{fig: tabu cluster costo} sono riportati i grafici riguardanti i costi calcolati dall'algoritmo; per un basso numero di nodi non si notano differenze tra diversi valori di \emph{tabu tenure}, per un numero alto di nodi la differenza è di poco più marcata a vantaggio di \emph{tabu tenure} più alte.
 
 \begin{figure}[H]
 	\centering
